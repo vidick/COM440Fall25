@@ -90,6 +90,52 @@ Recall that an encryption scheme $ (\skcgen, \skcenc, \skcdec)$ is called \emph{
     \bar{c}\big)\;. \]
   \end{enumerate}
 
+
+\item {\bf Measurement attacks}\\
+Consider all cloning attacks that take the following form. The adversary decides on an arbitrary orthonormal basis $(\ket{u_0},\ket{u_1})$ for the single-qubit space $\mathbb{C}^2$. It then measures the challenger's state $\ket{\psi_\$}$ in the basis $(\ket{u_0},\ket{u_1})$ to obtain an outcome $b\in\{0,1\}$. Finally, the adversary returns the density matrix $\rho = \proj{u_b}\otimes \proj{u_b}$. 
+\begin{enumerate}
+\item Express the success probability of this attack as a function of the coefficients $\alpha,\beta$ of $\ket{u_0} = \alpha \ket{0} + \beta\ket{1}$. (Since $\ket{u_1}$ is orthogonal to $\ket{u_0}$, without loss of generality $\ket{u_1} = \beta\ket{0} - \alpha \ket{1}$.) 
+\item Find the choice of $\alpha,\beta$ that maximizes the success probability (don't forget about complex numbers!). 
+\item Did you find an attack that is better than the ones considered in Section~\ref{sec:pm-attack}? 
+\end{enumerate}
+
+
+
+\item (12 points) {\bf Improving Wiesner's quantum money.}
+
+Consider the following six single-qubit states:
+$$ \Big\{\ket{\psi_1} = \ket{0},\, \ket{\psi_2}=\ket{1},\,\ket{\psi_3}=\ket{+},\,\ket{\psi_4}=\ket{-},\,\ket{\psi_5}=\frac{\ket{0}+i\ket{1}}{\sqrt{2}},\,\ket{\psi_6}=\frac{\ket{0}-i\ket{1}}{\sqrt{2}} \Big\}.$$
+Suppose we create a money scheme in which each bit of a bill's serial number is encoded into one of these six states, chosen uniformly at random (with probability $1/6$ each) by the bank. 
+\begin{enumerate}
+\item[(a)] Consider the attack on this scheme which attempts to copy the bill in the standard basis, using the unitary $U:\ket{0}\ket{0}\mapsto \ket{0}\ket{0}$, $U:\ket{1}\ket{0}\mapsto \ket{1}\ket{1}$. What is its success probability? Recall that the success probability is defined as 
+$$\sum_{k=1}^6 \frac{1}{6}\,\Big| \big( \bra{\psi_k}\otimes \bra{\psi_k}\big)\, U \big(\ket{\psi_k} \otimes \ket{0}\big)\Big|^2 .$$
+What if we choose $U$ to copy in the Hadamard basis instead? 
+%\item[(b)] Can you improve on the attack described in the previous question? Give any 2-qubit unitary that does better, and show that it does better.% [Bonus points: describe an attack with success probability $2/3$.]
+\end{enumerate}
+Consider the following map $T$ from single-qubit quantum money states to two-qubit density matrices, where we write $\ket{\psi^+} = \frac{1}{\sqrt{2}}(\ket{01}+\ket{10})$:
+\begin{align*}
+\proj{0} \mapsto \rho_0 &= \frac{2}{3} \ket{00}\bra{00} + \frac{1}{3} \proj{\psi^+} \;,\\
+\proj{1} \mapsto \rho_1 &= \frac{2}{3} \proj{11} + \frac{1}{3} \proj{\psi^+} \;,\\
+\proj{+} \mapsto \rho_+ &= \frac{1}{12} \big( 2\ket{00}+ \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{00}+ \sqrt{2}\bra{\psi^+} \big) \\
+&\quad+ \frac{1}{12} \big( 2\ket{11}+ \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{11}+\sqrt{2} \bra{\psi^+} \big)\;,\\
+\proj{-} \mapsto \rho_- &= \frac{1}{12} \big( 2\ket{00}-\sqrt{2}\ket{\psi^+} \big)\big( 2\bra{00}- \sqrt{2}\bra{\psi^+} \big) \\
+&\quad+ \frac{1}{12} \big( 2\ket{11}- \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{11}-\sqrt{2} \bra{\psi^+} \big)\;.
+\end{align*}
+\begin{enumerate}
+\item[(b)] Show that there exists a valid unitary operation $V$ acting on the entire $3$-qubit space $\C^8$ that satisfies 
+\begin{align*}
+\ket{0}_A \ket{00}_{BC} \mapsto \frac{2}{\sqrt{6}}\ket{00}_{AB}\ket{0}_C + \frac{1}{\sqrt{3}} \ket{\psi^+}_{AB} \ket{1}_C \;,\\
+\ket{1}_A \ket{00}_{BC} \mapsto  \frac{1}{\sqrt{3}} \ket{\psi^+}_{AB}\ket{0}_C + \frac{2}{\sqrt{6}}\ket{11}_{AB}\ket{1}_C \;.
+\end{align*}
+\item[(c)] Show that the map $T$ can be decomposed as a sequence of three operations: (i) add some ancilla qubits to the single-qubit input of $T$; (ii) apply $V$; (iii) trace out a qubit. Specify what the ancilla qubits are, which qubit to trace out, and write out the calculation that justifies that $T$ is indeed the combination of (i), (ii), and (iii). 
+\end{enumerate}
+The previous questions justify that $T$ is a valid quantum map, because it can be written as a sequence of three valid operations.
+\begin{enumerate}
+\item[(d)] Show that for any single-qubit quantum money scheme (including Wiesner's scheme seen in class, the six-state scheme described above, and any other scheme using even more states), there is a cloning attack that succeeds with probability at least~$\frac{2}{3}$. 
+\item[(e)] (Bonus 3pts) As it turns out, the six-state scheme described above is optimal, in the sense that it is possible (but not easy) to show that the best cloning attack succeeds with probability \emph{at most} $\frac{2}{3}$. Suggest a quantum money scheme which uses only four single-qubit states but is such that the optimal attack succeeds with probability exactly $\frac{2}{3}$ (and in particular is better than Wiesner's scheme). {\em [Hint: Think about the Bloch sphere --- use all the available space! Partial credit given for any scheme that does better than Wienser, together with credible evidence for it being better.]} 
+\end{enumerate}
+
+
 \end{enumerate}
 \end{document}
 

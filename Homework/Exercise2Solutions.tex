@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 2}
+
+
+\begin{enumerate}
+
+\item {\bf Composing quantum maps}
+
+Suppose that we perform the following sequence of operations, starting with $n$ qubits in state $\rho$: (a) add $n_1$ qubits in state $\ket{0}$; apply $U_1$ on $n+n_1$ qubits; trace out $k_1$ qubits, and (b) add $n_2$ qubits in state $\ket{0}$; apply $U_2$ on $n+n_1+n_2-k_1$ qubits; trace out $k_2$ qubits. Then we make the following observations. Firstly, the $n_2$ qubits at step (b) could have been added at the start of step (a); as long as they are not used until step (b) this does not make a difference. Secondly, the $k_1$ qubits can be traced out at the end of step (b); as long as they are not touched throughout step (b) then it does not make a difference when we trace them out. As a result, the combination of (a) and (b) can be described as (c) add $n_1+n_2$ qubits in state $\ket{0}$; apply $U_1$ on the first $n+n_1$ qubits, and $U_2$ on all qubits except the $k_1$ that will be traced out; trace out $k_1+k_2$ qubits. Since the middle part of (c) can be described as the application of a single, bigger unitary $U$ (that is the composition of $U_1$ and $U_2$), we have obtained the required description. 
+
+	
+\item {\bf A cloning map}\label{ex:2-qmamp}
+
+%In this exercise we verify that the map $T$ defined in Example~\ref{ex:opt-cl} is a valid quantum map. 
+\begin{enumerate}
+\item Since each of the four matrices is expressed as a linear combination, with positive coefficients, of rank-$1$ projections, it is positive. It only remains to check that each of them has trace $1$. For example, for $\rho_+$ the trace is 
+\begin{align*}
+ \Tr(\rho_+) &= \frac{1}{12} \big(\| 2 \ket{00} + \sqrt{2} \ket{\psi_{11}}\|^2 +\| 2 \ket{11} + \sqrt{2} \ket{\psi_{11}}\|^2 \big) \\
+&= \frac{1}{12} (6+6)\,=\,1\;.
+\end{align*}
+Here for the second line we used that $\ket{00}$ and $\ket{\psi_{11}}$, and $\ket{11}$ and $\ket{\psi_{11}}$, are pairs of orthonormal vectors. 
+\item Using that $\bra{00}\psi_{11}\rangle = \bra{11}\psi_{11}\rangle = 0$ we verify that 
+$\bra{v_0}v_1\rangle =0$, and moreover $\|\ket{v_0}\|=\|\ket{v_1}\|=1$.
+\item  Let's do the verification for the case $\ket{\psi}=\ket{+}$. Then,
+\begin{align*}
+T(\proj{+}_A) &= \Tr_C \big( V\big( \proj{+}_A \otimes \proj{00}_{BC} \big) V^\dagger \big)\\
+&= \Tr_C \Big( \frac{1}{2}\big( \ket{v_0}+\ket{v_1} \big) \big( \bra{v_0} + \bra{v_1} \big) \Big)\\
+&= \frac{1}{2} \Big( \big(\frac{2}{\sqrt{6}} \ket{00} + \frac{1}{\sqrt{3}} \ket{\psi_{11}} \big)\big(\frac{2}{\sqrt{6}} \bra{00} + \frac{1}{\sqrt{3}} \bra{\psi_{11}}\big) \\
+&\qquad + \big(\frac{1}{\sqrt{3}} \ket{\psi_{11}} +\frac{2}{\sqrt{6}} \ket{11} \big)\big( \frac{1}{\sqrt{3}} \bra{\psi_{11}}+\frac{2}{\sqrt{6}} \bra{11} \big) \Big)\;.
+\end{align*}
+Here, for the third line we expanded using the definition of $\ket{v_0}$ and $\ket{v_1}$, and used that $\Tr_C(\ket{0}\bra{1}_C)=\Tr_C(\ket{1}\bra{0}_C)=0$ to eliminate the cross terms. 
+By re-arranging the constant coefficients you can verify that this equals $\rho_+$. 
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+
+
+\medskip
+
+\hrule
+
+ 
+\medskip
+{\bf Problems:}
+
+\begin{enumerate}
+		
+
+\item  {\bf An optimal attack}\label{ex:opt-wiesner}\\
+Let 
+\[ N_1 = \frac{1}{\sqrt{12}} \begin{pmatrix} 3 & 0 \\ 0 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix} \quad \text{and}\quad N_2 = \frac{1}{\sqrt{12}} \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ 1 & 0 \\ 0 & 3\end{pmatrix}\;.\]
+\begin{enumerate}
+\item Show that $(N_1,N_2)$ are valid Kraus operators in the definition of a quantum channel $\mathcal{N}(\rho)=N_1\rho N_1^\dagger + N_2 \rho N_2^\dagger$ mapping one qubit to two qubits. 
+\item Show that using $\mathcal{N}$, a quantum adversary succeeds in the game $\GC$ for Wiesner's quantum money scheme with probability $\frac{3}{4}$. 
+\end{enumerate}
+
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

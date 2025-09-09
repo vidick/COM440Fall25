@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+
+
+\medskip
+
+\hrule
+
+ 
+\medskip
+{\bf Problems:}
+
+\begin{enumerate}
+		
+\item {\bf An optimal attack}\label{ex:opt-wiesner}
+ 
+%\[ N_1 = \frac{1}{\sqrt{12}} \begin{pmatrix} 3 & 0 \\ 0 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix} \quad \text{and}\quad N_2 = \frac{1}{\sqrt{12}} \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ 1 & 0 \\ 0 & 3\end{pmatrix}\;.\]
+\begin{enumerate}
+\item We check that 
+\begin{align*}
+N_1^\dagger N_1 + N_2^\dagger N_2  &= \frac{1}{12}\begin{pmatrix} 10 & 0 \\ 0 & 2 \end{pmatrix}+\frac{1}{12} \begin{pmatrix} 2 & 0 \\ 0 & 10 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}\;,
+\end{align*}
+as should be the case. 
+\item For example, we can compute the image of $\ket{+}$ as 
+\begin{align*} 
+\mathcal{N}(\proj{+}) &= N_1 \proj{+} N_1^\dagger + N_2 \proj{+}N_2^\dagger \\
+&= \frac{1}{12} \frac{1}{2}\big( 3\ket{00} + \ket{01} + \ket{10} + \ket{11} \big)\big( 3\bra{00} + \bra{01} + \bra{10} + \bra{11} \big)\\
+&\qquad +\frac{1}{12} \frac{1}{2}\big( \ket{00} + \ket{01} + \ket{10} + 3\ket{11} \big)\big( \bra{00} + \bra{01} + \bra{10} + 3\ket{11} \big)\;.
+\end{align*}
+We can then verify that 
+\begin{align*}
+\bra{+}\bra{+}\mathcal{N}(\proj{+})\ket{+}\ket{+} &= \frac{1}{4}\frac{1}{24}\big( (3+1+1+1)^2 + (1+1+1+3)^2 \big)\\
+&= \frac{1}{96}( 36+36) = \frac{3}{4}\;.
+\end{align*}
+A similar calculation gives the same for the three other BB'84 states!
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
