@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../../com440-default.tex}
+\input{../../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+
+
+\medskip
+
+\hrule
+
+ 
+\medskip
+{\bf Problems:}
+\begin{enumerate}
+
+\item (2 points) {\bf Copying qubits.}
+Consider a unitary operation $U$ that can copy the eigenstates of the standard basis. That is, $U$ is a $4\times 4$ unitary matrix such that $U (\ket{0} \otimes \ket{0}) = \ket{0}\otimes  \ket{0}$ and $U (\ket{1} \otimes\ket{0}) = \ket{1} \otimes \ket{1}$. 
+\begin{enumerate}
+\item Does such a $U$ exist? If so, justify; if not, prove why not. 
+\item Assume such a $U$ does exist. Can you infer what vector it sends $\ket{-} \ket{0}$ to? Give a formal statement for the version of the ``no-cloning theorem'' that you have just proved. 
+\item Suppose that $\{\ket{\psi_1},\ket{\psi_2}\}$ are qubit states such that $0<|\langle \psi_1 | \psi_2 \rangle | <1$. Prove that there does not exist an $U$ that satisfies $U(\ket{\psi_i}\ket{0})=\ket{\psi_i}\ket{\psi_i}$ for $i\in\{1,2\}$. \emph{[Hint: this does not use the previous questions. Think about what you know of unitary matrices]} Deduce a second formal statement for a ``no-cloning theorem'', that matches what you just proved.    
+\end{enumerate}
+
+\item (4 points) {\bf The EPR pair.}
+Recall the definition of the EPR pair,
+\[ \ket{\mathrm{EPR}} = \frac{1}{\sqrt{2}} \big( \ket{0} \otimes \ket{0} + \ket{1}\otimes \ket{1}\big)\;.\]
+Prove rigorously that there does not exist two single-qubit states $\ket{\psi}$ and $\ket{\phi}$ such that $\ket{\mathrm{EPR}} = \ket{\psi} \otimes \ket{\phi}$. \emph{[Hint: Reason by contradiction. Expand everything in the standard basis.]}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

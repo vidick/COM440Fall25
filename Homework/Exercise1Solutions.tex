@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../../com440-default.tex}
+\input{../../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+
+
+\medskip
+
+\hrule
+
+ 
+\medskip
+{\bf Problems:}
+\begin{enumerate}
+\item {\bf Classical one time pad}\\
+
+
+\item {\bf Density matrices}\\
+
+
+
+\item {\bf Classical-quantum states}\\
+
+
+\item {\bf Quantum one-time pad}
+\begin{enumerate}
+\item
+Recall that a correct encryption scheme constitutes a well defined encryption function which takes a single quantum bit to a single quantum bit, $E$, and a well defined decryption function, $D$, which should operate as the inverse of $E$. Observe that $E$ is well defined in the problem since $E = H^k$ and $k$ is fixed with respect to $E$ (we are only concerned with encrypting a single qubit). We wish to similarly define an inverse operation $D$. Since $H$ is a valid quantum map over pure states, it must be a unitary transformation. Consequently, $H^{-1} = H^\dagger$. Now, notice that setting $D = (H^\dagger)^k$ will be an inverse of $E$,
+$$ D(E(\ket{\psi})) = (H^\dagger)^k (H)^k \ket{\psi} = (H^\dagger H)^k \ket{\psi} = \mathbb{I}^k \ket{\psi} = \ket{\psi}$$
+Thus, this encryption scheme is correct.
+\item
+Unfortunately for Alice, this encryption scheme is not correct. We will give an attack, described by the adversial game framework described in class. We first recollect this framework. An adversary gives Alice two qubits $\{\ket{\psi_1},\ket{\psi_2}\}$. Alice then chooses any one of these $\ket{\psi_i}$ and a value for $k$, then returns to the adversary the qubit $E(\ket{\psi_i})$. Given this qubit, the adversary final responds with which qubit was encrypted, namely responding with a $j \in \{1,2\}$. The adversary wins if $\Pr[j =i ] > 1/2$, otherwise Alice wins and her scheme is secure.\\ \\
+We describe such a winning strategy for the adversary. Recall that Alice has fixed $H$ defining her scheme. Furthermore, we recall that the eigenvectors of $H$ must be orthogonal since it is a unitary transformation. Denote these eigenvectors $\ket{v_1}$ and $\ket{v_2}$. Furthermore, considering their normalization makes them a set of two qubits. Now, suppose the adversary sends Alice these two qubits: $\{\ket{v_1}, \ket{v_2}\}$. Alice then chooses some $k$ and $i$, and responds with $H^k \ket{v_i}$. The adversary then measures this qubit in the $\{\ket{v_1}, \ket{v_2}\}$ basis. Following this, if the adversary observes $\ket{v_1}$ he responds with $j = 1$, otherwise he must have observed $\ket{v_2}$ and in that case he responds with $j = 2$. Analyzing this scheme, observe that if $i = 1$, then $p_1 = |\bra{v_1}H^k \ket{v_1}|^2 = |\braket{v_1}{v_1}|^2 = 1$ and $j = 1$ with probability 1, regardless of the value of $k$. Similarly, if $i = 2$ then $p_2 = |\bra{v_2}H^k \ket{v_2}|^2 = |\braket{v_2}{v_2}|^2 = 1$ and $j = 2$ with probability 1. Thus we get,
+$$\Pr[i = j] = \Pr[i = j\ |\ i = 1]\cdot  \Pr[i = 1] + \Pr[i = j \ |\ i = 2] \cdot  \Pr[i = 2] = \Pr[i = 1] + \Pr[i = 2] = 1 > 1/2$$
+Hence, this scheme cannot be secure.
+\end{enumerate}
+
+\item {\bf State discrimination.}
+
+
+
+
+\item {\bf Unambiguous state discrimination}\\
+
+
+
+
+\end{enumerate}
+
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
