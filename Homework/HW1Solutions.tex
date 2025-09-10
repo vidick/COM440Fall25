@@ -20,29 +20,7 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
-
-
-\medskip
-
-\hrule
-
-\medskip 
-
-Ground rules: 
-
-{\bf Please
-  format your solutions so that each problem begins on a new page, and
-  so that your name appears at the top of each page.}
-
-You are encouraged to collaborate with your classmates on
-homework problems, but each person must write up the final solutions
-individually. You should note on your homework specifically which
-problems were a collaborative effort and with whom. You may not search
-online for solutions, but if you do use research papers or other
-sources in your solutions, you must cite them.
-
-Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+{\bf Homework \# 1 Solutions} 
 
 
 \medskip
@@ -72,7 +50,8 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 
 \item (12 points) {\bf Improving Wiesner's quantum money.}
 
-\subsection{}
+\begin{enumerate}
+\item 
 This boils down to an involved calculation. Namely, we will evaluate each of the six terms of the sum individually below and then add them together with the appropriate weighting. We begin;
 \begin{enumerate}
     \item $|\bra{\psi_1}\bra{\psi_1}U\ket{\psi_1} \ket{0}|^2 = |\bra{0}\bra{0}\ket{0}\ket{0}|^2 = |\bra{0}\ket{0}\otimes \bra{0}\ket{0}|^2 = 1 $
@@ -108,9 +87,7 @@ $$= \sum_{k=1}^6 \frac{1}{6}\Big| \big( \bra{\psi_k}H\otimes \bra{\psi_k}H \big)
 In fact, $H$ will permute the indices of $\ket{\psi_k}$, where $\pi : (1,2,3,4,5,6) \rightarrow  (3,4,1,2,5,6)$ and change signs for $\ket{\psi_5}$ and $\ket{\psi_6}$. However, a global sign flip is irrelevant due to the modulus, yielding
 $$\sum_{k=1}^6 \frac{1}{6}\Big| \big( \bra{\psi_k}H\otimes \bra{\psi_k}H \big) U \big( H\ket{\psi_k} \otimes \ket{0} \big) \Big|^2 = \sum_{k=1}^6 \frac{1}{6}\Big| \big( \bra{\psi_{\pi(k)}}\otimes \bra{\psi_{\pi(k)}} \big) U \big( \ket{\psi_{\pi(k)}} \otimes \ket{0} \big) \Big|^2 = \frac{1}{2}$$
 Since addition is commutative and thus permutation invariant.
-
-\subsection{}
-
+\item 
 Observe that $V$ must maintain the orthogonality between $\ket{0}\ket{00}$ and $\ket{1}\ket{00}$, if it is to be unitary, and check their normality. However, since we do not have any other constraints on the nature of $V$ we can pick some collection of mutually orthonormal basis vectors that span the remainder of the space (using a method such as gram-schmidt), and have those vectors be the remainder of the columns of $V$. Observe that by construction, $V_i^\dagger V_j = \delta_{ij}$ for all $i,j$ that are not the pair of columns associated with $\ket{0}\ket{00}$ and $\ket{1}\ket{00}$. For the pair associated with these two vectors, we directly check the orthogonality and the normality of both fixed vectors;
 $$ \bra{0}\bra{00}V^\dagger V\ket{1}\ket{00} = \Big(
 \frac{2}{\sqrt{6}} \bra{00}\bra{0} + \frac{1}{\sqrt{3}} \bra{\phi^-}\bra{1}\Big)
@@ -130,10 +107,8 @@ $$ \bra{0}\bra{00}V^\dagger V\ket{0}\ket{00} = \Big(
 \Big(
 \frac{2}{\sqrt{6}} \ket{00}\ket{0} + \frac{1}{\sqrt{3}} \ket{\phi^-}\ket{1}\Big) = 4/6 + 1/3 = 1 $$
 Thus, $V$'s conditions are all satisfied.
-\subsection{}
-
-We first describe the three steps that will define our quantum map $T$: i) Add an ancillary state $\ket{00}_BC$ (can be seen as an isometry acting on the pure state); ii.) Apply the $V$ discussed in part (4.b) above; iii.) Trace out the last qubit $C$ and acquire the density matrix representation of $AB$. We now check that these operations reproduce our desired behavior of $T$ on the density matrices $\ket{0}\bra{0}, \ket{1}\bra{1}, \ket{+}\bra{+},$ and $\ket{-}\bra{-}$. 
-
+\item 
+We  describe the three steps that define our quantum map $T$: i) Add an ancillary state $\ket{00}_BC$ (can be seen as an isometry acting on the pure state); ii.) Apply the $V$ discussed in part (4.b) above; iii.) Trace out the last qubit $C$ and acquire the density matrix representation of $AB$. Although it was not required in the problem, we can check that these operations reproduce our desired behavior of $T$ on the density matrices $\ket{0}\bra{0}, \ket{1}\bra{1}, \ket{+}\bra{+},$ and $\ket{-}\bra{-}$. 
 \begin{enumerate}
     \item $T(\ket{0}\bra{0})$:
 $$ 
@@ -219,7 +194,6 @@ $$=
 \Big(
 \frac{2}{\sqrt{6}} \bra{11}\Big)= \frac{1}{3} \ket{\phi^-}\bra{\phi^-} + \frac{2}{3} \ket{11}\bra{11} = \rho_1 $$
     \item $T(\ket{+}\bra{+})$:
-
 We first consider $V\ket{+}\ket{00}$ to simplify some of the following calculations. Denoting $M_1 = 2\ket{00} + \sqrt{2} \ket{\phi^-}$ and $M_2 = 2\ket{11} + \sqrt{2} \ket{\phi^-}$, observe that we can match the components that are tensored with the same $C$ qubit,
 $$ V\ket{+}\ket{00} = \frac{1}{\sqrt{2}} \Bigg( \Big(\frac{2}{\sqrt{6}}\ket{00} + \frac{1}{\sqrt{3}}\ket{\phi^-}  \Big) \otimes \ket{0} + \Big(\frac{2}{\sqrt{6}}\ket{\phi^-} + \frac{1}{\sqrt{3}}\ket{11} \Big) \otimes \ket{1} \Bigg) = $$
 $$ = \frac{1}{\sqrt{12}} \Big( M_1 \otimes \ket{0} + M_2 \otimes \ket{1} \Big)$$
@@ -229,9 +203,7 @@ $$
 $$= \frac{1}{12} \Big( M_1 \otimes \braket{0}{0} M_1^\dagger \otimes \braket{0}{0} + M_2 \otimes \braket{1}{1} M_2^\dagger \otimes \braket{1}{1} \Big) = \frac{1}{12} \Big( M_1M_1^\dagger + M_2M_2^\dagger\Big) = 
 $$
 $$ = \frac{1}{12}\Big((2\ket{00} + \sqrt{2} \ket{\phi^-})(2\bra{00} + \sqrt{2} \bra{\phi^-}) + (2\ket{11} + \sqrt{2} \ket{\phi^-})(2\bra{11} + \sqrt{2} \bra{\phi^-})\Big) = \rho_+$$
-
     \item $T(\ket{-}\bra{-})$:
-
 Surprisingly, we make a similar calculation to the above. Note well the carried sign difference; Denoting $M_1 = 2\ket{00} - \sqrt{2} \ket{\phi^-}$ and $M_2 = 2\ket{11} - \sqrt{2} \ket{\phi^-}$, observe that we can again match the components that are tensored with the same $C$ qubit,
 $$ V\ket{-}\ket{00} = \frac{1}{\sqrt{2}} \Bigg( \Big(\frac{2}{\sqrt{6}}\ket{00} - \frac{1}{\sqrt{3}}\ket{\phi^-}  \Big) \otimes \ket{0} + \Big(\frac{2}{\sqrt{6}}\ket{\phi^-} - \frac{1}{\sqrt{3}}\ket{11} \Big) \otimes \ket{1} \Bigg) = $$
 $$ = \frac{1}{\sqrt{12}} \Big( M_1 \otimes \ket{0} + M_2 \otimes \ket{1} \Big)$$
@@ -243,12 +215,12 @@ $$
 $$ = \frac{1}{12}\Big((2\ket{00} - \sqrt{2} \ket{\phi^-})(2\bra{00} - \sqrt{2} \bra{\phi^-}) + (2\ket{11} - \sqrt{2} \ket{\phi^-})(2\bra{11} - \sqrt{2} \bra{\phi^-})\Big) = \rho_-$$
 \end{enumerate}
 Thus, all of the requirements for $T$ are satisfied.
-\subsection{}
+\item
 We will consider the action of the aforementioned operator $T$ on an arbitrary qubit, $\ket{\psi} = a \ket{0} + b\ket{1}$. Recalling that the operator $T$ must be linear over density matrices as it is a valid quantum map (i.e. quantum channel), we evaluate,
 $$ T(\ket{\psi} \bra{\psi}) = T\big( (a\ket{0} + b\ket{1}) (\overline{a} \bra{0} + \overline{b} \bra{1}) \big) = $$ 
 $$ = a\overline{a} T(\ket{0} \bra{0}) + a \overline{b} T(\ket{0} \bra{1}) + \overline{a} b T(\ket{1} \bra{0}) + \overline{b} b T(\ket{1} \bra{1}) $$
 $$ T(\ket{\psi} \bra{\psi}) = |a|^2 T(\ket{0} \bra{0}) + a \overline{b} T(\ket{0} \bra{1}) + \overline{a} b T(\ket{1} \bra{0}) + |b|^2 T(\ket{1} \bra{1}) $$
-We now determine the action of $T$ on $\ket{1} \bra{0}$ and it's adjoint by executing each of the three steps discussed in part 4.c, which are denoted below as $T = T_3\circ T_2 \circ T_1$.
+We now determine the action of $T$ on $\ket{1} \bra{0}$ and its adjoint by executing each of the three steps discussed in part 4.c, which are denoted below as $T = T_3\circ T_2 \circ T_1$.
 $$ T_1(\ket{1} \bra{0}) = \ket{1}_A \ket{00}_{BC} \bra{0}_A \bra{00}_{BC} $$
 Similarly, $T_2$ applies $V$ to both qubits
 $$ T_2(\ket{1}_A \ket{00}_{BC} \bra{0}_A \bra{00}_{BC}) = V\ket{1}_A \ket{00}_{BC} \bra{0}_A \bra{00}_{BC} V^\dagger = $$
@@ -316,14 +288,12 @@ $$
 $$ = \frac{2|b|^4}{3}\Big(|b|^2 + |a|^2 \Big) = \frac{2|b|^4}{3} $$
 Thus, we have,
 $$\bra{\psi \psi} T(\ket{\psi} \bra{\psi}) \ket{\psi \psi} = \frac{2}{3}|a|^4 + \frac{4}{3}|a|^2|b|^2 + \frac{2}{3}|b|^4 = \frac{2}{3}\Big( |a|^4 + 2|a|^2|b|^2 + |b|^4 \Big) = \frac{2}{3} (|a|^2 + |b|^2)^2 = \frac{2}{3}$$
-As a consequence, we see that for any input vector the map $T$ will generate a pair that will be succeed in a cloned measurement with probability $\frac{2}{3}$. Quite surprising!
-
-\subsection{}
-We begin by following the hint. In particular, we will consider states that are maximally separated on the Bloch sphere. In particular, such a configuration leads us directly to the idea that our four alternative states should be the vertices of the largest (and in fact only) regular tetrahedron inscribed within the Bloch sphere! Furthermore, intuitively this seems to already have better geometric properties than Wiesner's original scheme: The mixed states spanned by these four states span a volume inside the Bloch ball similar to our six state scheme, while Wiesner's only spanned a two dimensional slice of the Bloch ball. Additionally, it is significant to note that the orthogonal states in Wiesner's scheme did not play a large role; the significance in hiding the information laid in mixing between the Hadamard basis and the computational one. However, no significance was given to whether the encoding was $\ket{0}$ or $\ket{1}$, in fact we could see this as a weakening of the security because it allowed us to get away with copying `two types' of money encodings with only one basis measurement! Notice that the tetrahedral arrangement has no such orthogonal basis encodings; in this it even beats our 6 state encoding scheme from before (which is perhaps why it gets the same optimal attack error probability and saves on qubits). Namely, to succeed with probability 1 every single qubit needs it's own measurement basis! Thus, this provides some intuitive support that the tetrahedral scheme should be somewhat more secure than Wiesner's, yet still no true hard evidence. So, the important features of the scheme seem to be that it's mixed states span a nondegenerate part of the bloch sphere and that each qubit must have it's own unique basis to be verified in. An further interesting effect is that at every vertex of the tetrahedron can be `copied' with probability 2/3 (imagine averaging all possible conjugations of the quantum map with the unitaries corresponding to the finite symmetries of the tetrahedron). \\ \\
+As a consequence, we see that for any input vector the map $T$ will generate a pair that will succeed in a cloned measurement with probability $\frac{2}{3}$. Quite surprising!
+\item We begin by following the hint. In particular, we will consider states that are maximally separated on the Bloch sphere. In particular, such a configuration leads us directly to the idea that our four alternative states should be the vertices of the largest (and in fact only) regular tetrahedron inscribed within the Bloch sphere! Furthermore, intuitively this seems to already have better geometric properties than Wiesner's original scheme: The mixed states spanned by these four states span a volume inside the Bloch ball similar to our six state scheme, while Wiesner's only spanned a two dimensional slice of the Bloch ball. Additionally, it is significant to note that the orthogonal states in Wiesner's scheme did not play a large role; the significance in hiding the information laid in mixing between the Hadamard basis and the computational one. However, no significance was given to whether the encoding was $\ket{0}$ or $\ket{1}$, in fact we could see this as a weakening of the security because it allowed us to get away with copying `two types' of money encodings with only one basis measurement! Notice that the tetrahedral arrangement has no such orthogonal basis encodings; in this it even beats our 6 state encoding scheme from before (which is perhaps why it gets the same optimal attack error probability and saves on qubits). Namely, to succeed with probability 1 every single qubit needs it's own measurement basis! Thus, this provides some intuitive support that the tetrahedral scheme should be somewhat more secure than Wiesner's, yet still no true hard evidence. So, the important features of the scheme seem to be that it's mixed states span a nondegenerate part of the bloch sphere and that each qubit must have it's own unique basis to be verified in. An further interesting effect is that at every vertex of the tetrahedron can be `copied' with probability 2/3 (imagine averaging all possible conjugations of the quantum map with the unitaries corresponding to the finite symmetries of the tetrahedron). \\ \\
 From here, we follow the intuition for the previous map $T$, as discussed in the lecture notes (chapter 2). Specifically, notice that the map $T$ could be expressed as a projection of a mixed state onto the symmetric subspace of $\mathbb{C}^4$. The reason why this is significant is that all pairs $\ket{\psi}\ket{\psi}$ must necessarily lie in this symmetric subspace, so we wish to get our transformed qubits as close to it as possible. Thus, the following definition follows;
 $$ T(\rho) = \Pi_S(\rho \otimes \frac{1}{2}\mathbb{I})\Pi_S $$
 where $\Pi_S$ constitutes the projection onto the symmetric subspace. Note that we first generate a `mixed pair,' in order to hopefully project out two correct copies (though of course there will be a probability that we project out incorrect copies). Notice though that such an attack must be optimal, as long as we limit the projection onto the symmetric subspace that also intersects the subspace of possible pairs. Since Wiesner's pair space was degenerate (corresponding to a flat slice through the bloch ball), we were able to restrict the space of the projection and do better. However, with the tetrahedron such an improvement is not possible due to it's non-degenerate intersection, and it will simply achieve the general optimal projection effect that the six state scheme did.
-
+\end{enumerate}
 \end{enumerate}
 
 \end{document}

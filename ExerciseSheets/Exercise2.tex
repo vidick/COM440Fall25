@@ -27,26 +27,40 @@ This exercise sheet is designed to help you review the concepts discussed in the
 \begin{enumerate}
 
 \item {\bf Composing quantum maps}\\
- Show carefully that the composition of two quantum maps according to Definition~\ref{def:q-map} is still a quantum map, i.e.\ a sequence of (i), (ii), (iii) as in the definition repeated twice can be ``re-ordered'' so that all the ancilla preparation come first and all the tracing out comes last, without changing how the map operates on any quantum state. 
+ Show carefully that the composition of two quantum maps, each given as a sequence of (i) ancilla qubit preparation, (ii) unitary evolution, (iii) partial qubit trace out, is still a quantum map. In other words, show that a sequence of (i), (ii) and (iii) repeated twice can be ``re-ordered'' so that all the ancilla preparation come first and all the tracing out comes last, without changing how the map operates on any quantum state. 
+
+\item {\bf The depolarizing channel}\\
+The map $\mathcal{N}_{\rm depolarizing}\left(\rho_A\right) = (1-p) \rho_A + \frac{p}{2}\Id_A$ is called \emph{depolarizing noise} with strength $p$. Find the Kraus operators for this channel, and then  find a decomposition of it as a sequence of qubit addition, unitary and tracing out operations. \emph{[Hint: remember the identity showing security of the quantum one-time pad!]}
 
 
 \item {\bf A cloning map}\label{ex:2-qmamp}\\
-In this exercise we verify that the map $T$ defined in Example~\ref{ex:opt-cl} is a valid quantum map. 
+Consider the following map $T$ from single-qubit quantum states to two-qubit density matrices, where we write $\ket{\psi^+} = \frac{1}{\sqrt{2}}(\ket{01}+\ket{10})$:
+\begin{align*}
+\proj{0} \mapsto \rho_0 &= \frac{2}{3} \ket{00}\bra{00} + \frac{1}{3} \proj{\psi^+} \;,\\
+\proj{1} \mapsto \rho_1 &= \frac{2}{3} \proj{11} + \frac{1}{3} \proj{\psi^+} \;,\\
+\proj{+} \mapsto \rho_+ &= \frac{1}{12} \big( 2\ket{00}+ \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{00}+ \sqrt{2}\bra{\psi^+} \big) \\
+&\quad+ \frac{1}{12} \big( 2\ket{11}+ \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{11}+\sqrt{2} \bra{\psi^+} \big)\;,\\
+\proj{-} \mapsto \rho_- &= \frac{1}{12} \big( 2\ket{00}-\sqrt{2}\ket{\psi^+} \big)\big( 2\bra{00}- \sqrt{2}\bra{\psi^+} \big) \\
+&\quad+ \frac{1}{12} \big( 2\ket{11}- \sqrt{2}\ket{\psi^+} \big)\big( 2\bra{11}-\sqrt{2} \bra{\psi^+} \big)\;.
+\end{align*}
+In this exercise we verify that the map $T$ defined in this way is a valid quantum map. 
 \begin{enumerate}
 \item Start with a simple ``sanity check'': verify that each of the four matrices $\rho_0$, $\rho_1$, $\rho_+$ and $\rho_-$ is a valid density matrix. 
 \end{enumerate}
 However, this is not enough: for example, these conditions are satisfied by the ``optimal cloning map'' $\proj{\psi_\$}\mapsto \proj{\psi_\$}\otimes \proj{\psi_\$}$, but we know that there exists no such map! To see that $T$ is a well-defined map, we verify that it can be implemented by (i) adding two ancilla qubits in state $\ket{00}_{BC}$, (ii) a unitary transformation, and (iii) a tracing-out operation. 
 \begin{enumerate}
-\item[2.] Consider the following map $V$, where as usual $\ket{\epr}$ is an EPR pair.  
+\item[(b)] Consider the following map $V$, where as usual $\ket{\epr}$ is an EPR pair.  
 \begin{align*}
 \ket{0}_A \ket{00}_{BC} \mapsto \frac{2}{\sqrt{6}}\ket{00}_{AB}\ket{0}_C + \frac{1}{\sqrt{3}} \ket{\epr}_{AB} \ket{1}_C \;,\\
 \ket{1}_A \ket{00}_{BC} \mapsto  \frac{1}{\sqrt{3}} \ket{\epr}_{AB}\ket{0}_C + \frac{2}{\sqrt{6}}\ket{11}_{AB}\ket{1}_C \;.
 \end{align*}
-Check that  the two states on the right-hand side, call them $\ket{v_0}$ and $\ket{v_1}$, are orthonormal. Using Remark~\ref{rk:unitary-extend} this shows that it is possible to extend $V$ to a valid unitary operation on the entire $3$-qubit space $\mathbb{C}^8$. 
-\item[3.] Show that the map $T$ is identical to the composition of adding two ancilla qubits in state $\ket{00}_{BC}$, applying $V$, and tracing out the third qubit. That is, for all states $\ket{\psi}$,
+Check that  the two states on the right-hand side, call them $\ket{v_0}$ and $\ket{v_1}$, are orthonormal. Show that it is possible to extend $V$ to a valid unitary operation on the entire $3$-qubit space $\mathbb{C}^8$. 
+\item[(c)] Show that the map $T$ is identical to the composition of adding two ancilla qubits in state $\ket{00}_{BC}$, applying $V$, and tracing out the third qubit. That is, for all states $\ket{\psi}$,
 \[T(\proj{\psi}_A) = \Tr_C \big( V\big( \proj{\psi}_A \otimes \proj{00}_{BC} \big) V^\dagger \big) \;.\]
 \end{enumerate}
 This justifies that $T$ is a valid quantum map, because it can be written as a sequence of three valid operations.
+\item[(d)] Verify that for $\ket{\psi}\in\{\ket{0},\ket{1},\ket{+},\ket{-}\}$,
+\[\big| \big( \bra{\psi}\otimes \bra{\psi}\big)\, U \big(\ket{\psi} \otimes \ket{0}\big)\big|^2\,=\, \frac{2}{3}\;.\]
 
 
 

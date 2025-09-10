@@ -20,7 +20,7 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+{\bf Homework \# 1} \hfill {\bf due: 23:59PM, September 23rd, 2025}
 
 
 \medskip
@@ -40,10 +40,13 @@ homework problems, but each person must write up the final solutions
 individually. You should note on your homework specifically which
 problems were a collaborative effort and with whom. You may not search
 online for solutions, but if you do use research papers or other
-sources in your solutions, you must cite them.
+sources in your solutions, you must cite them. If you use an AI tool to 
+partially solve a question, or improve your write-up of a solution, then 
+you should also mention it. 
 
-Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of an academic committee. 
 
+Each problem set counts for 20\% of the final homework grade. (Each reading will count for 10\% of the final homework grade.)
 
 \medskip
 
@@ -56,7 +59,7 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 \begin{enumerate}
 		
 
-\item {\bf Perfect secrecy.}
+\item {(10 points)} {\bf Perfect secrecy}\\
 Recall that an encryption scheme $ (\skcgen, \skcenc, \skcdec)$ is called \emph{perfectly secure} if for any messages $m_0,m_1$ and any ciphertext $c$, 
 \[ \Pr_{k\gets \skcgen}\big( \skcenc_k(m_0)=c \big)\,=\, \Pr_{k\gets \skcgen}\big( \skcenc_k(m_1)=c \big)\;.\]
   Prove or disprove (giving the
@@ -91,7 +94,7 @@ Recall that an encryption scheme $ (\skcgen, \skcenc, \skcdec)$ is called \emph{
   \end{enumerate}
 
 
-\item {\bf Measurement attacks}\\
+\item (4 points){\bf Measurement attacks}\\
 Consider all cloning attacks that take the following form. The adversary decides on an arbitrary orthonormal basis $(\ket{u_0},\ket{u_1})$ for the single-qubit space $\mathbb{C}^2$. It then measures the challenger's state $\ket{\psi_\$}$ in the basis $(\ket{u_0},\ket{u_1})$ to obtain an outcome $b\in\{0,1\}$. Finally, the adversary returns the density matrix $\rho = \proj{u_b}\otimes \proj{u_b}$. 
 \begin{enumerate}
 \item Express the success probability of this attack as a function of the coefficients $\alpha,\beta$ of $\ket{u_0} = \alpha \ket{0} + \beta\ket{1}$. (Since $\ket{u_1}$ is orthogonal to $\ket{u_0}$, without loss of generality $\ket{u_1} = \beta\ket{0} - \alpha \ket{1}$.) 
@@ -101,8 +104,7 @@ Consider all cloning attacks that take the following form. The adversary decides
 
 
 
-\item (12 points) {\bf Improving Wiesner's quantum money.}
-
+\item (12 points) {\bf Improving Wiesner's quantum money}\\
 Consider the following six single-qubit states:
 $$ \Big\{\ket{\psi_1} = \ket{0},\, \ket{\psi_2}=\ket{1},\,\ket{\psi_3}=\ket{+},\,\ket{\psi_4}=\ket{-},\,\ket{\psi_5}=\frac{\ket{0}+i\ket{1}}{\sqrt{2}},\,\ket{\psi_6}=\frac{\ket{0}-i\ket{1}}{\sqrt{2}} \Big\}.$$
 Suppose we create a money scheme in which each bit of a bill's serial number is encoded into one of these six states, chosen uniformly at random (with probability $1/6$ each) by the bank. 
@@ -127,12 +129,12 @@ Consider the following map $T$ from single-qubit quantum money states to two-qub
 \ket{0}_A \ket{00}_{BC} \mapsto \frac{2}{\sqrt{6}}\ket{00}_{AB}\ket{0}_C + \frac{1}{\sqrt{3}} \ket{\psi^+}_{AB} \ket{1}_C \;,\\
 \ket{1}_A \ket{00}_{BC} \mapsto  \frac{1}{\sqrt{3}} \ket{\psi^+}_{AB}\ket{0}_C + \frac{2}{\sqrt{6}}\ket{11}_{AB}\ket{1}_C \;.
 \end{align*}
-\item[(c)] Show that the map $T$ can be decomposed as a sequence of three operations: (i) add some ancilla qubits to the single-qubit input of $T$; (ii) apply $V$; (iii) trace out a qubit. Specify what the ancilla qubits are, which qubit to trace out, and write out the calculation that justifies that $T$ is indeed the combination of (i), (ii), and (iii). 
+\item[(c)] Describe the map $T$  as a sequence of three operations: (i) add some ancilla qubits to the single-qubit input of $T$; (ii) apply $V$; (iii) trace out a qubit. Specify what the ancilla qubits are and which qubit to trace out.
 \end{enumerate}
 The previous questions justify that $T$ is a valid quantum map, because it can be written as a sequence of three valid operations.
 \begin{enumerate}
 \item[(d)] Show that for any single-qubit quantum money scheme (including Wiesner's scheme seen in class, the six-state scheme described above, and any other scheme using even more states), there is a cloning attack that succeeds with probability at least~$\frac{2}{3}$. 
-\item[(e)] (Bonus 3pts) As it turns out, the six-state scheme described above is optimal, in the sense that it is possible (but not easy) to show that the best cloning attack succeeds with probability \emph{at most} $\frac{2}{3}$. Suggest a quantum money scheme which uses only four single-qubit states but is such that the optimal attack succeeds with probability exactly $\frac{2}{3}$ (and in particular is better than Wiesner's scheme). {\em [Hint: Think about the Bloch sphere --- use all the available space! Partial credit given for any scheme that does better than Wienser, together with credible evidence for it being better.]} 
+\item[(e)] (Bonus 3pts) As it turns out, the six-state scheme described above is optimal, in the sense that it is possible (but not easy) to show that the best cloning attack succeeds with probability \emph{at most} $\frac{2}{3}$. Suggest a quantum money scheme which uses only four single-qubit states but is such that the optimal attack succeeds with probability exactly $\frac{2}{3}$ (and in particular is better than Wiesner's scheme). {\em [Hint: Think about the Bloch sphere --- use all the available space! Partial credit given for any scheme that does better than Wiesner, together with credible evidence for it being better.]} 
 \end{enumerate}
 
 
