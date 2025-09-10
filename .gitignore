@@ -12,3 +12,5 @@
 *.pdfsync
 
 *.synctex
+
+*.DS_Store
