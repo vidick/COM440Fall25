@@ -31,31 +31,62 @@ Suppose that we perform the following sequence of operations, starting with $n$ 
 
 
 \item {\bf The depolarizing channel}\\
-TODO
-	
-\item {\bf A cloning map}\label{ex:2-qmamp}
+Recall the identity we proved in the lecture of quantum one-time pad:
+\begin{align*}
+\frac{1}{4}(\rho + X\rho X + Z \rho Z + XZ \rho ZX) = \frac{\Id}{2},	
+\end{align*}
+for every single-qubit mixed state $\rho$.
 
-%In this exercise we verify that the map $T$ defined in Example~\ref{ex:opt-cl} is a valid quantum map. 
-\begin{enumerate}
-\item Since each of the four matrices is expressed as a linear combination, with positive coefficients, of rank-$1$ projections, it is positive. It only remains to check that each of them has trace $1$. For example, for $\rho_+$ the trace is 
+Let $K_1 = \sqrt{1 - 3p/4}\Id$, $K_2 = \sqrt{p}X/2$, $K_3 = \sqrt{p}Z/2$, and $K_4 = \sqrt{p}XZ/2$. Then it is easy to verify that
 \begin{align*}
- \Tr(\rho_+) &= \frac{1}{12} \big(\| 2 \ket{00} + \sqrt{2} \ket{\psi_{11}}\|^2 +\| 2 \ket{11} + \sqrt{2} \ket{\psi_{11}}\|^2 \big) \\
-&= \frac{1}{12} (6+6)\,=\,1\;.
+\sum_{i = 1}^4 K_i^\dagger K_i = \Id,
 \end{align*}
-Here for the second line we used that $\ket{00}$ and $\ket{\psi_{11}}$, and $\ket{11}$ and $\ket{\psi_{11}}$, are pairs of orthonormal vectors. 
-\item Using that $\bra{00}\psi_{11}\rangle = \bra{11}\psi_{11}\rangle = 0$ we verify that 
-$\bra{v_0}v_1\rangle =0$, and moreover $\|\ket{v_0}\|=\|\ket{v_1}\|=1$.
-\item  Let's do the verification for the case $\ket{\psi}=\ket{+}$. Then,
+and
 \begin{align*}
-T(\proj{+}_A) &= \Tr_C \big( V\big( \proj{+}_A \otimes \proj{00}_{BC} \big) V^\dagger \big)\\
-&= \Tr_C \Big( \frac{1}{2}\big( \ket{v_0}+\ket{v_1} \big) \big( \bra{v_0} + \bra{v_1} \big) \Big)\\
-&= \frac{1}{2} \Big( \big(\frac{2}{\sqrt{6}} \ket{00} + \frac{1}{\sqrt{3}} \ket{\psi_{11}} \big)\big(\frac{2}{\sqrt{6}} \bra{00} + \frac{1}{\sqrt{3}} \bra{\psi_{11}}\big) \\
-&\qquad + \big(\frac{1}{\sqrt{3}} \ket{\psi_{11}} +\frac{2}{\sqrt{6}} \ket{11} \big)\big( \frac{1}{\sqrt{3}} \bra{\psi_{11}}+\frac{2}{\sqrt{6}} \bra{11} \big) \Big)\;.
+\sum_{i = 1}^4 K_i \rho K_i^\dagger = (1 - p)\rho + \frac{p}{2}\Id,
 \end{align*}
-Here, for the third line we expanded using the definition of $\ket{v_0}$ and $\ket{v_1}$, and used that $\Tr_C(\ket{0}\bra{1}_C)=\Tr_C(\ket{1}\bra{0}_C)=0$ to eliminate the cross terms. 
-By re-arranging the constant coefficients you can verify that this equals $\rho_+$. 
-\item[(d)] TODO
-\end{enumerate}
+for every single-qubit mixed state $\rho$, using the above identity.
+
+We can implement this channel on a register $A$ by introducing three quantum qubits initialized as $\ket{0}_B\ket{0}_C\ket{0}_D$, applying the Hadamard gate $H$ on registers $B$ and $C$, applying the unitary $U_1 = (\sqrt{1 - p}\ket{0} + \sqrt{p}\ket{1})\bra{0} + (\sqrt{p}\ket{0} - \sqrt{1 - p}\ket{1})\bra{1}$ on register $D$, applying the unitary $U_2 = \ketbra{11}{11}_{BD} \otimes Z_A + (\Id - \ketbra{11}{11})_{BD} \otimes \Id_A$ and the unitary $U_3 = \ketbra{11}{11}_{CD} \otimes X_A + (\Id - \ketbra{11}{11})_{CD} \otimes \Id_A$, and finally tracing out the registers $B, C$ and $D$.
+
+
+
+\item {\bf A cloning map}\label{ex:2-qmamp} 
+% Commented out because it's similar to the homework solution. Better to not included this written solution	
+%\begin{enumerate}
+%\item Since each of the four matrices is expressed as a linear combination, with positive coefficients, of rank-$1$ projections, it is positive. It only remains to check that each of them has trace $1$. For example, for $\rho_+$ the trace is 
+%\begin{align*}
+% \Tr(\rho_+) &= \frac{1}{12} \big(\| 2 \ket{00} + \sqrt{2} \ket{\psi^+}\|^2 +\| 2 \ket{11} + \sqrt{2} \ket{\psi^+}\|^2 \big) \\
+%&= \frac{1}{12} (6+6)\,=\,1\;.
+%\end{align*}
+%Here for the second line we used that $\ket{00}$ and $\ket{\psi^+}$, and $\ket{11}$ and $\ket{\psi^+}$, are pairs of orthonormal vectors.
+%
+%A similar direct calculation shows that the other three matrices are also valid density matrix.
+%\item Using that $\bra{00}\psi^+\rangle = \bra{11}\psi^+\rangle = 0$ we verify that 
+%$\bra{v_0}v_1\rangle =0$, and moreover $\|\ket{v_0}\|=\|\ket{v_1}\|=1$.
+%\item  Let's do the verification for the case $\ket{\psi}=\ket{+}$. Then,
+%\begin{align*}
+%T(\proj{+}_A) &= \Tr_C \big( V\big( \proj{+}_A \otimes \proj{00}_{BC} \big) V^\dagger \big)\\
+%&= \Tr_C \Big( \frac{1}{2}\big( \ket{v_0}+\ket{v_1} \big) \big( \bra{v_0} + \bra{v_1} \big) \Big)\\
+%&= \frac{1}{2} \Big( \big(\frac{2}{\sqrt{6}} \ket{00} + \frac{1}{\sqrt{3}} \ket{\psi^+} \big)\big(\frac{2}{\sqrt{6}} \bra{00} + \frac{1}{\sqrt{3}} \bra{\psi^+}\big) \\
+%&\qquad + \big(\frac{1}{\sqrt{3}} \ket{\psi^+} +\frac{2}{\sqrt{6}} \ket{11} \big)\big( \frac{1}{\sqrt{3}} \bra{\psi^+}+\frac{2}{\sqrt{6}} \bra{11} \big) \Big)\;.
+%\end{align*}
+%Here, for the third line we expanded using the definition of $\ket{v_0}$ and $\ket{v_1}$, and used that $\Tr_C(\ket{0}\bra{1}_C)=\Tr_C(\ket{1}\bra{0}_C)=0$ to eliminate the cross terms. 
+%By re-arranging the constant coefficients you can verify that this equals $\rho_+$. 
+%
+%The cases $\ket{\psi} = \ket{-}, \ket{0}, \ket{1}$ are similar.
+%\item[(d)] Let's do the verification for the case $\ket{\psi} = \ket{+}$. Then,
+%\begin{align*}
+%&\bra{+ +}T\big(\ketbra{+}{+}\big)\ket{+ +}\\
+%=\,&\bra{+ +}\rho_{+}\ket{+ +}\\
+%=\,& \frac{1}{12}\|\bra{+ +}(2\ket{00} + \sqrt{2}\ket{\psi^+})\|^2 + \frac{1}{12}\|\bra{+ +}(2\ket{11} + \sqrt{2}\ket{\psi^+})\|^2\\
+%=\,& \frac{1}{12}\| 2\bra{+ +}{00}\rangle + \sqrt{2}\bra{++}{\psi^+}\rangle\|^2 + \frac{1}{12}\| 2\bra{+ +}{11}\rangle + \sqrt{2}\bra{++}{\psi^+}\rangle\|^2\\
+%=\,& \frac{1}{12}(1 + 1)^2 + \frac{1}{12}(1 + 1)^2\\
+%=\,& \frac{2}{3}\;.
+%\end{align*}
+%The cases $\ket{\psi} = \ket{-}, \ket{0}, \ket{1}$ are similar.
+%
+%\end{enumerate}
 
 
 \end{enumerate}
