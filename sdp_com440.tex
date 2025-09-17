@@ -1,0 +1,300 @@
+\documentclass[11pt, letterpaper]{article}
+%\pdfoutput=1
+
+%%% Basics
+\usepackage{fullpage} % letter paper and margins
+\usepackage{xspace,xcolor,graphicx,tabularx} %basic enhancements
+\usepackage{mathtools,amsthm,amssymb} %basic maths packages
+\usepackage{enumitem} %better lists
+\setenumerate[0]{label={\normalfont (\roman*)}}
+
+
+%%% Typesetting and fonts
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+\usepackage[scaled=0.86]{helvet}
+\usepackage{mathptmx}
+\DeclareMathAlphabet{\mathcal}{OMS}{ntxm}{m}{n}
+\usepackage{dsfont} %double stroke font
+\let\mathbb\relax
+\let\mathbb\mathds
+\usepackage{stmaryrd} %extra symbols
+% adjust paragraph spacing slightly
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2.25ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+\interfootnotelinepenalty=10000
+
+
+%%% Author list and affiliation
+\usepackage{authblk}
+\renewcommand*{\Affilfont}{\small}
+
+
+%%% Links and references
+\definecolor{linkblue}{HTML}{001487}
+\usepackage[colorlinks=true,allcolors=linkblue]{hyperref}
+\usepackage{url}
+\usepackage{cleveref}
+%\usepackage[nameinlink,capitalize,noabbrev]{cleveref}
+%\crefname{enumi}{Step}{Steps}
+
+
+%%% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{exercise}[theorem]{Exercise}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{protocol}{Protocol}
+\numberwithin{equation}{section}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+
+%%% Basic maths abbreviations
+%Symbols
+\newcommand{\setft}[1]{\textnormal{#1}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\1}{\mathbb{1}}
+\newcommand{\id}{\setft{id}}
+\newcommand{\C}{\ensuremath{\mathds{C}}}
+\newcommand{\N}{\ensuremath{\mathds{N}}}
+\newcommand{\R}{\ensuremath{\mathds{R}}}
+\newcommand{\Z}{\ensuremath{\mathds{Z}}}
+\newcommand{\F}{\ensuremath{\mathds{F}}}
+\newcommand{\bits}{\ensuremath{\{0, 1\}}}
+
+%Operators
+\newcommand{\ot}{\ensuremath{\otimes}}
+\newcommand{\deq}{\coloneqq}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\tr}[1]{\mathrm{Tr}\!\left[ #1 \right]}
+\newcommand{\ptr}[2]{\mathrm{Tr}_{#1}\!\left[ #2 \right]}
+\newcommand{\pr}[1]{\mathrm{Pr}\!\left[ #1 \right]}
+\newcommand{\prs}[2]{\mathrm{Pr}_{#1}\!\left[ #2 \right]}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\pos}{Pos}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\negl}{negl}
+\DeclareMathOperator{\supp}{\setft{supp}}
+\DeclareMathOperator{\img}{img}
+\DeclareMathOperator{\E}{\mathds{E}}
+
+%Words
+\newcommand{\sth}{{\setft{~s.t.~}}}
+\newcommand{\tand}{\;\textnormal{~and~}\;}
+\newcommand{\wrt}{\quad {\rm ~~w.r.t.~~}}
+
+
+%%% Quantum notation
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\proj}[1]{\ket{#1}\!\bra{#1}}
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1 \delimsize\vert #2}
+\newcommand{\cp}{\setft{CP}}
+\newcommand{\cptp}{\setft{CPTP}}
+
+
+\bibliographystyle{alpha}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+
+
+\begin{document}
+
+
+\Header{COM-440, Introduction to Quantum Cryptography, Fall 2025 \\[3mm] \large Notes on semidefinite programming}
+
+
+
+\section{Semidefinite programs}
+
+In general a semidefinite program (SDP) is the optimization of a linear function under linear and semidefinite constraints. Let's see some examples. 
+
+\textbf{1.} For any symmetric matrix $B$, its largest eigenvalue can be expressed as
+\begin{align}
+\min\quad & x_1 \nonumber\\
+\text{s.t.} \quad& x_1 \mathbb{I}-B\succeq 0 \nonumber
+\end{align}
+
+\textbf{2.} The following SDP
+\begin{align}
+\inf\quad & x_1 \nonumber\\
+\text{s.t.}\quad & \left(\begin{array}{cc}
+x_1 & 1 \\
+1 & x_2
+\end{array}
+\right)\succeq 0\nonumber
+\end{align}
+is equivalent to $x_1,x_2\geq 0$ and $x_1x_2\geq 1$. The optimum is $0$, but this optimal value is not attained at any feasible point. This is an important difference with LPs. From now on we'll have to be careful and write ``$\inf$'' or ``$\sup$'' instead of ``$\min$'' or ``$\max$'' whenever we're writing an SDP for which we're not sure whether the optimum is attained. 
+
+\textbf{3.} This SDP
+\begin{align}
+\inf\quad & x_n \nonumber\\
+\text{s.t.}\quad & x_0 \ge 2 \nonumber\\
+&\left(\begin{array}{cc} 1 & x_0\\
+ x_0 & x_1 \end{array}\right)\succeq 0 \nonumber\\
+&\left(\begin{array}{cc} 1 & x_1\\
+ x_1 & x_2 \end{array}\right)\succeq 0 \nonumber\\
+&\qquad\vdots \nonumber\\
+&\left(\begin{array}{cc} 1 & x_{n-1}\\
+ x_{n-1} & x_n \end{array}\right)\succeq 0 \nonumber
+\end{align}
+evaluates to $\smash{2^{2^n}}$. Here even writing down the optimum requires a number of bits ($2^n$) that is exponential in the instance size ($O(n)$ bits).  This could not happen for LPs either.
+
+
+
+\subsection{Canonical form}
+ 
+In the following we will use the convenient notation $X\bullet Y = \Tr(XY^\dagger)$, which is valid whenever $X,Y$ are two square matrices of the same size. Note that $\bullet$ is a valid inner product on the space of square matrices. 
+
+Just as linear programs, every SDP has a \emph{canonical form} as follows: 
+\begin{align}
+(\mathcal{P})\qquad\sup \quad & B\bullet X \label{eq:sdp-primal}\\
+\text{s.t.}\quad & A_i\bullet X = c_i\quad\forall i\in\{1,\ldots,m\} \nonumber\\
+& X\succeq 0, \nonumber
+\end{align}
+where $B\in \R^{n\times n}$, $A_1,\ldots,A_m\in \R^{n\times n}$, $c_i\in\R$.
+
+\begin{exercise}
+Write each of the three SDPs from the previous section in canonical form (i.e. specify what the matrices $B$, $A_i$, and the reals $c_i$ should be).
+\end{exercise}
+
+The canonical form can be written in a slightly different, though equivalent, way by replacing the collection of constraints $A_i\bullet X \leq c_i$, for $i\in\{1,\ldots,m\}$, with a single constraint $\Phi(X)=C$ where $\Phi$ is a linear map that preserves Hermitianity and $C$ is a matrix (not necessarily of the same dimension as $X$). To see that the two are equivalent, first note that the former can be converted to the latter by defining $\Phi(X) = \sum_i (A_i\bullet X) E_{i,i}$ with $E_{i,i}$ the diagonal matrix with a unique $1$ in position $(i,i)$ and $0$ elsewhere. Conversely, the constraint $\Phi(X)=C$ can be replaced by the collection of constraints $H_i\bullet\Phi(X)=H_i\bullet C$ where $H_i$ ranges over a Hermitian basis of square matrices of the correct size.  
+
+Summarizing, we have the following equivalent primal form: 
+\begin{align}
+(\mathcal{P})\qquad\sup \quad & B\bullet X \label{eq:sdp-primal-2}\\
+\text{s.t.}\quad & \Phi(X) = C \nonumber\\
+& X\succeq 0, \nonumber
+\end{align}
+
+
+\subsection{Dual of an SDP}
+
+
+Let's develop the duality theory for SDPs. What is the dual of $(\mathcal{P})$ given in~\eqref{eq:sdp-primal}? Let's proceed in the same way as one derives the dual of an LP: form linear combinations of the constraints in order to prove upper bounds on the objective value. More precisely, for any $y_1,\ldots, y_m\in\mathbb{R}$, if
+$$
+y_1A_1+\ldots+y_mA_m\succeq B
+$$
+then for any primal feasible $X$
+$$
+ B\bullet X \preceq (y_1A_1+\ldots+y_mA_m)\bullet X=y^Tc,
+$$
+where the second inequality uses $ A\leq Z \implies A\bullet X \leq Z \bullet X$ for any $X\geq 0$. We obtain the dual
+\begin{align}
+(\mathcal{D})\qquad\inf \quad & y^Tc \nonumber\\
+\text{s.t.} \quad & y_1,\ldots, y_m \in\mathbb{R}\nonumber\\
+& y_1A_1+\ldots + y_mA_m-B\succeq 0 \nonumber,
+\end{align}
+and we just showed:
+
+\begin{theorem}[Weak Duality]
+If both the primal and the dual problems are feasible and bounded, then
+$$
+\textsc{OPT}(\mathcal{P})\le \textsc{OPT}(\mathcal{D}).
+$$
+\end{theorem}
+
+We can also write the dual of the form~\eqref {eq:sdp-primal-2}:
+\begin{align}
+(\mathcal{D})\qquad\inf \quad & C\bullet Y \nonumber\\
+\text{s.t.} \quad & Y \text{ Hermitian}\nonumber\\
+& \Phi^*(Y) \succeq B \nonumber,
+\end{align}
+where $\Phi^*$ is the dual map to $\Phi$, i.e. such that $\Phi(X)\bullet Y = X\bullet \Phi^*(Y)$ for all $X,Y$. 
+
+While weak duality always holds under the same conditions as for LPs, strong duality can fail dramatically!
+
+\begin{example}
+Consider the optimization problem
+\begin{align}
+\inf\quad & -y_1 \nonumber\\
+\text{s.t.}\quad & \left(\begin{array}{ccc}
+0&y_1&0\\
+y_1&y_2&0\\
+0&0&1-y_1
+\end{array}\right)\succeq 0
+& y_1,y_2\geq 0.
+\end{align}
+A block matrix is PSD if and only if each block is PSD. The determinant of a PSD matrix should be no less than $0$, thus $0\times y_2 -y_1^{2} \geq 0$, and the optimum of the above SDP is $0$. You can check that its dual is given by
+\begin{align}
+\sup\quad & - X_{33} \nonumber\\
+\text{s.t.}\quad & X_{12}+X_{21}-X_{33}\leq -1 \nonumber\\
+& X_{22}\leq 0 \nonumber\\
+& X\succeq 0. \nonumber
+\end{align}
+Since $ X_{22} \leq 0$, for $X$ to be PSD it must be $0$. The PSD condition then implies $X_{12}=X_{21}=0$, so $-X_{33}\leq -1$ and the optimum is $-1$.
+\end{example}
+
+In spite of this strong duality does hold as long as both the primal and dual SDPs are \emph{strictly feasible}:
+
+\begin{theorem}[Strong Duality]
+Suppose both the primal $\mathcal{P}$ and the dual $\mathcal{D}$ are strictly feasible and bounded, then
+$$
+\textsc{OPT}(\mathcal{P})= \textsc{OPT}(\mathcal{D}).
+$$
+\end{theorem}
+
+
+\subsection{Solving SDPs}
+
+Example 3 in the introduction demonstrates that an SDP cannot always be solved exactly in polynomial time, even if it is both feasible and bounded. Two additional conditions will allow us to give polynomial-time algorithms. First, we will only solve SDPs approximately. This takes care of the second example: we will only require the solver to return a feasible point that achieves an objective value at least opt$-\eps$, for any $\eps>0$ (the running time will depend on $\eps$). Second, the SDP solver will require as input an a priori bound on the size of the solution. This gets rid of the third example. Finally, we will also need to require that the SDP is \emph{strictly feasible}, meaning that there is a feasible point $X$ that is strictly positive. 
+
+Under these three conditions it is possible to show that SDPs can be solved efficiently. Here is one of the best results known: 
+
+\begin{theorem}
+For any $\epsilon > 0$ and any SDP such that the feasible region $K$ is such that $\exists r, R > 0$, $\vec{O}$ with
+$$
+B(\vec{O},r)\subset K \subset B(\vec{O}, R),
+$$
+a feasible $X$ such that $B\bullet X\ge\textsc{opt}(SDP) -\epsilon$ can be computed in time $\poly(\log\frac{R}{r}+|SDP|+\log\frac{1}{\epsilon})$, where $|SDP|$ denotes the number of bits required to completely specify the SDP instance. 
+\end{theorem}
+
+
+
+\section{The Joi-Jamiolkowski representation}
+
+Consider a linear map 
+$\Phi:\mathbb{C}^{d\times d}\rightarrow\mathbb{C}^{d'\times d'}$. 
+Further fix a standard basis $\{\ket{1},\ldots,\ket{d}\}$ and $\{\ket{1},\ldots,\ket{d'}\}$ of 
+$\mathbb{C}^d$ and $\mathbb{C}^{d'}$ respectively. 
+With respect to this basis, the 
+\emph{Choi-Jamio{\l}kowski representation} of 
+$\Phi$ is defined as
+\[
+J(\Phi) = \sum_{1\leq i,j\leq d} \Phi(\ket{i}\bra{j}) \otimes
+\ket{i}\bra{j}\,\in \mathbb{C}^{d\times d}\otimes \mathbb{C}^{d'\times d'}\,.
+\]
+The operator $J(\Phi)$ uniquely determines $\Phi$, and the following is a useful lemma relating the two representations. 
+
+\begin{lemma}
+$\Phi$ is a valid quantum channel if and only if  $J(\Phi)$ is positive semidefinite and 
+$\Tr_{2}(J(\Phi)) = I$. (Here, by $\Tr_2$ we mean tracing out the second system, the one of dimension $d'$.)
+\end{lemma}
+
+Finally we state the well-known and easy to verify relation
+\[
+\bra{\phi} \Phi(\ket{\psi}\bra{\psi}) \ket{\phi}
+= \bra{\phi \otimes \overline{\psi}} J(\Phi)\ket{\phi \otimes
+  \overline{\psi}}
+\]
+for any choice of vectors $\ket{\psi}\in\mathbb{C}^d$ and
+$\ket{\phi}\in\mathbb{C}^{d'}$, with
+complex conjugation taken with respect to the standard basis.
+
+
+\end{document}
