@@ -100,7 +100,7 @@ Recall that an encryption scheme $ (\skcgen, \skcenc, \skcdec)$ is called \emph{
 
 
 \item (4 points){\bf Measurement attacks}\\
-Consider all cloning attacks that take the following form. The adversary decides on an arbitrary orthonormal basis $(\ket{u_0},\ket{u_1})$ for the single-qubit space $\mathbb{C}^2$. It then measures the challenger's state $\ket{\psi_\$}$ in the basis $(\ket{u_0},\ket{u_1})$ to obtain an outcome $b\in\{0,1\}$. Finally, the adversary returns the density matrix $\rho = \proj{u_b}\otimes \proj{u_b}$. 
+\textcolor{blue}{Recall that in Wiesner's money scheme, case $n=1$, the bank prepares a uniformly random single-qubit state among $\{\ket{0},\ket{1},\ket{+},\ket{-}\}$. In this problem we consider cloning attacks on Wiesner's scheme.} A cloning attack can take the following form. The adversary decides on an arbitrary orthonormal basis $(\ket{u_0},\ket{u_1})$ for the single-qubit space $\mathbb{C}^2$. It then measures the challenger's state $\ket{\psi_\$}$ in the basis $(\ket{u_0},\ket{u_1})$ to obtain an outcome $b\in\{0,1\}$. Finally, the adversary returns the density matrix $\rho = \proj{u_b}\otimes \proj{u_b}$. 
 \begin{enumerate}
 \item Express the success probability of this attack as a function of the coefficients $\alpha,\beta$ of $\ket{u_0} = \alpha \ket{0} + \beta\ket{1}$. (Since $\ket{u_1}$ is orthogonal to $\ket{u_0}$, without loss of generality $\ket{u_1} = \beta\ket{0} - \alpha \ket{1}$.) 
 \item Find the choice of $\alpha,\beta$ that maximizes the success probability (don't forget about complex numbers!). 

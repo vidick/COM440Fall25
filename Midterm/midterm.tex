@@ -65,6 +65,19 @@ Let
 \end{enumerate}
 
 
+\item (4 points) \textbf{Superdense Coding}\\
+In Homework 1, you were introduced to the idea of "quantum teleportation". By sending just two bits of classical information, Alice was able to "teleport" her single-qubit quantum state to Bob, provided they shared a pair of maximally entangled qubits to begin with. \\
+In this problem, Alice instead wants to share two classical bits with Bob, but she only has a quantum channel at her disposal, and she is only allowed to use it once (i.e. send only one single-qubit state). Can she succeed? \\
+
+\begin{enumerate}
+\item[(a)] The first idea she has is to encode her two classical bits into her preparation of one of four states in $\{ \ket{0}, \ket{1}, \ket{+}, \ket{-}\}$, and then send this qubit to Bob. \\
+Suppose that the a priori distribution of Alice's two classical bits is uniform. What is the maximum probability with which Bob can correctly guess both of Alice's two classical bits?\\
+\item[(b)] Suppose that Alice and Bob share a maximally entangled pair of qubits. Alice thinks that it is a good idea to start by performing one of four unitary transformations on the qubit in her possession depending on the value of the two classical bits that she wishes to communicate and send her qubit to Bob. What next? Help Alice (and Bob) devise a scheme that achieves the desired task with certainty.\\
+\item[(c)] After all the thought that Alice and Bob put into coming up with a working scheme, they finally decide to employ it.\\
+Unfortunately, the tireless eavesdropper Eve has heard of their new scheme, and as soon as Alice and Bob use it, she intercepts the qubit as it's sent from Alice to Bob. Can Eve recover information about the two confidential classical bits that Alice intended to share with Bob?\\
+
+\end{enumerate}
+
 \end{enumerate}
 \end{document}
 
