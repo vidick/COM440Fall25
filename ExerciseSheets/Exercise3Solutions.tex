@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 3}
+
+
+\begin{enumerate}
+
+\item {\bf Semidefinite programming}
+\begin{enumerate}
+\item We first prove a lemma: If $X,Y\in \mathbb{C}^{d \times d}$, $X\ge 0$, $Y\ge 0$, then $\Tr(XY)\ge 0$.
+
+This is because for $X \ge 0$, we can find eigenvalue decomposition of $X$: $X = \sum_{i = 1}^d \lambda_i \ketbra{\phi_i}{\phi_i}$ where the eigenvalues $\lambda_i \ge 0$. 
+
+Then $\Tr(XY) = \Tr(\sum_{i = 1}^d \lambda_i \ketbra{\phi_i}{\phi_i}Y) = \sum_{i = 1}^d\lambda_i \bra{\phi_i} Y \ket{\phi_i} \ge 0$ because since $Y \ge 0$, we have that $\bra{\phi_i} Y \ket{\phi_i} \ge 0$ for each $i$.
+
+Let $\Omega_1=\{X\in \mathbb{C}^{d \times d} : X\ge 0,\ \Phi(X)=B \}$, and $\Omega_2=\{Y\in \mathbb{C}^{d' \times d'} : \Phi^{*}(Y)\ge A,\ Y=Y^\dagger \}$ be the set of $X$ and the set of $Y$ satisfying the constraints in the primal problem and the dual problem.
+Now, for any $X\in\Omega_1$ and $Y\in\Omega_2$, we have
+\begin{align*}
+  \Tr(BY)
+  =& \Tr(\Phi(X)Y)\\
+  =& \Tr(X \Phi^{*}(Y))\\
+  =& \Tr(X (\Phi^{*}(Y) - A)) + \Tr(XA)\\
+  \ge& \Tr(X A) \tag{apply the lemma on $X \ge 0, \Phi^{*}(Y) - A \ge 0$}\\
+  =& \Tr(AX).
+\end{align*}
+
+Therefore, $\beta = \inf_{Y \in \Omega_2}\Tr(BY) \ge \sup_{X \in \Omega_1}\Tr(AX) = \alpha$.
+
+\item For a Hermitian matrix $M \in \mathbb{C}^{d \times d}$, we can find the eigenvalue decomposition of $M$: $M = \sum_{i = 1}^d \mu_i \ketbra{\phi_i}{\phi_i}$.
+
+Since $\{\ket{\phi_i}\}$ forms a basis of $\mathbb{C}^{d}$, we have that $\lambda\Id - M = \sum_{i = 1}^d (\lambda - \mu_i) \ketbra{\phi_i}{\phi_i} $.
+
+Therefore, $M \leq \lambda \Id \Leftrightarrow \lambda\Id - M \ge 0 \Leftrightarrow \forall i, \lambda - \mu_i \ge 0 \Leftrightarrow \forall i, \lambda \ge \mu_i$, which means all eigenvalues of M are less than or equal to $\lambda$.
+\item We want $Y$ to act as $\lambda$ in (b), $\Phi^*(\lambda) = \lambda \Id$ and $A = M$ in order to put the condition $\lambda \Id \ge M$ in the dual problem. 
+
+So we choose $d' = 1$, $K_i = (0 \; 0 \; \cdots \; 1 \; 0 \cdots 0) = \bra{i - 1}$ be the $1 \times d$ matrix that has 0 on every entry except the $i\textsuperscript{th}$ entry, and $\nu_i = 1$. Then it is easy to see that $\Phi^*(Y) = \sum_{i = 0}^{d - 1} \ket{i} Y \bra{i} = Y \sum_{i = 0}^{d - 1} \ketbra{i}{i} = Y \Id$ and $\Phi(X) = \sum_{i = 1}^d \bra{i} X \ket{i} = \Tr(X)$.
+
+We choose $A = M$ and $B = 1$, then the dual problem is just
+\begin{align}
+&\beta\,:=\,  \inf Y \notag\\
+s.t.\quad&  Y\Id\geq M,\notag\\
+\qquad &Y \in \mathbb{R}.\notag
+\end{align}
+
+Using the result of (b), it's easy to see that $\beta = \lambda_1(M)$.
+
+With this choice of $\Phi$, $A$ and $B$, the primal problem is
+\begin{align}
+&\alpha\,:=\,  \sup \Tr(MX)\notag \\
+s.t.\quad& \Tr(X)=1,\notag \\
+& X \geq 0.\notag
+\end{align}
+
+Recall that from (a), we have that $\alpha \leq \beta$. It remains to prove that $\alpha \geq \beta = \lambda_1(M)$. So we only need to find a feasible $X$ such that $\Tr(MX) = \lambda_1(M)$. 
+
+Let's do the eigenvalue decomposition of $M$: $M = \sum_{i = 1}^d \mu_i \ketbra{\phi_i}{\phi_i}$. Without loss of generality, we assume $\mu_1$ is the largest and thus $\mu_1 = \lambda_1(M)$. 
+
+We set $X = \ketbra{\phi_1}{\phi_1}$. This is a feasible $X$ since it is easy to see that $\Tr(X) = 1$ and $X \ge 0$. Moreover, $\Tr(MX) = \bra{\phi_1}M\ket{\phi_1} = \mu_1 =  \lambda_1(M)$.
+
+Therefore, in this case, its optimum $\alpha = \beta$.
+\item We first show that $\|\rho - \sigma\|_{tr} = \max_{0 \leq E \leq \Id}\Tr( (\rho - \sigma) E)$. This is because we can do eigenvalue decomposition of $\rho - \sigma$ to get $\rho - \sigma = \sum_{i = 1}^d \mu_i \ketbra{\phi_i}{\phi_i}$, and then $\max_{0 \leq E \leq \Id}\Tr( (\rho - \sigma) E) = \max_{0 \leq E \leq \Id}\sum_{i = 1}^d \mu_i \bra{\phi_i} E \ket{\phi_i}$ which is at most $\sum_{i: \mu_i > 0}\mu_i$ since $ 0 \leq \bra{\phi_i} E \ket{\phi_i} \leq 1$ for each $i$ (and it is easy to see that there exists $E$ to achieve this). Notice that $\Tr(\rho - \sigma) = 0$ and thus $\sum_i \mu_i = 0$. Therefore, $\max_{0 \leq E \leq \Id}\Tr( (\rho - \sigma) E) = \sum_{i:\mu_i > 0}\mu_i = \frac{1}{2}\sum_i |\mu_i| = \|\rho - \sigma\|_{tr}$.
+
+In order to write it in the primal problem, we need to rewrite the condition that $E \leq \Id$. We let $X_1 = E$ and $X_2 = \Id - E$, then we have that
+\begin{align} \label{exercise3: eqn1}
+\|\rho - \sigma\|_{tr}
+  = \max_{X_1,X_2} \Tr((\rho - \sigma) X_1)\notag\\
+\text{s.t. } \quad X_1 \ge 0,\ X_2 \ge 0,\ X_1 + X_2 = \Id.
+\end{align}
+
+We group $X_1$ and $X_2$ into the diagonal of a single matrix 
+\[
+  X = \begin{pmatrix} X_1 & X_3 \\ X_3^\dagger & X_2 \end{pmatrix},
+\]
+and use the linear map 
+\[\Phi\left(\begin{pmatrix} X_1 & X_3 \\ X_3^\dagger & X_2 \end{pmatrix}\right) = X_1 + X_2,\]
+which can be also expressed as $\Phi(X) = \nu_1 K_1 X K_1^\dagger + \nu_2 K_2 X K_2^\dagger$ for $K_1 = (\Id \; 0) \in \mathbb{C}^{d \times 2d}$, $K_2 = (0 \; \Id) \in \mathbb{C}^{d \times 2d}$ and $\nu_1 = \nu_2 = 1$.
+
+This allows us to express the conditions $X_1 \ge 0,\ X_2 \ge 0,\ X_1 + X_2 = \Id$ as the standard form condition $X \ge 0$ and $\Phi(X) = B$ where $B = \Id$.
+
+To write the object $\Tr((\rho - \sigma) X_1)$ in terms of $X$, we set 
+\[
+  A = \begin{pmatrix} \rho - \sigma & 0 \\ 0 & 0 \end{pmatrix},
+\]
+and it is clear that $\Tr((\rho - \sigma) X_1) = \Tr(AX)$.
+
+We write the primal problem as 
+\begin{align}
+&\alpha\,:=\,  \sup \Tr(AX)\notag \\
+s.t.\quad& \Phi(X)=B,\notag \\
+& X \geq 0,\notag
+\end{align}
+for the above matrices
+\[
+  A = \begin{pmatrix} \rho - \sigma & 0 \\ 0 & 0 \end{pmatrix},
+\]
+and $B = \Id$, and the Hermitian preserving linear map
+\[\Phi\left(\begin{pmatrix} X_1 & X_3 \\ X_3^\dagger & X_2 \end{pmatrix}\right) = X_1 + X_2.\]
+
+With some effort, we can show $(X_1, X_2)$ satisfying \Cref{exercise3: eqn1} can be mapped to
+\[
+  X = \begin{pmatrix} X_1 & 0 \\ 0 & X_2 \end{pmatrix},
+\] 
+which satisfies the condition for the primal problem. Moreover, any matrix $X = \begin{pmatrix} X_1 & X_3 \\ X_3^\dagger & X_2 \end{pmatrix}$ such that $\Phi(X)=B$ and $X \geq 0$ can be mapped to $(X_1, X_2)$ satisfying \Cref{exercise3: eqn1}. Therefore, the above primal problem computes $\|\rho - \sigma\|_{tr}$.
+
+The dual problem is
+\begin{align}
+&\beta\,:=\,  \inf \Tr(Y) \notag\\
+s.t.\quad&  \Phi^*(Y)\geq A,\notag\\
+\qquad &Y=Y^\dagger,\notag
+\end{align}
+where $\Phi^*(Y) = \nu_1 K_1^\dagger Y K_1 + \nu_2 K_2^\dagger Y K_2 = \begin{pmatrix} Y & 0 \\ 0 & Y \end{pmatrix}$ and $A = \begin{pmatrix} \rho - \sigma & 0 \\ 0 & 0 \end{pmatrix}$.
+
+Just as in (c), to prove $\beta = \alpha$, we only need to find a feasible $Y$ such that $\Tr(Y) = \|\rho - \sigma\|_{tr}$.
+
+Recall that $\rho - \sigma$ can be decomposed as $\rho - \sigma = \sum_{i = 1}^d \mu_i \ketbra{\phi_i}{\phi_i}$. We set $Y = \sum_{i: \mu_i \ge 0}\mu_i \ketbra{\phi_i}{\phi_i}$. Then it is easy to see that $\Tr(Y) = \sum_{i: \mu_i \ge 0}\mu_i =  \|\rho - \sigma\|_{tr}$, and $Y = Y^\dagger$. Furthermore, $Y = \sum_{i: \mu_i \ge 0}\mu_i \ketbra{\phi_i}{\phi_i} \geq \sum_{i = 1}^d \mu_i \ketbra{\phi_i}{\phi_i} = \rho - \sigma$ and thus $\Phi^*(Y)\geq A$, which concludes the proof of part (d).
+\end{enumerate}
+\end{enumerate}
+
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
