@@ -29,16 +29,16 @@ This exercise sheet is designed to help you review the concepts discussed in the
 \item  \textbf{Semidefinite programming.}\\
 A \emph{semidefinite program} (SDP) is a triple $(\Phi,A,B)$, where
 \begin{itemize}
-\item $\Phi: M_d(\C)\to M_{d'}(\C)$ is a linear map of the form $\Phi(X) = \sum_{i=1}^k K_i X K_i^\dagger$, for $K_i$ arbitrary $d'\times d$ matrices with complex entries, and
-\item $A \in M_d(\C)$, $B\in M_{d'}(\C)$ are Hermitian matrices.
+\item $\Phi: \mathbb{C}^{d \times d}\to \mathbb{C}^{d' \times d'}$ is a Hermitian presearving linear map of the form $\Phi(X) = \sum_{i=1}^k \nu_i K_i X K_i^\dagger$, for $K_i$ arbitrary $d'\times d$ matrices with complex entries and $\nu_i \in \mathbb{R}$, and
+\item $A \in \mathbb{C}^{d \times d}$, $B\in \mathbb{C}^{d' \times d'}$ are Hermitian matrices.
 \end{itemize}
-Let $\Phi^*(Y) = \sum_{i=1}^k K_i^\dagger Y K_i$ be the adjoint map to $\Phi$. 
+Let $\Phi^*(Y) = \sum_{i=1}^k \nu_i K_i^\dagger Y K_i$ be the adjoint map to $\Phi$. 
 We associate with the triple $(\Phi, A, B)$ two optimization problems, called the primal and dual problems, as follows:
 \begin{center}
   \begin{minipage}{2.5in}
  \centerline{\underline{Primal problem}}\vskip-4mm
 \begin{align}
-&\alpha\,:=\,  \max \Tr(AX)\notag \\
+&\alpha\,:=\,  \sup \Tr(AX)\notag \\
 s.t.\quad& \Phi(X)=B,\notag \\
 & X \geq 0.\notag
 \end{align}
@@ -47,17 +47,17 @@ s.t.\quad& \Phi(X)=B,\notag \\
   \begin{minipage}{2.5in}
  \centerline{\underline{Dual problem}}\vskip-4mm
 \begin{align}
-&\beta\,:=\,  \min \Tr(BY) \notag\\
+&\beta\,:=\,  \inf \Tr(BY) \notag\\
 s.t.\quad&  \Phi^*(Y)\geq A,\notag\\
-&\qquad Y=Y^\dagger.\notag
+\qquad &Y=Y^\dagger.\notag
 \end{align}
  \end{minipage}
 \end{center}
 \begin{enumerate}
-\item[(a)] Show that it is always the case that $\alpha \leq \beta$. This condition is called \emph{weak duality}.
-\item[(b)] Remember that the inequality $M\geq N$, for $M,N$ Hermitian $d\times d$ matrices, is always taken to mean $M-N\geq 0$, or equivalently all eigenvalues of $(M-N)$ are non-negative. What does the condition $M \leq \lambda \Id$, for some fixed Hermitian $M\in M_d(\C)$ and $\lambda\in \mathbb{R}$, mean on the eigenvalues of $M$? 
-\item[(c)] Express the problem of computing the largest eigenvalue $\lambda_1(M)$ of a given $d\times d$ Hermitian matrix $M$ in the form of a \emph{dual problem} as above. That is, specify the map $\Phi$ (via the matrices $K_i$) and the matrices $A$ and $B$ such that $\beta = \lambda_1(M)$. Write the primal problem. Show that, in this case, its optimum $\alpha = \beta$. 
-\item[(d)] Suppose given a Hermitian matrix $M$ that is the difference of two density matrices, $M=\rho-\sigma$. Express the problem of computing $\|M\|_{tr} = \frac{1}{2}\|M\|_1$ in the form of a \emph{primal problem} as above. That is, specify the map $\Phi$ and the matrices $A$ and $B$ such that $\alpha = \|M\|_{tr}$. Write the dual problem. Show that, in this case, its optimum $\beta = \alpha$. 
+\item[(a)](*, $\blacklozenge$) Show that it is always the case that $\alpha \leq \beta$. This condition is called \emph{weak duality}.
+\item[(b)](*, $\blacklozenge$) Remember that the inequality $M\geq N$, for $M,N$ Hermitian $d\times d$ matrices, is always taken to mean $M-N\geq 0$, or equivalently all eigenvalues of $(M-N)$ are non-negative. What does the condition $M \leq \lambda \Id$, for some fixed Hermitian $M\in \mathbb{C}^{d \times d}$ and $\lambda\in \mathbb{R}$, mean on the eigenvalues of $M$? 
+\item[(c)](*, $\blacklozenge$) Express the problem of computing the largest eigenvalue $\lambda_1(M)$ of a given $d\times d$ Hermitian matrix $M$ in the form of a \emph{dual problem} as above. That is, specify the map $\Phi$ (via the matrices $K_i$ and numbers $\nu_i$) and the matrices $A$ and $B$ such that $\beta = \lambda_1(M)$. Write the primal problem. Show that, in this case, its optimum $\alpha = \beta$. 
+\item[(d)](*) Suppose given a Hermitian matrix $M$ that is the difference of two density matrices, $M=\rho-\sigma$. Express the problem of computing $\|M\|_{tr} = \frac{1}{2}\|M\|_1$ in the form of a \emph{primal problem} as above. That is, specify the map $\Phi$ and the matrices $A$ and $B$ such that $\alpha = \|M\|_{tr}$. Write the dual problem. Show that, in this case, its optimum $\beta = \alpha$. 
 \item[(e)] Suppose you are given one of $k$ possible density matrices, $\rho_1,\ldots,\rho_k$, each with a priori probability $p_1,\ldots,p_k$ respectively. Your goal is to find the optimal guessing measurement: this is the $k$-outcome POVM which maximizes your chances of producing the index $j\in\{1,\ldots,k\}$, given one copy of $\rho_j$ (which is assumed to occur with probability $p_j$). First express this problem as an optimization problem, and then show that it can be written in the form of a primal or dual semidefinite program.
 \end{enumerate}
 It turns out that in many cases (essentially all ``well-behaved'' cases) the optimum of the primal problem of a semidefinite program equals the optimum of the dual problem. This is useful for several reasons. First of all, note how the primal is a maximization problem, while the dual is a minimization problem. Therefore any feasible solution (a candidate solution that satisfies all the constraints) to the primal provides a lower bound on the optimum, while a feasible solution to the dual provides an upper bound. The fact that they are equal shows that one can get tight bounds in this way. In addition, formulating a problem in, say, primal form, and then looking at the dual formulation, can provide useful insights on the problem. We will see examples of this later on in the course, when we discuss the relation between ``guessing probability'' and ``conditional min-entropy''. 
