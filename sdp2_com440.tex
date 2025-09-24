@@ -1,0 +1,289 @@
+\documentclass[11pt, letterpaper]{article}
+%\pdfoutput=1
+
+%%% Basics
+\usepackage{fullpage} % letter paper and margins
+\usepackage{xspace,xcolor,graphicx,tabularx} %basic enhancements
+\usepackage{mathtools,amsthm,amssymb} %basic maths packages
+\usepackage{enumitem} %better lists
+\setenumerate[0]{label={\normalfont (\roman*)}}
+
+
+%%% Typesetting and fonts
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+\usepackage[scaled=0.86]{helvet}
+\usepackage{mathptmx}
+\DeclareMathAlphabet{\mathcal}{OMS}{ntxm}{m}{n}
+\usepackage{dsfont} %double stroke font
+\let\mathbb\relax
+\let\mathbb\mathds
+\usepackage{stmaryrd} %extra symbols
+% adjust paragraph spacing slightly
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2.25ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+\interfootnotelinepenalty=10000
+
+
+%%% Author list and affiliation
+\usepackage{authblk}
+\renewcommand*{\Affilfont}{\small}
+
+
+%%% Links and references
+\definecolor{linkblue}{HTML}{001487}
+\usepackage[colorlinks=true,allcolors=linkblue]{hyperref}
+\usepackage{url}
+\usepackage{cleveref}
+%\usepackage[nameinlink,capitalize,noabbrev]{cleveref}
+%\crefname{enumi}{Step}{Steps}
+
+
+%%% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{exercise}[theorem]{Exercise}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{protocol}{Protocol}
+\numberwithin{equation}{section}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+
+%%% Basic maths abbreviations
+%Symbols
+\newcommand{\setft}[1]{\textnormal{#1}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\1}{\mathbb{1}}
+\newcommand{\id}{\setft{id}}
+\newcommand{\C}{\ensuremath{\mathds{C}}}
+\newcommand{\N}{\ensuremath{\mathds{N}}}
+\newcommand{\R}{\ensuremath{\mathds{R}}}
+\newcommand{\Z}{\ensuremath{\mathds{Z}}}
+\newcommand{\F}{\ensuremath{\mathds{F}}}
+\newcommand{\bits}{\ensuremath{\{0, 1\}}}
+
+%Operators
+\newcommand{\ot}{\ensuremath{\otimes}}
+\newcommand{\deq}{\coloneqq}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\tr}{\mathrm{Tr}}
+%\newcommand{\tr}[1]{\mathrm{Tr}\!\left[ #1 \right]}
+\newcommand{\ptr}[2]{\mathrm{Tr}_{#1}\!\left[ #2 \right]}
+\newcommand{\pr}[1]{\mathrm{Pr}\!\left[ #1 \right]}
+\newcommand{\prs}[2]{\mathrm{Pr}_{#1}\!\left[ #2 \right]}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator{\pos}{Pos}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\negl}{negl}
+\DeclareMathOperator{\supp}{\setft{supp}}
+\DeclareMathOperator{\img}{img}
+\DeclareMathOperator{\E}{\mathds{E}}
+\def\I{\mathds{1}}
+\newcommand{\herm}[1]{\setft{Herm}\left(#1\right)}
+
+%Words
+\newcommand{\sth}{{\setft{~s.t.~}}}
+\newcommand{\tand}{\;\textnormal{~and~}\;}
+\newcommand{\wrt}{\quad {\rm ~~w.r.t.~~}}
+
+
+%%% Quantum notation
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\proj}[1]{\ket{#1}\!\bra{#1}}
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1 \delimsize\vert #2}
+\newcommand{\cp}{\setft{CP}}
+\newcommand{\cptp}{\setft{CPTP}}
+
+\newcommand{\density}[1]{\setft{D}\left(#1\right)}
+\newcommand{\lin}[1]{\setft{L}\left(#1\right)}
+\newcommand{\reg}[1]{\mathsf{#1}}
+
+\def\X{\mathcal{X}}
+\def\Y{\mathcal{Y}}
+
+\bibliographystyle{alpha}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+
+
+\begin{document}
+
+
+\Header{COM-440, Introduction to Quantum Cryptography, Fall 2025 \\[3mm] \large Security of Wiesner's scheme}
+
+
+\section{An SDP formulation of simple counterfeiting
+  attacks \label{sec:counterfeit-sdp}} 
+
+We describe how the optimal success probability of a counterfeiting
+strategy may be represented by a
+semidefinite program.
+
+\subsection{A mathematical expression for the optimal counterfeiting strategy}
+
+Mathematically speaking, a simple counterfeiting attack is described
+by a quantum channel $\Phi$  with input from $\reg{X}$, a $2$-dimensional register containing the challenger's single-qubit money state,
+and output in $(\reg{Y}_1,\reg{Y}_2)$ two $2$-dimensional registers that should contain the two copies. This channel takes a state
+$\rho\in\density{\X}$ to a state
+$\Phi(\rho)\in\density{\Y_1\otimes\Y_2}$, where $\density{\cdot}$ denotes the set of density matrices on some register.
+
+In order to be physically realizable, at least in an idealized sense,
+the channel $\Phi$ must correspond to a completely positive and trace
+preserving linear mapping of the form 
+$\Phi: \lin{\X}\rightarrow\lin{\Y_1\otimes\Y_2}$.
+Conditioned on the bank having chosen the key $k$ and prepared the money state $\ket{\psi_k}$, the probability of
+success for an attack described by $\Phi$ is given by
+$\bra{\psi_k \otimes \psi_k} \Phi(\ket{\psi_k}\bra{\psi_k})
+\ket{\psi_k\otimes\psi_k}$.
+Averaging over the possible choices of $k$, 
+%upon which $\Phi$ may not depend because the counterfeiter has no
+%knowledge of the note's key, 
+ the overall success probability of a counterfeiting
+attack is
+\begin{equation} 
+  \label{eq:probability-to-counterfeit}
+  \sum_{k = 1}^N p_k
+  \bra{\psi_k \otimes \psi_k} \Phi(\ket{\psi_k}\bra{\psi_k})
+  \ket{\psi_k\otimes\psi_k}.
+\end{equation}
+The optimal success probability of a counterfeiting
+strategy is then the supremum of the probability
+\eqref{eq:probability-to-counterfeit}, taken over all valid channels $\Phi:
+\lin{\X}\rightarrow\lin{\Y_1\otimes\Y_2}$.
+
+\subsection{Reformulation using the Choi-Jamiolkowski representation}
+
+Let us see how to model this as a semidefinite program. 
+We first choose a standard basis $\{\ket{1},\ldots,\ket{d}\}$,
+shared by the spaces $\X$, $\Y_1$, and $\Y_2$.
+With respect to this basis, the 
+\emph{Choi-Jamio{\l}kowski representation} of a linear mapping
+$\Phi:\lin{\X}\rightarrow\lin{\Y_1\otimes\Y_2}$ is defined as
+\[
+J(\Phi) = \sum_{1\leq i,j\leq d} \Phi(\ket{i}\bra{j}) \otimes
+\ket{i}\bra{j}\,\in\,\lin{\Y_1\otimes\Y_2\otimes\X}.
+\]
+The operator $J(\Phi)$ uniquely determines $\Phi$, and a well-known
+necessary and sufficient condition for $J(\Phi)$ to represent a valid 
+channel (i.e., a completely positive and trace-preserving map) is that
+(i) $J(\Phi)$ is positive semidefinite, and 
+(ii) $\tr_{\Y_1\otimes\Y_2}(J(\Phi)) = \I_{\X}$.
+It is also  easy to verify that
+\[
+\bra{\phi} \Phi(\ket{\psi}\bra{\psi}) \ket{\phi}
+= \bra{\phi \otimes \overline{\psi}} J(\Phi)\ket{\phi \otimes
+  \overline{\psi}}
+\]
+for any choice of vectors $\ket{\psi}\in\X$ and
+$\ket{\phi}\in\Y_1\otimes\Y_2$, with
+complex conjugation taken with respect to the standard basis.
+
+\subsection{The semidefinite program}
+
+Combining the observations that have just been made with the
+expression \eqref{eq:probability-to-counterfeit}, one finds that the
+optimal success probability of any simple counterfeiting strategy is
+given by the following semidefinite program:\vspace{2mm}
+\begin{center}
+\begin{minipage}{0.5\textwidth}
+  \centerline{\underline{Primal problem}}\vspace{-6mm}
+  \begin{align*}
+    \text{maximize:}\;\; & \tr(Q X)\\
+    \text{subject to:}\;\; & \tr_{\Y_1\otimes\Y_2}(X) = \I_{\X}\\
+    & X\in\pos{\Y_1\otimes\Y_2\otimes\X}
+  \end{align*}
+\end{minipage}\hspace*{5mm}
+\begin{minipage}{0.4\textwidth}
+  \centerline{\underline{Dual problem}}\vspace{-6mm}
+  \begin{align*}
+    \text{minimize:}\;\; & \tr(Y)\\
+    \text{subject to:}\;\; & \I_{\Y_1\otimes\Y_2}\otimes Y \geq Q\\
+    & Y \in \herm{\X}
+  \end{align*}
+\end{minipage}
+\end{center}
+where
+\[
+Q = \sum_{k = 1}^N p_k
+\ket{\psi_k \otimes \psi_k \otimes \overline{\psi_k}}
+\bra{\psi_k \otimes \psi_k \otimes \overline{\psi_k}}.
+\]
+
+The dual problem is obtained from the primal problem in a routine way,
+as described in the notes from last week. 
+It may be verified that for this particular semidefinite program, the
+optimal values for the primal and dual problems are always equal, and
+are both achieved by feasible choices for $X$ and $Y$.
+
+\subsection{Analysis of Wiesner's original scheme}
+
+We can now determine the optimal success probability of a
+counterfeiting attack against Wiesner's original scheme, by
+considering just the single-qubit scheme given by the ensemble 
+$\mathcal{E} = 
+\left\{
+\left(\frac{1}{4}, \, \ket{0}\right),
+\left(\frac{1}{4}, \, \ket{1}\right),f
+\left(\frac{1}{4}, \, \ket{+}\right),
+\left(\frac{1}{4}, \, \ket{-}\right)
+\right\}$.
+This ensemble yields the operator 
+\[
+Q =  
+\frac{1}{4} \left( \ket{000} \bra{000} + \ket{111}\bra{111} +  
+\ket{+++} \bra{+++}  + \ket{---} \bra{---}   \right)
+\]
+in the semidefinite programming formulation.
+We claim that the optimal value of the semidefinite program in this
+case is equal to 3/4. To
+show this we exhibit explicit primal and dual feasible
+solutions achieving the value $3/4$. For the primal problem
+ the value 3/4 is obtained by the solution
+$X = J(\Phi)$ for $\Phi$ being the channel
+\setlength{\arraycolsep}{4pt}
+%\[
+% X = 
+%\frac{1}{12}
+% \begin{pmatrix}
+%    9 & 0 & 0 & 3 & 0 & 3 & 3 & 0 \\[1mm]
+%    0 & 1 & 1 & 0 & 1 & 0 & 0 & 3 \\[1mm]
+%    0 & 1 & 1 & 0 & 1 & 0 & 0 & 3 \\[1mm]
+%    3 & 0 & 0 & 1 & 0 & 1 & 1 & 0 \\[1mm]
+%    0 & 1 & 1 & 0 & 1 & 0 & 0 & 3 \\[1mm]
+%    3 & 0 & 0 & 1 & 0 & 1 & 1 & 0 \\[1mm]
+%    3 & 0 & 0 & 1 & 0 & 1 & 1 & 0 \\[1mm]
+%    0 & 3 & 3 & 0 & 3 & 0 & 0 & 9
+%   \end{pmatrix},
+%\]
+%The channel $\Phi$ represented by this solution is given by
+$\Phi(\rho) = A_0 \rho A_0^{\ast} + A_1 \rho A_1^{\ast}$, where
+\[
+A_0 = \frac{1}{\sqrt{12}}
+\begin{pmatrix} 3 & 0 \\ 0 & 1 \\  0 & 1 \\ 1 & 0 \end{pmatrix}
+\qquad\text{and}\qquad
+A_1 =  \frac{1}{\sqrt{12}}
+\begin{pmatrix} 0 & 1 \\ 1 & 0 \\  1 & 0 \\ 0 & 3 \end{pmatrix}.
+\]
+For the dual problem, the value 3/4 is obtained by the solution
+$Y = \frac{3}{8}\I$, whose feasibility may be verified by computing
+$\norm{Q} = 3/8$.
+
+
+
+\end{document}
