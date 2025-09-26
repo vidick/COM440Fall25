@@ -60,6 +60,32 @@ Recall the definition of the EPR pair,
 Prove rigorously that there does not exist two single-qubit states $\ket{\psi}$ and $\ket{\phi}$ such that $\ket{\mathrm{EPR}} = \ket{\psi} \otimes \ket{\phi}$. \emph{[Hint: Reason by contradiction. Expand everything in the standard basis.]}
 
 
+\item {\bf A three-player game}
+
+We learned about the CHSH game in class. In this problem we'll explore another nonlocal game, this time with \emph{three players} (called Alice, Bob and Charlie).
+
+The referee chooses three bits $(x,y,z)$ uniformly at random from the set $\{ (0,0,0), (0,1,1), (1,1,0), (1,0,1) \}$. Alice gets $x$, Bob gets $y$, and Charlie gets $z$. They respond with bits $a,b,c \in \{0,1\}$, respectively, and they win if $a \oplus b \oplus c = x \vee y \vee z$. 
+\begin{enumerate}
+\item Suppose that Alice, Bob, and Charlie use a classical strategy. Compute their maximum winning probability.
+\item Suppose that Alice, Bob and Charlie share the tripartite entangled state 
+% \[
+%     \ket{\psi} = \frac{1}{\sqrt{2}} \Big ( \ket{0} \otimes \ket{0} \otimes \ket{0} + \ket{1} \otimes \ket{1} \otimes \ket{1} \Big).
+% \]
+\[
+    \ket{\psi} = \frac{1}{2} \Big( \ket{000} - \ket{011} - \ket{101} - \ket{110} \Big) \;.
+\]
+If a player gets question $0$, they measure their qubit in the standard basis (i.e., measures the $Z$ observable) and output their answer. If they get question $1$, they measure their qubit using the $X$ observable and output their answer.\footnote{Recall the Pauli observables
+\[
+     I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}, \qquad X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \qquad Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} \qquad Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}\;.
+\]
+}
+
+Show that this strategy wins this nonlocal game with probability $1$.
+\item Is $\ket{\psi}$ maximally entangled between Alice and Bob (or between any pair of players)? 
+\end{enumerate}
+
+
+
 \item {\bf Robustness of GHZ and W States}\label{ex:robust-GHZ}\\
 In this problem we explore two classes of $N$-qubit states that are especially useful for cryptography and communication, but behave very differently under tracing out a single qubit. Let's first define them for $N=3$:
 \begin{align*}

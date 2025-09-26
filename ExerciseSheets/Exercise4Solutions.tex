@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 4}
+
+
+\begin{enumerate}
+
+\item \textbf{Tsirelson's bound via sum of square decompositions. }
+\begin{enumerate}
+\item We can observe that, for example, 
+\begin{align*}
+\bra{\psi} A_0 B_0 \ket{\psi} &=\bra{\psi} (A_0^+-A_0^-) (B_0^+-B_0^-) \ket{\psi}\\
+&= \Pr\big((a_0,b_0)=(0,0) | (x,y)=(0,0)\big)+\Pr\big((a_0,b_0)=(1,1) | (x,y)=(0,0)\big)\\
+&\quad - \Pr\big((a_0,b_0)=(0,1) | (x,y)=(0,0)\big)-\Pr\big((a_0,b_0)=(1,0) | (x,y)=(0,0)\big) \\
+&= \Pr\big(a_0\oplus b_0=0 | (x,y)=(0,0)\big) - \Pr\big(a_0\oplus b_0=1 | (x,y)=(0,0)\big)\\
+&= 2\Pr\big(WIN| (x,y)=(0,0)\big)-1\;,
+\end{align*}
+where for the last line we used 
+\[ \Pr\big(a_0\oplus b_0=0 | (x,y)=(0,0)\big) + \Pr\big(a_0\oplus b_0=1 | (x,y)=(0,0)\big)= 1 \;.\]
+Performing a similar calculation for the three other terms gives the result. 
+\item By expanding the squares we get 
+\begin{align*}
+P^2 = I + \frac{1}{2}\big(2I+B_0B_1+B_1B_0\big) -\frac{2}{\sqrt{2}}A_0(B_0+B_1)\;,\\
+Q^2 = I + \frac{1}{2}\big(2I-B_0B_1-B_1B_0\big) -\frac{2}{\sqrt{2}}A_1(B_0-B_1)\;.
+\end{align*}
+Summing the two expressions, we get the desired relation. 
+\item From part (b) it then follows that 
+\[ 0\leq \bra{\psi}(P^2+Q^2)\ket{\psi} = 4 \bra{\psi}\psi\rangle - \sqrt{2}\bra{\psi}C\ket{\psi}\;.\]
+Since $\bra{\psi}\psi\rangle=1$, using the expression for $p_{succ}$ given in part (a) be obtain Tsirelson's bound. 
+\end{enumerate}
+
+\item \textbf{A monogamy bound on 2-out-of-3 CHSH. }
+\begin{enumerate}
+\item It doesn't work, because Bob doesn't know ahead of time if he will play CHSH with Alice or with Charlie. He can share an EPR pair with each of them, but he doesn't know which qubit to measure to return his result. 
+\item[(b)] We obtain 
+\[p_{succ} = \frac{1}{2} + \frac{1}{16}\big( \bra{\psi} C_{AB}\ket{\psi} + \bra{\psi} C_{BC}\ket{\psi}\big)\;.\]
+\item[(c)] This identity can be verified by direct calculation. 
+\item[(d)] We obtain the bound $p_{succ}\leq \frac34$. This is the same success probability obtained by the  classical strategy where all players answer $0$ all the time. 
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
