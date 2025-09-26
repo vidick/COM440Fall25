@@ -1,0 +1,53 @@
+% !TeX root = ../main_only_solutions.tex
+
+\newcommand{\Es}[1]{\ensuremath{\mathop{\textsc{E}}}_{#1}}
+
+\chapter{Further Topics around Encryption}
+
+\begin{exercises}
+
+
+\item {\bf Approximate encryption from small-bias spaces}
+\begin{enumerate}
+\item For any $u,v$ and $k_1,k_2$ we have
+\begin{align*}
+\Tr\big(X^u Z^v X^{k_1} Z^{k_2} \rho (X^{k_1}Z^{k_2})^\dagger \big)
+&= (-1)^{u\cdot k_2 + v\cdot k_1} \Tr\big(X^{k_1} Z^{k_2} X^u Z^v  \rho Z^{k_2} X^{k_1} \big)\\
+&= (-1)^{u\cdot k_2 + v\cdot k_1} \Tr\big( X^u Z^v  \rho \big)
+\end{align*}
+Here the second line uses that anti-commutation relation $X^u Z^{k_2} = (-1)^{u\cdot k_2} Z^{k_2} X^u$, and the last line uses cyclicity of the trace and $X^2=Z^2=\id$. Using the definition of $\mE(\rho)$, we get the desired result. 
+\item This follows immediately from the previous question and the definition of a biased set. 
+\item We expand 
+\[ A = \frac{1}{2^n}\sum_{u,v\in\{0,1\}^n} \Tr(X^uZ^v A) Z^v X^u\;.\]
+This equality can be verified by evaluating $\Tr(X^{u'} Z^{v'} \cdot)$ on both sides and observing that we get the same result. Replacing the right-hand side in $\Tr(A^\dagger A)$ and expanding the sum, we get the desired result. 
+\item Applying 3., we get
+\begin{align*}
+\Tr(\mE(\rho)^2) &= \frac{1}{2^n} \sum_{u,v} \big|\Tr\big(X^u Z^v \mE(\rho)\big)\big|^2\\
+&\leq \frac{1}{2^n} + \delta^2 \sum_{(u,v)\neq (0,0)} \big|\Tr(X^u Z^v \rho)\big|^2\\
+&\leq \frac{1}{2^n} + \delta^2 \Tr(\rho^2)\;.
+\end{align*}
+Here the second line is by question 2, and the last uses question 3 again. 
+
+To show the bound on $\Tr(\rho^2)$, we write
+\begin{align*}
+D(\rho,2^{-n}\id)^2 &\leq 2^{n} \big\|\rho-2^{-n}\id\big\|_2^2\\
+&= 2^{n}\big(\Tr(\rho^2)- 2^{-n}\big)\\
+&\leq \eps\;.
+\end{align*}
+Here the first line uses the definition of $D(\cdot,\cdot)$ as a norm (see Theorem 5.1.1 in the book) and the Cauchy-Schwarz inequality (see Box 6.3 in the book), and the last line uses the assumption on $\Tr(\rho^2)$. 
+\item If $\delta = \eps/2^{n/2}$ then by the previous question $D(\mE(\rho),2^{-n}\id)\leq \eps$, which is the criterion for $\eps$-security. 
+\item For our choice of $\delta$, we need $(2n)^2 2^n/\eps^2$ keys. This is a near-quadratic improvement over the one-time pad, which requires $2^{2n}$. 
+\end{enumerate}
+
+
+\item {\bf Uncertainty relation}
+\begin{enumerate}
+\item $\Hmin(Z_A|E)=0$ means that Eve can perfectly predict the outcome of a standard basis measurement on qubit $A$, given her qubit $E$. If the outcome of the measurement is $0$, then Eve's qubit is $\ket{u_0}_E$, and if the outcome is $1$, then Eve's qubit is $\ket{u_1}_E$. These two states are perfectly distinguishable if and only if they are orthogonal. 
+\item Since in this example, Bob has a classical bit that is not correlated with $A$, $H_{\textrm{max}}(X_A|B)$ is simply $\log((\sum_x \sqrt{\Pr(X_A=x)})^2)$. Here we have 
+\[ \Pr(X_A=0) = \Big\|\frac{1}{\sqrt{2}}\alpha \ket{u_0}+\frac{1}{\sqrt{2}}\beta\ket{u_1}\Big|^2 = \frac{1}{2}|\alpha|^2 + \frac{1}{2}|\beta|^2 =\frac{1}{2}\;,\]
+where the second equality uses the orthogonality of $\ket{u_0}$ and $\ket{u_1}$. Similarly, $\Pr(X_A=1)=\frac{1}{2}$. Therefore, $H_{\textrm{max}}(X_A|B)=\log(2)=1$. 
+\item $\Hmin(Z_A|E)=1$ means that Eve has no information about the outcome of a standard basis measurement on the qubit $A$. Therefore, the two states $\ket{u_0}$ and $\ket{u_1}$ must be indistinguishable, i.e.\ they are equal up to a global phase. 
+\item First we can consider the state $\ket{\psi}_{AE} = \ket{+}\ket{u}$. In this case, $\ket{u_0}=\ket{u_1}=\ket{u}$ are parallel. Moreover, since a measurement of $A$ in the Hadamard basis deterministically returns the outcome $0$, we have $H_{\textrm{max}}(X_A|B)=0$. To get $H_{\textrm{max}}(X_A|B)=1$ we set $\ket{\psi}_{AE}=\ket{0}\ket{0}$. In this case $\ket{u_0}=\ket{u_1}=\ket{0}$ (but $\beta=0$). Since a measurement of qubit $A$ in the Hadamard basis returns a uniformly random bit, 
+the same calculation for $H_{\textrm{max}}(X_A|B)$ as in question 2 applies and so $H_{\textrm{max}}(X_A|B)=1$. 
+\end{enumerate}
+\end{exercises}

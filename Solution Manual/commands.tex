@@ -1,0 +1,198 @@
+\newcommand{\bra}[1]{\ensuremath{\left\langle#1\right\rvert}}
+\newcommand{\ket}[1]{\ensuremath{\left\lvert#1\right\rangle}}
+\newcommand{\ketbra}[2]{\ensuremath{| #1\rangle\!\langle #2 |} }
+\newcommand{\braket}[2]{\ensuremath{\left\langle#1 \vphantom{#2}\middle|  #2 \vphantom{#1}\right\rangle}}
+\newcommand{\id}{\mathbb{I}}
+\newcommand{\proj}[1]{\ketbra{#1}{#1}} % proj, |><|
+% inproduct, < | >
+\newcommand{\dens}[1]{\proj{#1}}
+
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\mK}{\mathcal{K}}
+\newcommand{\Enc}{ {\rm Enc} }
+\newcommand{\Dec}{ {\rm Dec} }
+\newcommand{\Gen}{ {\rm Gen} }
+\newcommand{\Del}{ {\rm Del} }
+\newcommand{\VerDel}{ {\rm VerDel} }
+
+
+\newcommand{\poly}{ {\rm poly} }
+\newcommand{\CNOT}{ {\rm CNOT } }
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\ran}{\rangle}
+\newcommand{\lan}{\langle}
+\newcommand{\im}{\mathbbmss{1}}
+\newcommand{\idop}{\mathcal{I}}
+\newcommand{\mI}{\mathcal{I}}
+
+\newcommand{\nullmat}{\mathbf{0}}
+\newcommand{\fid}{\mathcal{F}}
+%\newcommand{\Cn}{\mathbb{C}}
+\newcommand{\re}{\mathop{\mathbb{R}}\nolimits}
+\newcommand{\natnum}{\mathop{\mathbb{N}}\nolimits}
+%\newcommand{\esp}{\mathbb{E}}
+\newcommand{\cov}{\mathop{\mathrm{Cov}} \nolimits}
+\newcommand{\var}{\mathop{\mathrm{Var}} \nolimits}
+\newcommand{\mse}{\mathop{\mathrm{MSE}} \nolimits}
+\newcommand{\rlprt}{\mathop{\mathrm{Re}} \nolimits}
+\newcommand{\fair}{\textup{fair}}
+\newcommand{\unfair}{\textup{unfair}}
+\newcommand{\nth}{\mathrm{th}}
+\newcommand{\imprt}{\mathop{\mathrm{Im}}\nolimits}
+\newcommand{\tr}{\mathop{\mathrm{tr}}\nolimits}
+\newcommand{\Tr}{\mathop{\mathrm{tr}}\nolimits}
+\newcommand{\eval}[2]{\left. #1 \right \arrowvert _{#2}}
+\newcommand{\norm}[1]{\left\| #1\right \|}
+\newcommand{\smalloh}{\mathrm{o}}
+\newcommand{\bigoh}{\mathrm{O}}
+\newcommand{\pr}{\prime}
+\newcommand{\di}{\text{d}}
+\newcommand{\trans}[1]{#1^{\top}}
+\newcommand{\iu}{i}
+\newcommand{\vc}[1]{#1}				% VECTORS
+\newcommand{\abs}[1]{\left|#1 \right|}				% ABS
+\newcommand{\der}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\upa}{\uparrow}
+\newcommand{\dna}{\downarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\hil}{\mathcal{H}}
+\newcommand{\kil}{\mathcal{K}}
+\newcommand{\allrhos}{\mathcal{M}}
+\newcommand{\allrhosin}[1]{\mathcal{S}(#1)}
+\newcommand{\pop}[1]{\mathcal{M}_{+}(#1)}
+\newcommand{\cpmap}{\mathcal{E}}
+\newcommand{\uop}{\mathcal{U}}
+\newcommand{\su}{\mathfrak{su}}
+\newcommand{\finproof}{$\Box$}
+\newcommand{\textmath}{}
+\newcommand{\wt}{\widetilde}
+\newcommand{\wavyline}[3]{
+	\multiput(#1,#2)(4,0){#3}{
+		\qbezier(0,0)(1,1)(2,0)
+		\qbezier(2,0)(3,-1)(4,0)}}
+\newcommand{\spann}{\mathop{\mathrm{span}}\nolimits}  %%% Space spanned by a set of vectors.
+
+\newcommand{\allsigmasin}[1]{\tilde{\mathcal{S}}(#1)}
+\newcommand{\instr}{\mathcal{N}}
+\newcommand{\dfdas}{\stackrel{\textrm{\tiny def}}{=}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}\nolimits}
+\newcommand{\bin}{\textrm{Bin}}
+\newcommand{\topr}{\stackrel{P}{\to}}
+\newcommand{\todst}{\stackrel{D}{\to}}
+\newcommand{\lil}{\mathcal{L}}
+\newcommand{\myabstract}[1]{\begin{quote}{\small  #1 }\end{quote}}
+\newcommand{\myacknowledgments}{\begin{center}{\bf Acknowledgments}\end{center}\par}
+\newcommand{\otherfid}{\mathsf{F}}
+\newcommand{\mypacs}[1]{\begin{flushleft} {\small PACS numbers: #1}\end{flushleft}}
+\newcommand{\basedon}[1]{\begin{flushleft} {\small This chapter is based on #1.}\end{flushleft}}
+\newcommand{\onbased}[1]{\begin{flushleft} {\small  #1 is based on this chapter.}\end{flushleft}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\note}[1]{\textsc{#1} $\clubsuit$}
+\newcommand{\co}{\textrm{co}}
+%%%%%%%%%%%%%% Greek Letters %%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\eg}{\epsilon}
+\newcommand{\zg}{\theta}
+\newcommand{\ag}{\alpha}
+\newcommand{\bg}{\beta}
+\newcommand{\dg}{\delta}
+\newcommand{\mc}{\mathcal}
+
+\def\Real{\mathbb{R}}
+%\def\Complex{\mathbb{C}}
+\def\Natural{\mathbb{N}}
+\def\id{\mathbb{I}}
+\def\Id{\mathbb{I}}
+
+\def\01{\{0,1\}}
+\newcommand{\ceil}[1]{\lceil{#1}\rceil}
+\newcommand{\floor}[1]{\lfloor{#1}\rfloor}
+\newcommand{\eps}{\varepsilon}
+%\newcommand{\ket}[1]{|#1\rangle}
+%\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\outp}[2]{|#1\rangle\langle#2|}
+%\newcommand{\ketbra}[2]{|#1\rangle\langle#2|}
+
+
+\newcommand{\rank}{\operatorname{rank}}
+
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{fact}{Fact}
+\newtheorem{protocol}{Protocol}
+%\newtheorem{lemma}{Lemma}
+
+
+\newtheorem{lemmaApp}{Lemma A.}
+\newtheorem{corollaryApp}{Corollary A.}
+%\newtheorem{example}{Example}
+
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\mY}{\mathcal{Y}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mE}{\mathcal{E}}
+
+\newenvironment{sdp}[2]{
+	\smallskip
+	\begin{center}
+		\begin{tabular}{ll}
+			#1 & #2\\
+			subject to
+		}
+		{
+		\end{tabular}
+	\end{center}
+	\smallskip
+}
+
+\newcommand{\epr}{{\rm EPR}}
+\newcommand{\ghz}{{\rm GHZ}}
+
+%\newcommand{\tnote}[1]{\textcolor{magenta}{\small {\textbf{(Thomas:} #1\textbf{) }}}}
+%\newcommand{\C}{\mathbb{C}}
+
+
+\newcommand{\ens}{\mathcal{E}}
+\newcommand{\Y}{|\mY|}
+\newcommand{\vrx}{\vec{\rho}_X}
+\newcommand{\vrz}{\vec{\rho}_Z}
+\newcommand{\vry}{\vec{\rho}_Y}
+\newcommand{\setS}{\mathcal{S}}
+\newcommand{\setX}{\mathcal{X}}
+\newcommand{\setR}{\mathcal{R}}
+\newcommand{\setY}{\mathcal{Y}}
+\newcommand{\setE}{\mathcal{E}}
+\newcommand{\setC}{\mathcal{C}}
+\newcommand{\unif}{ {\rm unif} }
+
+\newcommand{\hmin}{{\rm H}_{\rm min}}
+\newcommand{\Hmin}{H_{\textnormal{min}}}
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\newcommand{\realKE}{\rho_{KE}^{\rm real}}
+\newcommand{\idealKE}{\rho_{KE}^{\rm ideal}}
+\newcommand{\idealQKD}{\frac{\id}{2^n} \otimes \rho_E}
+
+\newcommand{\Ext}{\ensuremath{\mathrm{Ext}}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Pg}{P_{\rm guess}}
+\newcommand{\CHSH}{\rm CHSH}
+
+\newcommand{\dya}[1]{\ket{#1}\!\bra{#1}}
+\newcommand{\dyad}[2]{\ket{#1}\!\bra{#2}}
+\newcommand{\matwo}[4]{\left( \begin{array}{cc}#1& #2 \\ #3 &#4 \end{array} \right)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\mathree}[9]{\left( \begin{array}{ccc}#1& #2&#3\\#4&#5&#6\\#7&#8&#9\end{array} \right)}
+% \newcommand{\dim}{\operatorname{dim}}
+
+
+
+% \newcommand{\matwo}[4]{\left( \begin{array}{cc}#1& #2 \\ #3 &#4 \end{array} \right)}
+
+% macro for including references to edX material (input: week number, lecture Number, lecture subtitle, URL link)
+%\newcommand{\edxlink}[4]{Week #1, Lecture #2,\href{#4}{#3} \\}
+\newcommand{\edxlink}[4]{}

@@ -1,0 +1,108 @@
+\chapter{}
+
+
+\begin{exercises}
+
+\item {\bf Trace distance}\\
+Imagine that Alice and Bob try to create a shared EPR pair $\ket{\epr}$. Sadly, they are not very good at this yet and instead they create the shared state
+\begin{equation}
+\rho_{AB} = (1-p)\ket{\epr}\bra{\epr} + \frac{p}{4} \id\;,
+\end{equation}
+where $0\leq p\leq 1$ is some noise parameter. What is the trace distance between this state and the ideal state $\proj{\epr}$, as a function of $p$?
+%\solopen{Note that the density matrices \(\dens{\epr}\) and \(\rho_{AB}\) commute. This means they are diagonal in the same basis. In particular in the Bell basis we have \[\dens{\epr} - \rho_{AB} = \begin{pmatrix} \frac{3p}{4} &0 &  0 & 0\\ 0 & \frac{-p}{4} & 0 & 0\\ 0&0 & \frac{-p}{4} & 0\\  0& 0& 0 & \frac{-p}{4}\end{pmatrix}\] From this the trace distance can be calculated as the sum of the absolute values of the diagonal elements.}
+% \begin{itemize}
+% \item $D(\Phi,\rho_{AB}) = \frac{1}{2}(1-p+\frac{p}{4})$
+% \item $D(\Phi,\rho_{AB}) = \frac{1}{2}(p\frac{6}{4})$
+% \item $D(\Phi,\rho_{AB}) = \frac{1}{2}((1-p)\frac{6}{4})$
+% \item $D(\Phi,\rho_{AB}) = \frac{1}{2}(\sqrt{(1-p)}\frac{6}{4} + \sqrt{p})$
+% \end{itemize}
+
+
+\item{\bf Min-entropy}\\
+Consider the following density matrices:
+\begin{statements}
+\item $\rho_X = \proj{00}$
+\item $\rho_X = \frac{1}{2}\proj{00} + \frac{1}{2}\proj{11}$
+\item $\rho_X = \frac{3}{4}\proj{0} + \frac{1}{4}\proj{1}$
+\item $\rho_X = \frac{3}{4}\proj{+} + \frac{1}{4}\proj{-}$
+\item $\rho_X = \frac{1}{4}\proj{00} + \frac{1}{4}\proj{11} + \left(\frac{1}{4} - \epsilon\right) \proj{01}  + \left(\frac{1}{4} + \epsilon\right) \proj{10}$
+\end{statements}
+ What is the min-entropy of each of them?
+%\solopen{It is not difficult to find eigenbases for each of these density matrices. Expressing the matrices in their eigenbases we can use the formula \(H_{min} = -\log(\lambda_{max})\) where \(\lambda_{max}\) is the largest eigenvalue of the density matrix.
+%\begin{statements}
+%\item $0$
+%\item $1$
+%\item $0.41$
+%\item $0.41$
+%\item $1.94$
+%\end{statements}}
+
+\item {\bf Guessing Game}\\
+Imagine that Alice and Eve play the following guessing game. In the game they initially share some state $\rho_{AE}$. Alice produces a uniformly random bit $\theta$. She measures her qubit in the standard basis if $\theta=0$ and measures in the Hadamard basis if $\theta=1$, obtaining a bit $x$ as measurement outcome. She then announces $\theta$ to Eve. Eve's goal is to guess the bit $x$. We know that Eve can guess perfectly if $\rho_{AE}$ is an EPR pair. Imagine that this is the case, so $\rho_{AE} = \proj{\epr}$. Alice wants to foil Eve so before measuring she first applies some random unitary $U$ to her qubit and then measures. Of course Eve, being really smart, gets wind of this so she will know what unitary Alice has used before measuring. Thus they share the state
+\begin{equation}
+\ket{\Phi_U} = (U_A\otimes \mathbf{1}_E)\frac{1}{\sqrt{2}}(\ket{00}+ \ket{11})\;,
+\end{equation}
+and Eve knows both $\theta$ and $U$.
+\begin{enumerate}
+\item What is the guessing probability of Eve? 
+%\solopen{Remember the following identity \[U\otimes \mathbf{1} \ket{\epr} = \mathbf{1}\otimes U^{T} \ket{\epr}\] This means that Eve can always compensate for the unitary \(U\) by applying the unitary \(V = {U^{T}}^{\dagger}\) to her part of the state. Hence she can play the game as if she and Alice share an EPR pair and hence the guessing probability is $1$.}
+% \begin{itemize}
+% \item $p_{guess} = D(\Phi, \Phi_U)$
+% \item $p_{guess} = \frac{1}{2} + \frac{1}{2}D(\Phi, \Phi_U)$
+% \item $p_{guess} = 1$
+% \item $p_{guess} = 1 - \frac{1}{2}D(\Phi, \Phi_U)$
+% \end{itemize}
+\item What if Eve does not know $U$? What is the state $\rho_{AE}$ and what is Eve's winning probability?
+\end{enumerate}
+
+\item {\bf Guessing with three bases}\\
+In this problem we investigate a slightly more complex version of the bipartite guessing game between Alice and Eve. In this game we assume that Eve can prepare a qubit state \(\ket{\psi}\) which she sends to Alice; Eve is not allowed to keep any quantum side information. Alice will  generate a uniform random number \(\theta \in \{0,1,2\}\). If \(\theta=0\) she measures in the standard basis, if \(\theta=1\) she measures in the Hadamard basis and if \(\theta=2\) she measures in the basis
+\[ |0_Y\rangle = \frac{1}{\sqrt{2}}(|0\rangle+ i|1\rangle),\hspace{5mm} |1_Y\rangle = \frac{1}{\sqrt{2}}(|0\rangle- i|1\rangle).\]
+In all three of the cases she obtains a bit \(x\). She then announces the value of \(\theta\) to Eve. Eve's goal is again to guess \(x\) knowing what state she prepared and the value of \(\theta\).
+Let's begin by calculating Eve's average winning probability when she gives Alice a few simple states.
+\begin{enumerate}
+\item What is Eve's probability of winning the game for the state $\ket{\psi}=\ket{0}$?
+%\solopen{
+%\begin{align}
+%p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+%&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+%&=\frac{1}{3}\left(1+\frac{1}{2}+\frac{1}{2} \right)=\frac{2}{3}
+%\end{align}
+%The solutions to the next question will explain why this works, but try to solve the next question without looking at the full solutions first.
+%}
+\item What is Eve's probability of winning the game for the state $\ket{\psi}=\ket{+}$?
+%\solopen{The average winning probability for this problem is given by \[p_{win} = \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2})\] and the winning probability given a value of \(\theta\) is given by the inner product squared between the state and the basis vector which maximises the winning probability of the basis corresponding to \(\theta\). For instance (for \(\ket{\psi} = \ket{0}\) we would have \[p_{win|\theta =0} = \abs{\inp{\psi}{0}}^2 = \abs{\inp{0}{0}}^2 = 1\] (note that \(\inp{0}{1}=0\) so picking the zero basis vector indeed maximises winning probability). In the case that $\ket{\psi}=\ket{+}$, we have:
+%\begin{align}
+%p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+%&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+%&=\frac{1}{3}\left(\frac{1}{2}+1+\frac{1}{2} \right)=\frac{2}{3}
+%\end{align}}
+\end{enumerate}
+Of course, these states do not yield an optimal winning probability even for the standard guessing game. Instead Eve now tries to play the game with the state that gave her the optimal winning probability for the standard guessing game, namely
+ \[|\psi\rangle = \frac{1}{\sqrt{2+\sqrt{2}}}(|0\rangle + |+\rangle)\]
+\begin{enumerate}
+\item[3.] What is Eve's probability of winning using this state?
+%\solopen{The calculation method is esentially the same as before, only the state is slightly more complicated. Don't forget to account for the third basis, which has a non-zero overlap with both \(\ket{0}\) and \(\ket{+}\).
+%\begin{align}
+%p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+%&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+%&=\frac{1}{3}\left(\left(\frac{1}{2}+\frac{1}{2\sqrt{2}}\right)+\left(\frac{1}{2}+\frac{1}{2\sqrt{2}}\right)+\frac{1}{2}\right) \\
+%&=\frac{1}{2}+\frac{1}{3\sqrt{2}}
+%\end{align}}
+\end{enumerate}
+Note that the winning probability for the "standard optimal state" is lower than it is in the standard game. This would suggest that there is a state that can perform even better.
+\begin{enumerate}
+\item[4.] Which of the following states has the highest winning probability?
+\begin{statements}
+    \item \(|\psi\rangle = \frac{1}{\sqrt{2+\sqrt{2}}}(|0\rangle + |0_Y\rangle)\)
+    \item \(|\psi\rangle = \frac{1}{\sqrt{4+2\sqrt{2}}}(|0\rangle +|+\rangle +|0_Y\rangle)\)
+    \item \(|\psi\rangle = \sqrt{\frac{3}{5}}(\sqrt{\frac{2}{3}}|0\rangle + \sqrt{\frac{1}{3}}|1_Y\rangle)\)
+\end{statements}
+%\solopen{\(|\psi\rangle = \frac{1}{\sqrt{4+2\sqrt{2}}}(|0\rangle +|+\rangle +|0_Y\rangle)\). You can check this with the same kind of calculations as done earlier in this problem.}
+\end{enumerate}
+It turns out that the state you found in the last question is optimal. Let's compare the winning probability of this "three bases" guessing game to the standard guessing game.
+\begin{enumerate}
+\item[5.] Is the maximal winning probability of the "three bases" guessing game \emph{lower} or \emph{higher} than that of the standard guessing game? Can you think of an intuitive reason for why this would be the case?
+%\solopen{The "three bases" guessing game has a lower maximal guessing probability for Eve than the standard guessing game. Intuitively this can be explained by us giving Alice more "incompatible" options. This makes it harder for Eve to find a state that has good overlap with all three vectors corresponding to the outcome "zero" in their respective bases.}
+\end{enumerate}
+\end{exercises}

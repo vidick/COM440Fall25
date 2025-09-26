@@ -1,0 +1,110 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Quantum Cryptography Using Untrusted Devices}
+
+\begin{exercises}
+
+
+\item {\bf BB'84 fails in the Device-Independent setting}
+\begin{enumerate}
+\item The post-measurement state can be found by applying the projection onto the $\ket 0$ state in Alice's system. The result is
+$$\sum_{z=0}^1\proj{0 z}_A\otimes \proj{0 z}_B\otimes \proj{0 z}_E\;.$$
+
+\item Bob's reduced state is $\frac12\proj{0,0} + \frac12\proj{0,1}$. The box measures the second qubit in the standard basis and therefore produces a uniformly random bit.
+
+\item Bob's reduced state is $\frac12\proj{0,0} + \frac12\proj{0,1}$. The box measures the first qubit in the standard basis and therefore always returns $0$.
+
+\item Eve obtains a $0$ as well.
+
+\item We saw in the previous questions that Alice and Bob pass the test on rounds where they both ask their box to measure in the standard basis. By symmetry, the same holds for rounds where they both ask their box to measure in the Hadamard basis. Therefore, they pass the test with probability 1.
+
+\item Measure qubit $\theta_j$ in the standard basis at all rounds $j\in T'$. We saw in the previous questions that on each two-qubit device, Eve will get the same outcome as Alice and Bob if they all choose the same qubit to measure.
+
+\item Eve can learn $X$ entirely, so $\Hmin(X\mid E) = 0$.
+\end{enumerate}
+
+
+\item {\bf Commuting observables are compatible}
+\begin{enumerate}
+\item $X\otimes X$ has eigenvalues $+1$ and $-1$ with equal multiplicity, so each one should induce an eigenspace of dimension $2$ in the $4$-dimensional space of two qubits.
+Among states in the Bell basis, $\ket{\phi_{01}^-},\ket{\psi_{11}^-}$ are the $-1$ eigenstates of $X\otimes X$.
+
+\item $\ket{\phi_{01}^-}$ is the $+1$ eigenstate of $Z\otimes Z$ which lives in the $-1$ eigenspace of $X\otimes X$.
+
+\item Recall from the previous question that $\ket{\phi'} = \ket{\phi_{01}^-}$.
+	Again another way to think about this question is to ask what measurement outcome we receive when we measure the observable $-(Y\otimes Y)$ in the state $\ket{\phi_{01}^-}$?
+	\[
+	\bra{\phi_{01}^-}-(Y\otimes Y)\ket{\phi_{01}^-} = -1
+	\]
+\end{enumerate}
+
+\item {\bf Another Pseudo-Telepathy Game}
+\begin{enumerate}
+\item The product of all of the entries is not well-defined. This implies that Alice and Bob are lying: no such square exists.
+
+\item If they win on every question, then they must hold an impossible square. It is possible for them to win on $8$ of $9$ questions as follows:
+Alice holds a square with every column product equal to $1$. Bob holds a square with every row product equal to $-1$. Alice and Bob's squares disagree in only one location.
+Their strategy is for Alice to give the $i^{\text{th}}$ column of her square and Bob to give the $j^{\text{th}}$ column of his.
+For example, we might have
+\[
+A= \mathree
+11{-1}
+11{-1}
+111
+; \quad B = \mathree
+11{-1}
+11{-1}
+11{-1}\;.
+\]
+So that Alice and Bob lose only when $i = j = 2$.
+
+\item An operator commutes with $Y\otimes Y$ if both of its tensor factors anticommute with $Y$. The rest of the operators anticommute with $Y\otimes Y$, since one factor commutes with $Y$ and the other anticommutes. So $X\otimes X$, $X\otimes Z$, $Z\otimes X$, $Z\otimes Z$.
+
+\item Since everything commutes with $\id$, an operator commutes with $\id\otimes X$ if and only if its second tensor factor commutes with $X$.
+
+\item Each observable commutes with the ones in the same row or column as it. We already observed this for $\id\otimes X$ and $Y\otimes Y$. It is not hard to do the same computation for the rest of the observables.
+
+\item The operator is $(Z\otimes Z)^2 =\id\otimes \id$.
+
+\item The second operator is $(XYZ)\otimes (XYZ) = (-i)^2\id\otimes \id = - \id\otimes \id$.
+
+\item $a_1a_2a_3 = 1; b_1b_2b_3 = -1$. The product of the bits Alice outputs is equal to the measurement outcome of the operators that Alice measures. That operator is $\id$, so its outcome is $+1$. Similarly, Bob always outputs a product of $-1$.
+\end{enumerate}
+
+
+\item {\bf A nonlocal game}
+\begin{enumerate}
+\item They win with probability $\frac 23$; they lose only if $(s,t) = (0,0)$. $a\lor s = a = s$ and $b\lor t = b = t$, so they win if $s \neq t$.
+
+\item $a_0 = s_1, a_1 = s_0; b_0 = t_1, b_1 = t_0$. They win if $s_1 \lor s_0 \neq t_0 \lor t_1$. This fails if all four values are $0$ (this happens with probability $\frac19$) or if one value on each side is $1$ (this happens with probability $\frac29$). One can check that there are more than three failure cases for the other strategies. Furthermore, the first strategy is not valid because Alice uses one of Bob's input bits and vice versa.
+
+\item 
+\begin{statements}
+	\item[III.] Alice and Bob agree on a shared string $(s_1,t_1)$ uniformly at random from $\set{(0,0),(0,1),(1,0)}$. When they receive their inputs $(s,t)$, they run their two-parallel-repeated strategy on the inputs $((s,t),(s_1,t_1))$, and output $(a_0,b_0)$.
+\end{statements}
+They simulate exactly the distribution of inputs in the two-parallel repeated game, so they'll produce winning outputs for the two-parallel-repeated game with probability $\omega_c$. These outputs are also winning for the single-repeated game that they're actually playing.
+
+\item 
+\begin{statements}
+\item[I.] $M = -\frac13 A_0 \otimes B_0 + \frac13 A_0\otimes \Id + \frac 13\Id \otimes B_0$
+\end{statements}
+If $(s,t) = (0,0)$, then Alice and Bob need to produce different measurement outcomes in order to win. That is, the measurement outcome of $A_0\otimes B_0$ must be $-1$.
+If $(s,t) = (0,1)$, then $b\lor t = 1$ regardless of what Bob says. They win iff Alice says $0$, i.e.\ the measurement outcome of $A_0$ must be $1$. Similarly, if $(s,t) = (1,0)$, they win iff the measurement outcome of $B_0$ is $1$.
+
+\item 
+\begin{statements}
+	\item[I.] $M^2 = \frac13\mathbb I - \frac23 M$
+\end{statements}
+$A_0$, $B_0$ square to identity, so $A_0\otimes B_0$ also squares to identity. 
+	Squaring our expression from the last question gives
+	\[
+	M^2 = \frac19(
+	3\id\otimes \id - 2\id\otimes B_0 -2A_0\otimes \id +2A_0\otimes B_0
+	) = \frac13(\id - 2M)\;.
+	\]
+	
+\item The characteristic polynomial $\lambda^2 + \frac23 \l - \frac13 = 0$ has roots $\l = \frac13, -1$. Therefore its largest eigenvalue is $\frac 13$.
+
+\item The upper bound is $\frac12 + \frac12\frac13$. Notice that this matches the lower bound from earlier in this problem.
+\end{enumerate}
+\end{exercises}

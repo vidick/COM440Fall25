@@ -1,0 +1,161 @@
+\chapter{}
+
+%\section{Questions}
+
+
+%\subsection{Larger problems}
+% \begin{enumerate}[1.]
+
+\begin{exercises}
+
+\item {\bf Using the Pretty-Good-Measurement}\\
+Alice sends Bob one of the three states 
+\[\rho_0 = \ketbra 00 = \matwo1000,\; \rho_1 = \frac12 \id=\frac12\matwo 1001,\; \rho_2 = \ketbra 11 = \matwo0001\]
+ with equal probability. Bob wants to determine which state Alice sent him. In this problem we work out the success probability of different possible strategies for Bob. A strategy is a POVM $\{B_0,B_1,B_2\}$ and its success probability is 
+\[ p_{succ}(B) \,=\, \frac{1}{3} \Tr(B_0\rho_0) + \frac{1}{3}\Tr(B_1\rho_1)+\frac{1}{3}\Tr(B_2\rho_2)\,\]
+i.e.\ it is the probability that Bob correctly guesses the state sent by Alice, assuming that Alice sends him each of the three states with equal probability $\frac{1}{3}$. 
+
+The first strategy that we consider consists in Bob measuring in the Hadamard basis. 
+\begin{enumerate}
+\item Bob sets $B_0 = \proj{+}$, $B_1=0$ and $B_2 = \proj{-}$. That is, if he measures $\ket +$, then he guesses that the state sent was $\rho_0 = \ketbra 00$ and if he measures $\ket -$ he guesses that the state sent was $\rho_2 = \ketbra 11$. What is Bob's success probability?
+%\solopen{The overall success probability is $\frac13 \bra{+} \rho _0 \ket{+}  + \frac13 \bra{-} \rho _2 \ket{-}  = \frac13$.}
+\end{enumerate}
+After trying that procedure, Bob decides to switch to measuring $\rho$ in the standard basis.
+\begin{enumerate}
+\item[2.] Bob sets $B_0=\proj{0}$, $B_1=0$ and $B_2 = \proj{1}$. What is his new success probability?
+%\solopen{Bob's overall success probability is $\frac13\bra{0} \rho _0 \ket{0}  + \frac13\bra{1} \rho_2 \ket{1}  = \frac23$.}
+\end{enumerate}
+Bob decides that he's done with ad-hoc approaches and wants to use a measurement that will be somewhat reliable.
+\begin{enumerate}
+\item[3.] What is Bob's success probability if he uses the pretty-good measurement? 
+%\solopen{Let $\rho=\frac{1}{3}(\rho_0+\rho_1+\rho_2) = \frac{1}{2}\Id$. The elements of the pretty-good measurement are $M_ i = \frac13\rho ^{-1/2}\rho_i\rho ^{-1/2}$. Since $\rho = \frac{1}{2}\id$, we have that $\rho ^{-1/2} = \sqrt{2}\id$. The overall success probability is $\frac{1}{3}\sum_i \Tr(M_i\rho_i) = \frac{2}{9} \sum_i \Tr(\rho _ i^2) = \frac{2}{9}\left(1 + \frac{1}{2} + 1\right) = \frac{5}{9}$.}
+\end{enumerate}
+Bob wants to know whether he's found the optimal measurement. To help find this out, he will apply the following fact. Suppose that $\sigma$ is a positive semidefinite matrix (not necessarily of trace $1$) such that $p_i\rho_i \leq \sigma$ for each $i$. Then the optimal success probability of a distinguishing measurement on the ensemble $\rho = \sum_ip_i\rho_i$ is at most $\Tr\sigma$. (Recall that $A\leq B$ means that $B-A$ is positive semidefinite.)
+\begin{enumerate}
+\item[4.] What is the best upper bound Bob can derive from this fact?
+%\solopen{We check that for each $i$, $\frac13 \rho _ i \leq \sigma = \frac13\id$. $\frac13\rho _0 = \frac13\left( \begin{array}{cc}1&  0 \\ 0 & 0 \end{array} \right) \leq \frac13\id$ $\frac13\rho _1 =\frac16\id\leq \frac13\id$
+%$\frac13\rho _2 = \frac13\left( \begin{array}{cc}0&  0 \\ 0 & 1 \end{array} \right) \leq \frac13\id$
+%Thus the upper bound on the guessing probability is $\operatorname {Tr}\sigma = \frac23$.}
+\item[5.] Can you prove the above-claimed fact?
+\end{enumerate}
+
+\item {\bf Deterministic Extractors on Bit-Fixing Sources}\\
+We saw that no deterministic function can serve as an extractor for all random sources of a given length. 
+This doesn't rule out the possibility that a deterministic extractor can work for some restricted class of sources! In this exercise we'll construct deterministic extractors that work for some specific sources. 
+
+Let $n$ be even and fix $t < \frac n2$. Define the following sources on $\{0,1\}^n$.
+\begin{statements}
+	\item $X_0$ is $100\cdots00$ on the first $t$ bits and uniformly random on the last $n-t$ bits.
+	\item $X_1$ is uniformly random over the set of strings with an even number of $0$s.
+	\item $X_2$ is uniformly random over the set of strings where the first $\frac n2$ bits are the same as the last $\frac n2$ bits.
+\end{statements}
+\begin{enumerate}
+\item What is the min-entropy $\Hmin(X_0)$?
+%\solopen{Answer: We can think of generating $X_0$ by $n-t$ independent fair coin flips, so each of its strings occurs with equal probability $2^{t-n}$ and $\Hmin (X_0) = -\log{2^{t-n}}=n-t$.}
+\item What is the min-entropy $\Hmin(X_1)$?
+%\solopen{The number of strings with an even number of $0$s is equal to the number of strings with an odd number of $0$s, so each of these is equal to $2^{n-1}$. Thus the min-entropy of $X_1$ is $-\log \frac{1}{2^{n-1}}=(n-1)$.}
+\item What is the min-entropy $\Hmin(X_2)$?
+%\solopen{As before, think of generating $X_2$ through a series of independent fair coin flips: it is fully determined by $\frac {n}{2}$ of them and so $\Hmin(X_2)=\frac{n}{2}$.}
+\end{enumerate}
+Now consider the following functions. 
+\begin{itemize}
+	\item $f_0(x)=$ the XOR of the first $t$ bits of $x$.
+	\item $f_1(x)= x_L\cdot x_R$, where $x=(x_L,x_R)$ are the left and right halves of $x$ and $\cdot$ denotes inner product modulo $2$.
+	\item $f_2(x)=$ the XOR of all of the bits of $x$.
+\end{itemize}
+We're interested in which functions serve as extractors on which sources. For example, $f_0(X_0)$ is always equal to $1$, while $f_2(X_0)$ is equal to a uniform random bit.
+\begin{enumerate}
+\item[4.] Which of the following random variables have positive entropy?
+\begin{statements}
+    \item $f_1(X_1)$
+    \item $f_1(X_2)$
+    \item $f_2(X_0)$
+    \item $f_2(X_1)$
+    \item $f_2(X_2)$
+\end{statements}
+%\solopen{
+%Let us look at all the proposed answers consecutively. We're interested in finding which ones are not constant.
+%\begin{statements}
+%\item $f_1(X_1)$ - true. The string $X_1$ can be seen as $n-1$ random bits followed by a bit that is fully determined by the previous $n-1$ bits. Since there are $n-1$ random bits, performing \(x_ L\cdot x_ R \) will generate a random bit. Notice that this is not uniformly random; for example, if $n=4$, then an output of $0$ is $3$ times more likely than an output of $1$.
+%\item $f_1(X_2)$ - true. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, we have \(x_ L\cdot x_ R  = XOR(x_L) = XOR(x_R)\) which is a uniformly random bit since the strings \(x_L=x_R\) are random.
+%\item $f_2(X_0)$ - true. Since the last \(n-k\) bits of $X_0$ are fully random, the XOR of the entire string will result in a uniformly random bit.
+%\item $f_2(X_1)$ - false. Since the number of $0$'s in the string is known the parity of the string (computed by the XOR) is $0$ for $n$ even.
+%\item $f_2(X_2)$ - false. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, the parity of the bit string is zero.
+%\end{statements}}
+\end{enumerate}
+Now suppose that Alice and Bob share a classical secret $X\in \{0,1\}^n$ which they are using to hide communications from Eve. Alice and Bob make an error and as a result, Eve learns $t<n$ bits of $X$. If Alice and Bob knew which bits Eve learned, then they could throw those bits out and keep the rest of the bits to use as their secret.
+However, if they don't know which are the leaked bits, then things get trickier. If $t$ is much smaller than $n$, then Alice and Bob still have lots of information that Eve does not; in particular, we have $\Hmin(X| E) = n-t$. How can they make use of this without generating new shared randomness?
+
+(You may notice that this is exactly the problem of extracting randomness from a bit-fixing source, as introduced in the chapter.)
+\begin{enumerate}
+\item[5.] Suppose Alice and Bob take the XOR of all of their bits (including the ones that Eve has learned!), producing just one output bit. What is the correlation between this bit and the bits that Eve has learned?
+%\solopen{The XOR of all of the bits is equal to $b\oplus r$, for $r$ equal to the XOR of the bits learned by Eve and $b$ equal to the XOR of all of the other bits. Regardless of the distribution of $r$, $b\oplus r$ is uniform independent of Eve's knowledge.
+%}
+\item[6.] What is the largest $t$ such that the XOR function manages to extract a bit of randomness?
+%\solopen{$t=n-1$. In this case there is at least one bit that Eve did not get access to. Call this bit $b$. From Eve's point of view, $b$ is uniformly distributed and independent of everything else. We only require the existence of one bit that Eve does not get access to.}
+\end{enumerate}
+Alice and Bob now want to extract many bits of randomness instead of just $1$. Their idea is to take subsets of the bits and treat each subset as its own bit-fixing source. The trouble that they run into is that they don't know which bits Eve will learn.
+\begin{enumerate}
+\item[7.] What is the largest number of independent subsources they can make such that it is possible for them to securely extract one bit of randomness from each subsource?
+%\solopen{Following the last question, each subsource must have at least $t+1$ bits. They can make at most $\left\lfloor \frac{n}{t+1} \right\rfloor$ such subsources.}
+\end{enumerate}
+
+\item {\bf Conditional Min-Entropy}\\
+It is well-known, and not hard to verify by direct calculation, that conditional Shannon entropy satisfies an exact ''chain rule'', which is the equality $H(XY) = H(X) + H(Y| X)$. This equality holds for any random variables $X,Y$, even correlated. In this problem, we'll investigate the chaining properties of conditional min-entropy.
+
+Recall the definition of conditional min-entropy as $\Hmin(X| E) = -\log p_\text{guess}(X| E)$, where
+\[
+ p_\text{guess}(X| E) = \sum_e \operatorname{Pr}[E=e]\cdot p_\text{guess}(X| E = e).
+\]
+
+As a warmup, let's consider a very simple two-bit classical source XY with the following distribution:
+\[
+p(XY = 00) = \frac14,\;
+p(XY = 01) = \frac14,\;
+p(XY = 10) = \frac14,\;
+p(XY = 11) = \frac14.
+\]
+\begin{enumerate}
+\item Compute $\Hmin (XY)$ for this source.
+%\solopen{XY is uniform on $2$ bits, so its min-entropy is $2$.
+%}
+\item Compute $\Hmin (X)+\Hmin(Y| X)$ for this source.
+%\solopen{Since $X$ and $Y$ are independent, the min-entropy of $X$ conditioned on $Y$ is equal to the min-entropy of $X$. So $\Hmin(Y) = \Hmin(X| Y) = \Hmin (X) = 1$.}
+\end{enumerate}
+Now let's consider a two-bit classical source XY with the following distribution:
+\[
+p(XY = 00) = \frac12,\;
+p(XY = 01) = \frac18,\;
+p(XY = 10) = \frac14,\;
+p(XY = 11) = \frac18.
+\]
+\begin{enumerate}
+\item[3.] Compute $\Hmin (XY)$ for this source.
+%\solopen{The highest probability outcome has probability $\frac12$, so the min-entropy is $-\log\frac12 = 1$.
+%}
+\item[4.] Compute $\Hmin (X)+\Hmin(Y| X)$ for this source.
+%\solopen{The probability that $X =0$ is $\frac58$, so $\Hmin(X) = -\log\frac58 = 3-\log 5 \approx 0.678$.
+%
+%Conditioned on $X = 0$, the most likely outcome for $Y$ is $Y = 0$ with probability $\frac45$. Conditioned on $X = 1$, the most likely outcome for $Y$ is $Y = 0$ with probabilith $\frac23$.
+%Then $P_\text{guess}(Y| X) = \frac58\cdot \frac45 + \frac38 \cdot \frac23 = \frac34$. So $\Hmin(Y| X) = -\log \frac34 = 2 - \log 3 \approx 0.415$.
+%
+%The sum of these two values is approximately $1.093$.}
+\end{enumerate}
+Finally, consider the following distribution:
+\[
+p(XY = 00) = \frac38,\;
+p(XY = 01) = \frac14,\;
+p(XY = 10) = \frac5{16},\;
+p(XY = 11) = \frac1{16}.
+\]
+\begin{enumerate}
+\item[5.] Compute $\Hmin (XY)$ for this source.
+%\solopen{The highest probability outcome has probability $\frac38$, so the min-entropy is $-\log\frac38 = 3 - \log 3 = 1.415$.
+%}
+\item[6.] Compute $\Hmin (X)+\Hmin(Y| X)$ for this source.
+%\solopen{The probability that $X =0$ is $\frac58$, so $\Hmin(X) = -\log\frac58 = 3-\log 5 \approx 0.678$.
+%Conditioned on $X = 0$, the most likely outcome for $Y$ is $Y = 0$ with probability $\frac35$. Conditioned on $X = 1$, the most likely outcome for $Y$ is $Y = 0$ with probabilith $\frac56$.
+%Then $P_\text{guess}(Y| X) = \frac58\cdot \frac35 + \frac38 \cdot \frac56 = \frac{11}{16}$. So $\Hmin(Y| X) = -\log \frac{11}{16} = 4 - \log 11 \approx 0.541$.
+%The sum of these two values is approximately $1.219$.}
+\end{enumerate}
+\end{exercises}

@@ -1,0 +1,65 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Quantifying Information}
+
+\begin{exercises}
+
+
+\item {\bf Trace distance}
+
+Note that the density matrices \(\dens{\epr}\) and \(\rho_{AB}\) commute. This means they are diagonal in the same basis. In particular in the Bell basis we have
+\[\dens{\epr} - \rho_{AB} = \begin{pmatrix} \frac{3p}{4} &0 &  0 & 0\\ 0 & \frac{-p}{4} & 0 & 0\\ 0&0 & \frac{-p}{4} & 0\\  0& 0& 0 & \frac{-p}{4}\end{pmatrix}\;.\]
+From this the trace distance can be calculated as the sum of the absolute values of the diagonal elements.
+
+
+\item {\bf Min-entropy}
+
+It is not difficult to find eigenbases for each of these density matrices. Expressing the matrices in their eigenbases we can use the formula \(\Hmin = -\log(\lambda_{max})\) where \(\lambda_{max}\) is the largest eigenvalue of the density matrix. We obtain the following: 
+\begin{statements}
+\item $0$
+\item $1$
+\item $0.41$
+\item $0.41$
+\item $1.94$
+\end{statements}
+
+
+\item {\bf Guessing Game}
+\begin{enumerate}
+\item Remember the following identity \[U\otimes \id \ket{\epr} = \id\otimes U^{T} \ket{\epr}\;.\] This means that Eve can always compensate for the unitary \(U\) by applying the unitary \(V = (U^{T})^{\dagger}\) to her part of the state. Hence she can play the game as if she and Alice share an EPR pair and hence the guessing probability is $1$.
+\item In case Eve does not know $U$, the shared state is the density matrix obtained by averaging $(U\otimes \id) \proj{\epr} (U\otimes \id)^\dagger$ over all unitaries $U$. To avoid going into too much details about the distribution of a random $U$ (technically, we should refer to a \emph{Haar-random} unitary $U$), we consider a simpler case where $U$ is uniformly random among $\{\id, X,Z,Y\}$. As we know this corresponds to applying a completely depolarizing channel, i.e.\ it is equivalent to completely erasing Alice's qubit! Thus the shared state simply becomes $\rho_{AE} = \frac{1}{2}\id\otimes \frac{1}{2}\id$. In particular, Eve has no information at all about Alice's qubit and her guessing probability is reduced to $\frac{1}{2}$. 
+\end{enumerate}
+
+
+\item {\bf Guessing with three bases}
+
+\begin{enumerate}
+\item We have
+\begin{align*}	
+	p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+	&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+	&=\frac{1}{3}\left(1+\frac{1}{2}+\frac{1}{2} \right)=\frac{2}{3}\;.
+\end{align*}
+
+The solutions to the next question will explain why this works, but try to solve the next question without looking at the full solutions first.
+
+\item The average winning probability for this problem is given by \[p_{win} = \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2})\;,\] and the winning probability given a value of \(\theta\) is given by the inner product squared between the state and the basis vector which maximises the winning probability of the basis corresponding to \(\theta\). For instance for \(\ket{\psi} = \ket{0}\) we would have \[p_{win|\theta =0} = \abs{\inp{\psi}{0}}^2 = \abs{\inp{0}{0}}^2 = 1\] (note that \(\inp{0}{1}=0\) so picking the zero basis vector indeed maximises winning probability). In the case that $\ket{\psi}=\ket{+}$, we have
+\begin{align*}
+	p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+	&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+	&=\frac{1}{3}\left(\frac{1}{2}+1+\frac{1}{2} \right)=\frac{2}{3}\;.
+\end{align*}
+
+\item The calculation method is essentially the same as before, only the state is slightly more complicated. Don't forget to account for the third basis, which has a non-zero overlap with both \(\ket{0}\) and \(\ket{+}\). We get
+\begin{align*}
+	p_{win} &= \frac{1}{3}(p_{win|\theta = 0} + p_{win|\theta = 1}+ p_{win|\theta = 2}) \\
+	&=\frac{1}{3}\left(\abs{\inp{\psi}{0}}^2+\abs{\inp{\psi}{+}}^2+\abs{\inp{\psi}{0_Y}}^2 \right) \\
+	&=\frac{1}{3}\left(\left(\frac{1}{2}+\frac{1}{2\sqrt{2}}\right)+\left(\frac{1}{2}+\frac{1}{2\sqrt{2}}\right)+\frac{1}{2}\right) \\
+	&=\frac{1}{2}+\frac{1}{3\sqrt{2}}\;.
+\end{align*}
+
+\item We have \(|\psi\rangle = \frac{1}{\sqrt{4+2\sqrt{2}}}(|0\rangle +|+\rangle +|0_Y\rangle)\). You can check this with the same kind of calculations as done earlier in this problem.
+
+\item The ``three bases" guessing game has a lower maximal guessing probability for Eve than the standard guessing game. Intuitively this can be explained by us giving Alice more ``incompatible" options. This makes it harder for Eve to find a state that has good overlap with all three vectors corresponding to the outcome ``zero" in their respective bases.
+\end{enumerate}
+\end{exercises}

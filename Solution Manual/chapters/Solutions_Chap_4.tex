@@ -1,0 +1,95 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{The Power of Entanglement}
+
+\begin{exercises}
+
+
+\item {\bf The CHSH game, first take}
+\begin{enumerate}
+\item  Note that the state \(\rho_2\) is separable, hence \(p_{\CHSH}\leq 0.75\). However, by using the optimal CHSH measurements (for an EPR pair) on $\rho_1$, you can verify that the success probability obtained is $> 0.75$.
+
+\item The correct answer is seen from
+	
+	\[\ket{\psi_{00}} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) = \id\otimes\id\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+	
+	\[\ket{\psi_{01}} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11}) = \id\otimes Z\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+	
+	\[\ket{\psi_{10}} = \frac{1}{\sqrt{2}}(\ket{01} + \ket{10})= \id\otimes X\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+	
+	\[\ket{\psi_{11}} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})= \id\otimes XZ\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \] and the fact that \(X^2 = Z^2 = \id\).
+
+\item Alice and Bob now effectively possess an average over the states \(|\Psi_i\rangle\). This gives the density matrix \[\rho_{AB} = \sum_{a,b=0}^1 \frac{1}{4}\dens{\psi_{ab}} = \frac{\id}{4}\;,\] as can be easily verified by direct calculation. This means that the measurement strategy is worse than useless as for every input \(x,y\) all possible outputs will occur with probability \(0.5\). Thus their probability of winning the CHSH game in this way is \(\frac{1}{2}\).
+\end{enumerate}
+
+
+\item {\bf The CHSH game, second take}
+\begin{enumerate}
+	\item Remember that Alice and Bob win if $x\cdot y= a\oplus b$ and that the winning probability is given as $$p_{win}=\frac{1}{4}\sum_{xy}\sum_{a}\Pr\left(a,b=a\oplus xy|x,y\right)\;.$$ Now first consider the case that $x\cdot y=0$. Then for $a=0,b=0$ and for $a=1,b=1$ we find that $x\cdot y= a\oplus b$. So in 50\% of the cases, Alice and Bob win if $x\cdot y=0$. Next, consider $x\cdot y = 1$. Alice and Bob now win if $a=0,b=1$ or $a=1,b=0$, which is again 50\% of the cases. Therefore: $$p_{win}=\frac{1}{4}\left(\frac{1}{2}+\frac{1}{2}+\frac{1}{2}+\frac{1}{2}\right)=\frac{1}{2}\;.$$
+	
+	\item Note that, due to the entangled state, we always have $a=b$. Therefore, Alice and Bob win if $x\cdot y=0$. This is achieved in all cases except the case that both are 1, i.e. $x=y=1$. Therefore, $p_{win}=\frac{3}{4}$.
+	
+	\item $p_{win}=\frac{3}{4}$. Same reasoning as previous question.
+	
+	\item Yes, they either need to change their bases or their strategy to obtain the optimal winning probability of the CHSH game using the state.
+	
+	\item Yes, they can obtain the optimal winning probability using classical processing. For example, Alice could always return $a\oplus 1$ instead of $a$ if she knows that the state $\ket{\Psi}_{AB}$ is used.
+\end{enumerate}
+
+
+\item {\bf Dimension of a Purifying System}
+\begin{enumerate}
+	\item The state of Alice's qudit is diagonal with rank 2, and thus one qubit on Bob's side suffices to purify it, e.g. $$\ket{\psi}_{AB} = \frac{1}{\sqrt {2}} \left(\ket{0}_A\ket{0}_B+\ket{3}_A\ket{1}_B \right)\;. $$
+	
+	\item The state of Alice's qudit is diagonal with rank 4, and thus two qubits on Bob's side are necessary and sufficient to purify it, e.g. $$ \ket{\Psi}_{AB} = \frac{1}{2} \left(\ket{0}_A\ket{00}_B +\ket{1}_A\ket{01}_B +\ket{2}_A\ket{10}_B +\ket{3}_A\ket{11}_B \right)\;. $$
+	
+	\item The state of Alice's qudit has rank 4, and thus two qubits on Bob's side are necessary and sufficient to purify it, e.g.
+	$$\ket{\Psi}_{AB} = \frac{1}{2} (\ket{0}_A\ket{11}_B +\ket{2}_A\ket{01}_B+\ket{3}_A\ket{10}_B+\frac{1}{\sqrt{8}}\left(\ket{4}_A+\ket{5}_A\right)\ket{11}_B\;. $$
+\end{enumerate}
+	
+	
+\item {\bf Robustness of GHZ and W States, Part 2}
+
+\begin{enumerate}
+	\item By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}\;.$$ Both of these are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.
+	
+	\item For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr(\rho^2)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr(\rho^2)=\frac{1}{d}$
+	
+	\item The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have --- the more information you lose --- in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.
+	
+	\item Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}\;,$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr(\rho^2)=\frac{1}{2}$ for all $N$.
+	
+	\item We have again by direct calculation
+	$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}\;,$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr( \rho ^2) = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.
+	
+	As $N$ grows, the $\ket{GHZ_N}$ states to which one qubit has been discarded have a lower purity than the $\ket{W_N}$ states. According to the preceding discussion, this means that there is more entanglement between $(N-1)$ and $1$ qubits of a $\ket{GHZ_N}$ state, than there is in a $\ket{W_N}$ state. Conversely, if we consider the qubit to be ``lost'' then there is less entanglement remaining in the $\ket{GHZ_N}$ state. If we remove two qubits, then continuing the calculations made in 4. and 5. we see that the result is essentially unchanged.
+\end{enumerate}
+
+
+\item {\bf A secret shared among three people}
+\begin{enumerate}
+	\item We write the density matrix corresponding to $\ket{\psi_b}$ as
+	\begin{align*}
+		\dens{\psi_b} &= \frac{1}{2}\big(\dens{0}\otimes\dens{00} + \dens{1}\otimes\dens{11}\\
+		&\quad + (-1)^{b}(\ket{0}\bra{1}\otimes\ket{00}\bra{11} + \ket{1}\bra{0}\otimes\ket{11}\bra{00})\big)\;.
+	\end{align*}
+	Tracing out the second and third qubits we get \[\rho_A = \frac{1}{2}(\dens{0} + \dens{1})\;,\]	which is independent of the input bit \(b\).
+	
+	\item We write the density matrix corresponding to $\ket{\psi_b}$ as
+	\begin{align*}
+     	\dens{\psi_b} &= \frac{1}{2}\big(\dens{00}\otimes\dens{0} + \dens{11}\otimes\dens{1}\\
+     	&\quad + (-1)^{b}(\ket{00}\bra{11}\otimes\ket{0}\bra{1} + \ket{11}\bra{00}\otimes\ket{1}\bra{0})\big)\;.
+   	\end{align*}
+ Tracing out the third qubit we get
+\[\rho_{AB} = \frac{1}{2}(\dens{00} + \dens{11})\;,\]
+	which is independent of the input bit \(b\). Note that Alice and Bob do not share a fully random state. However the state they share is independent of \(b\).
+	
+	\item In Alice's proposal, the first step is to apply local Hadamard transforms to the shared state $\ket{\psi_b}$. This yields the state
+	\[ H^{\otimes 3}|\psi_b\rangle = \frac{1}{\sqrt{2}}\big(|+++\rangle + (-1)^b|---\rangle\big)\;,\] which in the standard basis is
+	\begin{align*}		
+		H^{\otimes 3}\ket{\psi_b} &=\frac{1}{2}(1+(-1)^b)(\ket{000} + \ket{101}+\ket{011} + \ket{110})\\
+		&\quad + \frac{1}{2}(1-(-1)^b)(\ket{111} + \ket{001} + \ket{010} + \ket{100})\;.
+	\end{align*}
+	Now Alice, Bob and Charlie all measure in the standard basis and obtain bits \(x_A, x_B,x_C\). They collect the bits at Charlie's who performs an XOR on them. Note now from the form of the above state that the result \(x_A\oplus x_B\oplus x_C = 1\) only happens with non-zero probability if \(b=1\) and similarly for \(x_A\oplus x_B\oplus x_C = 0\). Hence we have \(x_A\oplus x_B\oplus x_C = b \mod 2\).
+\end{enumerate}
+\end{exercises}

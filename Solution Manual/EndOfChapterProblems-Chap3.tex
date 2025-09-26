@@ -1,0 +1,290 @@
+\chapter{}
+
+
+%\subsection{Larger problems}
+\begin{exercises}
+
+\item {\bf The CHSH game, first take}\\
+Alice and Bob would like to play the CHSH game. Sadly they do not possess a machine that can generate entanglement at will. Instead they have a machine that can generate the following bipartite quantum states.
+\[\rho_1 = \frac{3}{4}\ket{\epr}\bra{\epr} + \frac{1}{16} \id\]
+\[\rho_2 = \ket{00}\bra{00},\]
+with \(|\epr\rangle\) being the EPR pair. Alice and Bob would like to identify the state that can produce the highest CHSH value.
+\begin{enumerate}
+\item Which one of these would generate the highest CHSH value (using any possible measurements )?
+%\solopen{Note that the state \(\rho_2\) is separable, hence \(p_{CHSH}\leq 0.75\). However, by using the optimal CHSH measurements (for an EPR pair) on $\rho_1$, you can verify that the success probability obtained is $> 0.75$.}
+% \begin{enumerate}[a)]
+% \item $\rho_1$
+% \item $\rho_2$
+% \end{enumerate}
+\end{enumerate}
+Now imagine that Alice and Bob try to build a better machine, one which produces the EPR pair (which they know will give them the highest possible CHSH value). Sadly their machine doesn't quite produce the EPR pair. Instead it produces the state \(|\psi_{ab}\rangle\) with probability \(p_{ab} = 0.25\), where for $a,b\in \{0,1\}$ we have
+
+\[\ket{\psi_{00}} = \ket{\epr}=\frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\]
+\[\ket{\psi_{01}} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})\]
+\[\ket{\psi_{10}} = \frac{1}{\sqrt{2}}(\ket{01} + \ket{10})\]
+\[\ket{\psi_{11}} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})\]
+
+The machine also tells Alice and Bob which state it produces. Alice and Bob are quite happy with their efforts because all of these states will give them the maximal CHSH value (they are maximally entangled). The easiest way to see that this is true is by noting that all of these states can be transformed to an EPR pair by Bob, applying an operation to his qubit based on the number \(a,b\in\{0,1\}\) he gets from the machine. 
+
+\begin{enumerate}
+\item[2.] For each of the states $\ket{\psi_{ab}}$, $a,b\in\{0,1\}$, which operation should Bob apply in order to change the outputted state to the EPR pair?
+%\solopen{The correct answer is seen from
+%    \[\ket{\psi_{00}} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) = \id\otimes\id\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+%\[\ket{\psi_{01}} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11}) = \id\otimes Z\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+%\[\ket{\psi_{10}} = \frac{1}{\sqrt{2}}(\ket{01} + \ket{10})= \id\otimes X\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \]
+%\[\ket{\psi_{11}} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})= \id\otimes XZ\frac{1}{\sqrt{2}}(\ket{00} + \ket{11}) \] and the fact that \(X^2 = Z^2 = \id\)}
+%
+% \begin{enumerate}[a)]
+% \item $U_0 = \id\), \(U_1 = X\), \(U_2 = Z\), \(U_3=XZ $
+% \item $U_0 = \id\), \(U_1 = Z\), \(U_2 = X\), \(U_3=XZ $
+% \item $U_0 = \id\), \(U_1 = X\), \(U_2 = XZ\), \(U_3=Z $
+% \end{enumerate}
+%
+\end{enumerate}
+Now imagine that the part of the machine that tells Alice and Bob which state \(|\psi_{ab}\rangle\) it produces breaks! This means that they don't know which state the machine outputs.
+\begin{enumerate}
+\item[3.] What is  their probability of winning the CHSH game if they apply the strategy that is optimal for the EPR pair? (Hint: write down the density matrix they receive from the machine.)
+%\solopen{Alice and Bob now effectively possess an average over the states \(|\Psi_i\rangle\). This gives the density matrix \[\rho_{AB} = \sum_{a,b=0}^1 \frac{1}{4}\dens{\psi_{ab}} = \frac{\id}{4}\] as can be easily verified by direct calculation. This means that the measurement strategy is worse than useless as for every input \(x,y\) all possible outputs will occur with probability \(0.5\). Thus means their probability of winning the CHSH game this way is \(\frac{1}{2}\).}
+% \begin{enumerate}[a)]
+%     \item \(p_{\text{CHSH}} = 0.5\)
+%     \item \(p_{\text{CHSH}} = 0.75\)
+%     \item \(p_{\text{CHSH}} \simeq 0.85\)
+% \end{enumerate}
+\end{enumerate}
+
+
+\item {\bf The CHSH game, second take} \\
+In the following questions we will consider different strategies for the CHSH game. We will look at how the winning probability depends on which measurements Alice and Bob perform. We will say that Alice and Bob play the CHSH game by measuring in the bases $\{\ket{b^0_{Ax}},\ket{b^1_{Ax}}\}$ and $\{\ket{b^0_{Bx}},\ket{b^1_{Bx}}\}$. This means that if for example Alice receives $x=0$ , she will measure in the basis $\{\ket{b^0_{A0}},\ket{b^1_{A0}}\}$ and output the measurement outcome, and similarly for $x=1$ and $y=0$, $y=1$ for Bob.
+% \begin{enumerate}[I)]
+\begin{enumerate}
+ \item Imagine Alice and Bob both randomly output $0$ or $1$ with probability $p_0 = p_1 = \frac{1}{2}$ independently of the input bits. What is their winning probability?
+ %\solopen{Remember that Alice and Bob win if $x\cdot y= a\oplus b$ and that the winning probability is given as $$p_{win}=\frac{1}{4}\sum_{xy}\sum_{a}\Pr\left(a,b=a\oplus xy|x,y\right).$$ Now first consider the case that $x\cdot y=0$. Then for $a=0,b=0$ and for $a=1,b=1$ we find that $x\cdot y= a\oplus b$. So in 50\% of the cases, Alice and Bob win if $x\cdot y=0$. Next, consider $x\cdot y = 1$. Alice and Bob now win if $a=0,b=1$ or $a=1,b=0$, which is again 50\% of the cases. Therefore: $$p_{win}=\frac{1}{4}\left(\frac{1}{2}+\frac{1}{2}+\frac{1}{2}+\frac{1}{2}\right)=\frac{1}{2}$$.}
+
+% %\item Now Alice and Bob use a quantum strategy that includes measuring the two qubits that they have in the bases described in the lecture and obtain the same outcome statistics as with random guessing. Which of the following quantum states have they been sharing?
+% %\begin{enumerate}[a)]
+% %\item $\ket{\Psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)$
+% %\item $\rho = \frac{\id_A}{2} \otimes \frac{\id_B}{2}$
+% %\item $\ket{\Psi} = \ket{00}$
+% %\end{enumerate}
+%
+\item Now Alice and Bob share share a maximally entangled state,
+\begin{equation*}
+\ket{\epr}_{AB} =  \frac{1}{\sqrt{2}}\left(\ket{0}_{A}\ket{0}_B + \ket{1}_{A}\ket{1}_B\right),
+\end{equation*}
+which they measure in the standard basis, that is $\ket{b^0_{Ax}}=\ket{b^0_{Bx}}=\ket{0}$ and $\ket{b^1_{Ax}}=\ket{b^1_{Bx}}=\ket{1}$ for both $x=0$ ad $x=1$. What will their corresponding winning probability be in such a scenario?
+%\solopen{Note that, due to the entangled state, we always have $a=b$. Therefore, Alice and Bob win if $x\cdot y=0$. This is achieved in all cases except the case that both are 1, i.e. $x=y=1$. Therefore, $p_{win}=\frac{3}{4}$.}
+%
+% \begin{enumerate}[a)]
+% \item $\frac{1}{2}$
+% \item $\frac{3}{4}$
+% \item $\frac{1}{2}\left(1+\frac{1}{\sqrt{2}}\right)$
+% \end{enumerate}
+%
+\item Now they share a state
+\begin{equation*}
+\rho_{AB} =  \frac{1}{2}\left(\dya{0}_A \otimes \dya{0}_B + \dya{1}_A \otimes \dya{1}_B\right),
+\end{equation*}
+which they measure in the standard basis, that is $\ket{b^0_{Ax}}=\ket{b^0_{Bx}}=\ket{0}$ and $\ket{b^1_{Ax}}=\ket{b^1_{Bx}}=\ket{1}$ for both $x=0$ and $x=1$. What will their corresponding winning probability be in such a scenario?
+%\solopen{$p_{win}=\frac{3}{4}$. Same reasoning as previous question.}
+%
+% \begin{enumerate}[a)]
+% \item $\frac{1}{2}$
+% \item $\frac{3}{4}$
+% \item $\frac{1}{2}\left(1+\frac{1}{\sqrt{2}}\right)$
+% \end{enumerate}
+%
+\item Now Alice and Bob share a maximally entangled state $\ket{\Psi}_{AB} =  \frac{1}{\sqrt{2}}\left(\ket{01}_{AB} + \ket{10}_{AB}\right)$ which is orthogonal to the state
+$\ket{\epr}_{AB}=\frac{1}{\sqrt{2}}\left(\ket{00}_{AB}+\ket{11}_{AB}\right)$ that Alice and Bob shared in the optimal strategy described in the chapter. Do they need to use different measurements for state $\ket{\Psi}_{AB}$ than for state $\ket{\epr}_{AB}$ to obtain the optimal winning probability in this case?
+%\solopen{Yes, they either need to change their bases or their strategy to obtain the optimal winning probability of the CHSH game using the state.}
+
+\item Consider again the same setting as in the previous question, where Alice and Bob play the CHSH game with the optimal bases as for the state $\ket{\epr}_{AB}$ but using the state $\ket{\Psi}_{AB}$. Can they obtain the optimal winning probability by performing some classical processing on either the inputs $x$,$y$ or their outputs?
+%\solopen{Yes, they can obtain the optimal winning probability using classical processing. For example, Alice could always return $a\oplus 1$ instead of $a$ if she knows that the state $\ket{\Psi}_{AB}$ is used.}
+\end{enumerate}
+
+\item {\bf Dimension of a Purifying System}\\
+%
+Alice and Bob share a pure state divided between them as follows: Alice holds a $d$-dimensional \textit{qudit}, i.e. a system with basis states labeled $\set{\ket{0},\ket{1},\ldots \ket{d-1}}$ for some $d$. Bob, on the other hand, holds some number $m \geq 0$ of qubits.
+\begin{enumerate}
+\item Suppose Alice's qudit is in the state $\frac{1}{2}(\ketbra{0}{0}+\ketbra{3}{3})$. What is the minimum number of qubits Bob can have, given that the joint state is pure?
+%\solopen{The state of Alice's qudit is diagonal with rank 2, and thus one qubit on Bob's side suffices to purify it, e.g. $$\ket{\psi}_{AB} = \frac{1}{\sqrt {2}} \left(\ket{0}\ket{0}+\ket{3}\ket{1} \right) $$}
+%
+\item Suppose Alice's qudit is in the state $\frac{1}{4}(\ketbra{0}{0}+\ketbra{1}{1}+\ketbra{2}{2}+\ketbra{3}{3})$. What is the minimum number of qubits Bob can have, given that the joint state is pure?
+%\solopen{The state of Alice's qudit is diagonal with rank 4, and thus two qubits on Bob's side are necessary and sufficient to purify it, e.g. $$ \ket{\Psi}_{AB} = \frac{1}{2} \left(\ket{0}\ket{00} +\ket{1}\ket{01} +\ket{2}\ket{10} +\ket{3}\ket{11} \right) $$}
+% \begin{enumerate}[a)]
+% 	\item 1
+% 	\item 2
+% 	\item 3
+% 	\item 4
+% \end{enumerate}
+%
+\item Suppose Alice's qudit is in the state
+\[
+\frac{1}{4}(\ketbra{1}{1}+\ketbra{2}{2}+\ketbra{3}{3})+\frac{1}{8}\left(\ketbra{4}{4}+\ketbra{4}{5}+\ketbra{5}{4}+\ketbra{5}{5}\right).
+\]
+What is the minimum number of qubits Bob can have, given that the joint state is pure?
+%\solopen{The state of Alice's qudit has rank 4, and thus two qubits on Bob's side are necessary and sufficient to purify it, e.g.
+%$$\ket{\Psi}_{AB} = \frac{1}{2} (\ket{0}\ket{11} +\ket{2}\ket{01}+\ket{3}\ket{10}+\frac{1}{\sqrt{8}}\left(\ket{4}+\ket{5}\right)\ket{11} $$}
+\end{enumerate}
+% \begin{enumerate}[a)]
+% 	\item 2
+% 	\item 3
+% 	\item 4
+% 	\item 5
+% \end{enumerate}
+%
+
+\item {\bf Robustness of GHZ and W States, Part 2}\\
+We return to the multi-qubit GHZ and W states  introduced in exercise~\ref{ex:robust-GHZ}. As a reminder,
+\begin{align*}
+\ket{GHZ_N} &= \frac{1}{\sqrt{2}} (\ket{0}^{\otimes N}+\ket{1}^{\otimes N}) \\
+\ket{W_N} &= \frac{1}{\sqrt{N}} (\ket{10\cdots0}+\ket{01\cdots0}+\cdots+\ket{00\cdots1})
+\end{align*}
+In this chapter we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last of $N$ qubits.
+\begin{enumerate}
+\item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
+%\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
+%
+\end{enumerate}
+ Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
+\begin{enumerate}
+\item[2.] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
+%\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
+% \begin{enumerate}[a)]
+% 	\item 1 and 0
+% 	\item 1 and $\frac{1}{d}$
+% 	\item 1 and $\frac{1}{d^2}$
+% 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
+% \end{enumerate}
+%
+\item[3.] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
+%\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
+\end{enumerate}
+Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
+\begin{enumerate}
+\item[4.] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+%
+\item[5.] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{We have again by direct calculation
+%$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+\end{enumerate}
+Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
+
+%\newexercise[Polynomial-Based Secret Sharing]
+%
+%Consider the following (classical) scheme for sharing a secret $S$ in the finite field $\mathbb{F}_7 = \set{0,1,2,3,4,5,6}$ between six parties:
+%\begin{protocolEnumerate}
+	%\item Generate two random elements $(a_1,a_2)$ of $\mathbb{F}_7$.
+	%\item Use these elements as coefficients to define the polynomial over $\mathbb{F}_7$
+	%\[
+	%p(x)=S+a_1x+a_2x^2.
+	%\]
+	%\item Give the $n$th party (for $n$ running from 1 to 6) the pair $(n,p(n))$.
+%\end{protocolEnumerate}
+%%
+%Now consider what happens when different parties get together to try to recover $S$. Note that none of them know the coefficients $(a_1,a_2)$.
+%\begin{largeproblem}
+%\subproblem Suppose parties 1 and 4 get together and find that their shares of the secret are (1,6) and (4,4) respectively. What values of $S$ are possible given their combined information?
+%\solopen{Two points cannot uniquely determine a quadratic polynomial; $S$ could take any value from 0 to 6 given the information provided.}
+%% \begin{enumerate}[a)]
+%% 	\item $S=3$
+%% 	\item $S=5$
+%% 	\item $S=3$ or 5
+%% 	\item $S=0,1,2,3,4,5$ or 6
+%% \end{enumerate}
+%%
+%\subproblem Can \textit{any} pair of parties together recover any information about $S$?
+%\solopen{No. This follows from the same reasoning as the previous question.}
+%\startproblemtext
+%Now suppose parties 1 and 4 are joined by party 2 who contributes her share (2,5).
+%\stopproblemtext
+%\subproblem What values of $S$ are possible given their combined information? (Hint: use the method of interpolation by Lagrange polynomials \url{https://en.wikipedia.org/wiki/Lagrange_polynomial}) [NB: $S=5$ and $(a_1,a_2)=(2,6)$ in this example]
+%\solopen{The method of interpolation yields that the polynomial must be $p(n)=6x^2+2x+5$ and thus $S=5$.}
+%% \begin{enumerate}[a)]
+%% 	\item $S=3$
+%% 	\item $S=5$
+%% 	\item $S=3$ or 5
+%% 	\item $S=0,1,2,3,4,5$ or 6
+%% \end{enumerate}
+%\end{largeproblem}
+
+\item {\bf A secret shared among three people}\\
+In this chapter you learned about sharing a classical secret among two people using an entangled state. Here we will create a scheme that shares a classical secret among three people: Alice, Bob and Charlie. We will do that by giving Alice, Bob and Charlie a GHZ-like state of the form
+
+\[\ket{\psi_b} = \frac{1}{\sqrt{2}}(\ket{0_A}\ket{0_B}\ket{0_C}+ (-1)^b\ket{1_A}\ket{1_B}\ket{1_C})\]
+
+with \(b\in \{0,1\}\) being the 'secret' we want to share.
+\begin{enumerate}
+\item Imagine that Alice wants to perform a local measurement on her qubit to find the secret bit. What is her reduced density matrix?
+%\solopen{We write the density matrix corresponding to \(\psi_b\) as \[\dens{\psi_b} = \frac{1}{2}(\dens{0}\otimes\dens{00} + \dens{1}\otimes\dens{11} + (-1)^{b}(\ket{0}\bra{1}\otimes\ket{00}\bra{11} + \ket{1}\bra{0}\otimes\ket{11}\bra{00}))\]. Tracing out the second and third qubit we get \[\rho_A = \frac{1}{2}(\dens{0} + \dens{1})\] which is independent of the input bit \(b\).}
+%
+% \begin{enumerate}[a)]
+% 	\item $\rho_A=\frac{1}{2}\begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}$
+% 	\item $\rho_A=\frac{1}{2}\begin{pmatrix} 1 + (-1)^b & 0 \\ 0 & 1 - (-1)^b \end{pmatrix}$
+% 	\item $\rho_A=\begin{pmatrix} 0 & 0 \\ 0 & 1  \end{pmatrix}$
+% 	\item $\rho_A=\frac{1}{2}\begin{pmatrix} 1 & 1 \\ 1 & 1\end{pmatrix}$
+% \end{enumerate}
+\end{enumerate}
+Convince yourself that this means that Alice cannot find the secret on her own.
+\begin{enumerate}
+% %
+\item[2.] Now imagine that Alice and Bob would like to discover the secret bit without Charlie being involved. What would their reduced state look like?
+%\solopen{We write the density matrix corresponding to \(\psi_b\) as
+ %     \[\dens{\psi_b} = \frac{1}{2}(\dens{00}\otimes\dens{0} + \dens{11}\otimes\dens{1} + (-1)^{b}(\ket{00}\bra{11}\otimes\ket{0}\bra{1} + \ket{11}\bra{00}\otimes\ket{1}\bra{0}))\]
+  %    Tracing out the third qubit we get
+   %   \[\rho_{AB} = \frac{1}{2}(\dens{00} + \dens{11})\]
+    %  which is independent of the input bit \(b\). Note that Alice and Bob do not share a fully random state. However the state they share is independent of \(b\).}
+% \begin{enumerate}[a)]
+% 	\item $\rho_{AB}=\frac{1}{4} \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0& 1 & 0 & 0\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1\end{pmatrix} $
+% 	\item $\rho_{AB}=\frac{1}{2} \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0& 0 & 0 & 0\\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 1\end{pmatrix} $
+% 	\item $\rho_{AB}=\frac{1}{2} \begin{pmatrix} 1+(-1)^b & 0 & 0 & 0 \\ 0& 0 & 0 & 0\\ 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 1-(-1)^b\end{pmatrix} $
+% \end{enumerate}
+\end{enumerate}
+Convince yourself that the same holds for the combinations BC and AC and that this implies that they can not find the secret! \\
+Now let's imagine that a terrible snowstorm keeps Alice, Bob and Charlie confined to their houses. However, they have the ability to apply operations to their own qubits as well as measure them. Finally, they each possess a radio through which they can communicate classical information. They would like to find out the secret bit. However they want to also do it in a way that guarantees that they succeeded, i.e. they want to perform a protocol which finds \(b\) with probability \(1\). Alice, Bob and Charlie propose to each other the following measurement schemes. \\
+\textbf{Alice's proposal}
+\begin{protocolEnumerate}
+\item Alice, Bob measure in the standard basis and Charlie in the Hadamard basis
+\item Alice, Bob send their result to Charlie
+\item Charlie adds the measurements results modulo 2 to obtain a bit \(x\)
+\item Charlie obtains \(b\) as \(b\cdot x = 1\) modulo 2
+\end{protocolEnumerate}
+\textbf{Bob's proposal}
+\begin{protocolEnumerate}
+\item Alice, Bob, Charlie apply a Hadamard operation to their qubit
+\item Alice, Bob, Charlie measure in the standard basis
+\item Alice, Bob send their result to Charlie
+\item Charlie adds the measurements results modulo 2 to obtain a bit \(x\)
+\item Charlie obtains \(b\) as \(b+x = 0\) modulo 2
+\end{protocolEnumerate}
+\textbf{Charlie's proposal}
+\begin{protocolEnumerate}
+\item Alice, Bob, Charlie measure in the standard basis
+\item Alice, Bob send their result to Charlie
+\item Charlie adds the measurements results modulo 2 to obtain a bit \(x\)
+\item Charlie obtains \(b\) as \(b + x = 0\) modulo 2
+\end{protocolEnumerate}
+\begin{enumerate}
+\item[3.] Which scheme will correctly (with probability 1) produce the bit \(b\) with Charlie?
+%\solopen{In Alice's proposal, the first step is to apply local Hadamard transforms to the shared state \(\psi_b\). This yields the state \[ H^{\otimes 3}|\psi_b\rangle = \frac{1}{\sqrt{2}}(|+++\rangle + (-1)^b|---\rangle)\] Which in the standard basis is \[H^{\otimes 3}\ket{\psi_b} =\frac{1}{2}(1+(-1)^b)(\ket{000} + \ket{101}+\ket{011} + \ket{110}) + \frac{1}{2}(1-(-1)^b)(\ket{111} + \ket{001} + \ket{010} + \ket{100})\]. Now Alice, Bob and Charlie all measure in the standard basis and obtain bits \(x_A, x_B,x_C\). They collect the bits at Charlie's who performs an XOR on them. Note now from the form of the above state that the result \(x_A\oplus x_B\oplus x_C = 1\) only happens with non-zero probability if \(b=1\) and similarly for \(x_A\oplus x_B\oplus x_C = 0\). Hence we have \(x_A\oplus x_B\oplus x_C = b \mod 2\).}
+\end{enumerate}
+% \begin{enumerate}[a)]
+% \item Alice's proposal
+% \item Bob's proposal
+% \item Charlie's proposal
+% \end{enumerate}
+%
+
+\end{exercises}

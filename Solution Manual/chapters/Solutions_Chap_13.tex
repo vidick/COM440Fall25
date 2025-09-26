@@ -1,0 +1,22 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Delegated Computation}
+
+\begin{exercises}
+
+
+\item {\bf Concentration bounds}
+\begin{enumerate}
+\item None of those values of $\epsilon$ would allow them to reach the desired conclusion. This is because it could be the case, for instance, that there is an $i\in\{1,\ldots,N\}\backslash S$ such that $Z_i = 0$ with certainty, while for all other $j$ $\Pr(Z_j=1) = \omega^*$. Then $i$ still has a $1/N$ chance of being picked.
+
+\item Again, none of the values of $\epsilon$ listed above allows Alice and Bob to reach the desired conclusion. This is because nothing is said about the probability of the event of observing such an $\omega_{est}$. In fact, it could be the case that the event $\mathcal{E}$ is really unlikely: an example scenario would be that of having all of the $Z_i's$ independent and identically distributed with mean $\omega^*-3\epsilon$. Then it is still possible, although very unlikely, that event $\mathcal{E}$ happens. When it happens, it is still the case that the remaining $Z_i$'s are independent and with mean $\omega^*-3\epsilon$. And hence the desired conclusion does not hold.
+\item We have
+\begin{align*}
+\Pr\Big(\sum_{i \in \{1,..,N\}\setminus S} Z_i &\leq \omega^*-2\epsilon \Big| \mathcal{E}\Big)\\
+&= \frac{\Pr\big(\sum_{i \in S} Z_i \geq \omega^*-\epsilon \land \sum_{i \in \{1,..,N\}\setminus S} Z_i \leq \omega^*-2\epsilon\big)}{\Pr(\mathcal{E})} \\
+&\leq e^{-2\epsilon^2 \frac{\frac{N}{2} N^2}{N (\frac{N}{2}+1)}} \cdot e^{\frac{N}{500}}
+\end{align*}
+using the concentration bound. 
+The right-hand side is $\leq e^{-\frac{N}{200}}$ when $\epsilon = 0.1$, but not for the other two options.
+\end{enumerate}
+\end{exercises}

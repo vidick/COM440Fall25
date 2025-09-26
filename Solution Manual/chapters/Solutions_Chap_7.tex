@@ -1,0 +1,42 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Distributing Keys}
+
+\begin{exercises}
+
+
+\item {\bf Generating key using using an anonymous message board}
+
+\begin{enumerate}
+\item The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence the will end up with an identical key. That the protocol is also secure is covered in the next question.
+
+\item If the two bits on the board are different, Eve does not know which one is Alice's and hence her best possible strategy is to just pick one of the two bits as a potential key bit, on average she guesses the correct bit \(50\%\) of the time. This makes the protocol secure.
+
+\item This is an open-ended question and students may come up with a variety of responses. The main idea is always for Alice and Bob to leverage that they can each know what they (and hence the other) wrote, but Eve cannot distinguish this. So, for example, we can proceed in two steps as follows. Alice and Bob each write a random bit. If they wrote the same bits, they start again. If they wrote different bits, then the random outcome is Alice's bit. 
+
+\end{enumerate}
+
+
+\item {\bf Key rate with special channels}
+
+\begin{enumerate}
+\item If \(q\geq1/2\) the best strategy for Eve is to always believe the value of the bit she intercepts. This means her probability of guessing the bit is just \(p_{guess} = q\). However if \(q\leq 1/2\), Eve's best strategy is to flip the value of the bit she receives (as it would be more likely for the bit to be flipped in the channel than not). In this case the guessing probability would be \(p_{guess} = 1-q\). The min entropy now follows from the usual definition.
+
+\item In the last question we saw that Eve could perfectly recover all bits when \(q=0\) {\bf and} \(q=1\). For all other values of \(q\) she has a non-zero min-entropy and hence we can distill key using this channel.
+
+\item If \(k\geq n\) then Eve can store all the bits that Alice sends to Bob. Hence her min-entropy is zero in this case. If \(k\) is smaller than \(n\) there are \(n-k\) bits that she is perfectly uninformed about. Hence her min-entropy is \(n-k\).
+\end{enumerate}
+
+
+\item {\bf Information reconciliation}
+
+\begin{enumerate}
+\item The only way we can have successful distribution of a 7-bit string is if no errors happen on any of the bits. This happens with probability \((1-p)^7\).
+
+\item The string \(S\) has error syndrome \(001\) and the string \(S'\) has error syndrome \(001\). This means that if the decoder receives the string \(001\) as error it can never tell whether \(S\) or \(S'\) happened.
+
+\item If we can correct for single qubit errors the probability of successful distribution becomes the complement of the probability of either zero or one error happening. This is given by \[p_{succ} = (1-p)^7 + 7p(1-p)^6 = 1 - 21p^2 + 70p^3 + O(p^4)\;.\]
+
+\item For the three bit protocol the probability of success was \(p_{succ,3} = (1-p)^3 + 3p(1-p)^2\) while the probability of success for the seven bit protocol is \(p_{succ,7} = (1-p)^7 + 7p(1-p)^6\). It is easy to check that \(p_{succ,7} - p_{succ,3} <0\) for all \(p\in [0,1]\) and hence the three bit protocol is more resistant to noise.
+\end{enumerate}
+\end{exercises}

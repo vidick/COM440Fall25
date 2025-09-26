@@ -1,0 +1,105 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Quantum Key Distribution Protocols}
+
+\begin{exercises}
+
+
+\item {\bf Thinking adversarially}
+
+\emph{Protocol 1:} Alice makes a mistake in step 4. Because she announces her basis to Bob (and Eve) before Bob tells her that he received and measured his states, Eve can intercept all Alice's qubits, measure them in the right bases (because she has \(\theta\)) and then re-prepare qubits in the same bases (or even re-use the same qubits, since measurement in the correct basis doesn't change the eigenstate), and send them to Bob.
+
+\emph{Protocol 2:} The protocol fails at step 3. Because the bases in which Alice prepares her qubits are known in advance Eve can intercept them upon transmission, measure them (discovering the strings \(x, \theta\)), and then re-prepare the states correctly to pass them to Bob. Once Bob announces \(\chi\) Eve has full information over the system and hence can easily reproduce the key that Alice and Bob make.
+
+\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
+
+
+\item {\bf Min-entropy from the matching outcomes bound}\label{ex:matching-min}
+
+\begin{enumerate}
+\item Recall that $X$ is a single bit, the output of Alice's measurement. Therefore its min-entropy is upper-bounded by $1$. Since Eve is totally uncorrelated and Alice's local density matrix is $\frac12\id$, $X$ is a uniform random bit with respect to Eve's point of view. That is, $\Hmin(X\mid E) = 1$.
+
+\item We want to compute the probability that Alice and Bob obtain the same outcome. Suppose $\Theta = 0$, so that Alice and Bob both measure in the standard basis.
+The expected value of the product of their measurement outcomes is $\bra{\psi_{ABE}} Z\otimes Z \otimes I \ket{\psi_{ABE}}$. If they make the same measurement, then the product of their measurements is $+1$. If they make different measurements, this product is $-1$.
+Therefore the expectation is equal to $p_{\text{same}\mid\Theta = 0} - p_{\text{different}\mid\Theta = 0}$. These two probabilities sum to $1$, so we conclude that
+\[p_{\text{same}\mid\Theta = 0} = \frac12 + \frac 12\bra{\psi_{ABE}} Z\otimes Z \otimes \id \ket{\psi_{ABE}}.\]
+Similarly,
+\[p_{\text{same}\mid\Theta = 1} = \frac12 + \frac 12\bra{\psi_{ABE}} X\otimes X \otimes \id \ket{\psi_{ABE}}.\]
+Finally,
+\begin{align*}
+p_{\text{same}} &= \frac12 p_{\text{same}\mid\Theta = 0} + \frac 12 p_{\text{same}\mid\Theta = 0}\\
+&= \frac12 + \frac 14\bra{\psi_{ABE}} X\otimes X \otimes \id \ket{\psi_{ABE}}+ \frac 14\bra{\psi_{ABE}} Z\otimes Z \otimes \id \ket{\psi_{ABE}}.
+\end{align*}
+
+\item Applying the standard basis expansion suggested in the problem, along with the identity $X = \ketbra 01 + \ketbra 10$, we can rewrite $\bra{\psi_{ABE}} X_A\otimes X_B \otimes \id_E \ket{\psi_{ABE}}$ as
+\begin{align*}
+&\left(\bra 0_A \otimes \bra{u_0}_{BE} +\ket 1_A \otimes \bra{u_1}_{BE}\right)\\
+&\qquad \cdot \left[(\ketbra01 + \ketbra10)_A\otimes X_B\otimes \id_E \right] \cdot  \left(\ket 0_A\otimes \ket{u_0}_{BE} +\ket 1_A \otimes \ket{u_1}_{BE}\right)\;.
+\end{align*}
+Evaluating inner products simplifies this to
+\[
+\bra{u_0}_{BE}X_B\otimes \id_E\ket{u_1}_{BE} +
+\bra{u_1}_{BE}X_B\otimes \id_E\ket{u_0}_{BE}\;.
+\]
+Since the two terms in the above some are complex conjugates of each other, their sum is equal to twice their real part. That is,
+\begin{align*}
+\bra{\psi_{ABE}} X_A\otimes X_B \otimes \id_E \ket{\psi_{ABE}}
+&=2\Re\bra{u_0}_{BE}X_B\otimes \id_E\ket{u_1}_{BE}\\
+&=2\Re\bra{u_1}_{BE}X_B\otimes \id_E\ket{u_0}_{BE}\;.
+\end{align*}
+
+\item First, observe that by part b),
+\[
+ 2p-1
+ = \frac 12\bra{\psi_{ABE}} X\otimes X \otimes \id \ket{\psi_{ABE}}+ \frac 12\bra{\psi_{ABE}} Z\otimes Z \otimes I \ket{\psi_{ABE}}\;.
+ \]
+By part c),
+\[
+ 2p-1
+ =\Re\bra{u_0}X_B\otimes \id_E\ket{u_1}
+ +\Re\bra{u_0}Z_B\otimes \id_E\ket{u_1}\;.
+ \]
+ By Ulhmann's theorem,
+ \[
+\abs{\bra{u_0}X_B\otimes \id_E\ket{u_1}} \leq F(\sigma_E^{X,0},\sigma_E^{X,1}) \text{ and }
+\abs{\bra{u_0}Z_B\otimes \id_E\ket{u_1}} \leq F(\sigma_E^{Z,+},\sigma_E^{Z,-}).
+ \]
+ Finally, notice that for any complex $z$, $\Re z \leq \abs z$. Chaining and adding inequalities gives the desired inequality with $\alpha = \beta = 1$.
+ \[
+|2p-1| \leq  F(\sigma_E^{X,0},\sigma_E^{X,1}) +  F(\sigma_E^{Z,+},\sigma_E^{Z,-})\;.
+ \]
+
+\item Recall that from part d) we have
+\begin{equation*}
+2p-1 \leq \alpha F(\sigma_E^{X,0},\sigma_E^{X,1}) + \beta F(\sigma_E^{Z,+},\sigma_E^{Z,-})\;.
+\end{equation*}
+Now, $D(\rho,\sigma) \leq \sqrt{1-F(\rho,\sigma)^2} \Rightarrow F(\rho,\sigma) \leq \sqrt{1-D(\rho,\sigma)^2}$. Hence, we have
+\begin{equation*}
+2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}\;.
+\end{equation*}
+Now, from the discussion at the start of the problem, we have the following lower bound on $\Hmin (X|E)$.
+\begin{equation*}
+\Hmin (X|E) \geq -\log \Big(\frac12(\frac12+\frac12 D(\sigma_E^{X,0},\sigma_E^{X,1}) +\frac12(\frac12+\frac12 D(\sigma_E^{Z,+},\sigma_E^{Z,-}))\Big)\;. \\
+\end{equation*}
+Simplifying the right-hand side results in
+\begin{equation*}
+\Hmin (X|E) \geq 1 - \log \Big(1 + \frac{D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})}{2}\Big)\;.
+\end{equation*}
+We want to find the maximum value of $D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})$ subject to $2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}$.
+We look at this as an optimization problem. The maximum value of $x+y$ subject to the constraint $\sqrt{1-x^2} + \sqrt{1-y^2} \geq \alpha$ is achieved when $\sqrt{1-x^2} + \sqrt{1-y^2} = \alpha$. Hence, we can use the Lagrange multiplier method to find that the maximum value of $x+y$ is $\sqrt{4-\alpha^2}$. Plugging in $\alpha = 2p-1$ gives that the maximum value of $x+y$ is $2\sqrt{p(1-p)+\frac34}$. Plugging this into the inequality for the min-entropy above gives the desired bound
+\begin{equation*}
+\Hmin (X|E) \geq 1 - \log\left(1+\sqrt{p(1-p)+ \frac34}\,\,\right)\;.
+\end{equation*}
+\end{enumerate}
+
+
+\item {\bf Trusted Nodes}
+
+\begin{enumerate}
+\item Alice and Charlie use QKD to generate a key $k_{AC}$. Charlie and Bob use QKD to generate a key $k_{CB}$. Charlie uses $k_{CB}$ to transmit $k_{AC}$ (or a fresh key) to Bob, for example using a one-time pad.
+
+\item If Eve has access to the channel used to transmit the key, and merely a one-time pad is used, then Eve could flip bits of the key. This is analogous to using the one-time pad to encrypt other classical messages, where the one-time pad ensures security but not integrity of the message. As with standard message transmission one may thus wish to use additional authentication tag to verify integrity of the message.
+
+\item Charlie provides all keys to Eve.
+\end{enumerate}
+\end{exercises}

@@ -1,0 +1,72 @@
+% !TeX root = ../main_only_solutions.tex
+\newcommand{\GC}{\ensuremath{\textsc{CLONE}}}
+\chapter{Quantum Money}
+
+\begin{exercises}
+
+
+\item {\bf Composing quantum maps}
+
+Suppose that we perform the following sequence of operations, starting with $n$ qubits in state $\rho$: (a) add $n_1$ qubits in state $\ket{0}$; apply $U_1$ on $n+n_1$ qubits; trace out $k_1$ qubits, and (b) add $n_2$ qubits in state $\ket{0}$; apply $U_2$ on $n+n_1+n_2-k_1$ qubits; trace out $k_2$ qubits. Then we make the following observations. Firstly, the $n_2$ qubits at step (b) could have been added at the start of step (a); as long as they are not used until step (b) this does not make a difference. Secondly, the $k_1$ qubits can be traced out at the end of step (b); as long as they are not touched throughout step (b) then it does not make a difference when we trace them out. As a result, the combination of (a) and (b) can be described as (c) add $n_1+n_2$ qubits in state $\ket{0}$; apply $U_1$ on the first $n+n_1$ qubits, and $U_2$ on all qubits except the $k_1$ that will be traced out; trace out $k_1+k_2$ qubits. Since the middle part of (c) can be described as the application of a single, bigger unitary $U$ (that is the composition of $U_1$ and $U_2$), we have obtained the required description. 
+
+
+\item {\bf Measurement attacks}
+
+%Consider all cloning attacks that take the following form. The adversary decides on an arbitrary orthonormal basis $(\ket{u_0},\ket{u_1})$ for the single-qubit space $\Complex^2$. It then measures the challenger's state $\ket{\psi_\$}$ in the basis $(\ket{u_0},\ket{u_1})$ to obtain an outcome $b\in\{0,1\}$. Finally, the adversary returns the density matrix $\rho = \proj{u_b}\otimes \proj{u_b}$. 
+\begin{enumerate}
+\item We evaluate the success probability of this attack for each of the $4$ possible states. If the initial state is $\ket{0}$, the outcome $b=0$ is obtained with probability $|\alpha|^2$, and $b=1$ is obtained with probability $|\beta|^2$. Preparing the state $\proj{u_b} \otimes \proj{u_b}$ leads to success probabilities of $|\alpha|^4$ and $|\beta|^4$ respectively. For the state $\ket{1}$, the probabilties are exchanged. For the states $\ket{+}$ and $\ket{-}$, $\alpha$ and $\beta$ are replaced with $(\alpha + \beta)/\sqrt{2}$ and $(\alpha-\beta)/\sqrt{2}$ respectively. Therefore, the overall success probability of this attack is 
+\[ \frac{1}{4}\Big( 2 \big( |\alpha|^6 + |\beta|^6\big) + 2\Big( \Big| \frac{\alpha + \beta}{\sqrt{2}}\Big|^6
++\Big| \frac{\alpha - \beta}{\sqrt{2}}\Big|^6\Big)\Big)\;.\]
+\item The optimum is achieved for $\alpha=\beta=\frac{1}{\sqrt{2}}$. 
+\item No... The success probability is the same: $5/8$. 
+\end{enumerate}
+
+
+\item {\bf A cloning map}\label{ex:2-qmamp}
+
+%In this exercise we verify that the map $T$ defined in Example~\ref{ex:opt-cl} is a valid quantum map. 
+\begin{enumerate}
+\item Since each of the four matrices is expressed as a linear combination, with positive coefficients, of rank-$1$ projections, it is positive. It only remains to check that each of them has trace $1$. For example, for $\rho_+$ the trace is 
+\begin{align*}
+ \Tr(\rho_+) &= \frac{1}{12} \big(\| 2 \ket{00} + \sqrt{2} \ket{\psi_{11}}\|^2 +\| 2 \ket{11} + \sqrt{2} \ket{\psi_{11}}\|^2 \big) \\
+&= \frac{1}{12} (6+6)\,=\,1\;.
+\end{align*}
+Here for the second line we used that $\ket{00}$ and $\ket{\psi_{11}}$, and $\ket{11}$ and $\ket{\psi_{11}}$, are pairs of orthonormal vectors. 
+\item Using that $\bra{00}\psi_{11}\rangle = \bra{11}\psi_{11}\rangle = 0$ we verify that 
+$\bra{v_0}v_1\rangle =0$, and moreover $\|\ket{v_0}\|=\|\ket{v_1}\|=1$.
+\item  Let's do the verification for the case $\ket{\psi}=\ket{+}$. Then,
+\begin{align*}
+T(\proj{+}_A) &= \Tr_C \big( V\big( \proj{+}_A \otimes \proj{00}_{BC} \big) V^\dagger \big)\\
+&= \Tr_C \Big( \frac{1}{2}\big( \ket{v_0}+\ket{v_1} \big) \big( \bra{v_0} + \bra{v_1} \big) \Big)\\
+&= \frac{1}{2} \Big( \big(\frac{2}{\sqrt{6}} \ket{00} + \frac{1}{\sqrt{3}} \ket{\psi_{11}} \big)\big(\frac{2}{\sqrt{6}} \bra{00} + \frac{1}{\sqrt{3}} \bra{\psi_{11}}\big) \\
+&\qquad + \big(\frac{1}{\sqrt{3}} \ket{\psi_{11}} +\frac{2}{\sqrt{6}} \ket{11} \big)\big( \frac{1}{\sqrt{3}} \bra{\psi_{11}}+\frac{2}{\sqrt{6}} \bra{11} \big) \Big)\;.
+\end{align*}
+Here, for the third line we expanded using the definition of $\ket{v_0}$ and $\ket{v_1}$, and used that $\Tr_C(\ket{0}\bra{1}_C)=\Tr_C(\ket{1}\bra{0}_C)=0$ to eliminate the cross terms. 
+By re-arranging the constant coefficients you can verify that this equals $\rho_+$. 
+
+\end{enumerate}
+
+
+\item {\bf An optimal attack}\label{ex:opt-wiesner}
+ 
+%\[ N_1 = \frac{1}{\sqrt{12}} \begin{pmatrix} 3 & 0 \\ 0 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix} \quad \text{and}\quad N_2 = \frac{1}{\sqrt{12}} \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ 1 & 0 \\ 0 & 3\end{pmatrix}\;.\]
+\begin{enumerate}
+\item We check that 
+\begin{align*}
+N_1^\dagger N_1 + N_2^\dagger N_2  &= \frac{1}{12}\begin{pmatrix} 10 & 0 \\ 0 & 2 \end{pmatrix}+\frac{1}{12} \begin{pmatrix} 2 & 0 \\ 0 & 10 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}\;,
+\end{align*}
+as should be the case. 
+\item For example, we can compute the image of $\ket{+}$ as 
+\begin{align*} 
+\mathcal{N}(\proj{+}) &= N_1 \proj{+} N_1^\dagger + N_2 \proj{+}N_2^\dagger \\
+&= \frac{1}{12} \frac{1}{2}\big( 3\ket{00} + \ket{01} + \ket{10} + \ket{11} \big)\big( 3\bra{00} + \bra{01} + \bra{10} + \bra{11} \big)\\
+&\qquad +\frac{1}{12} \frac{1}{2}\big( \ket{00} + \ket{01} + \ket{10} + 3\ket{11} \big)\big( \bra{00} + \bra{01} + \bra{10} + 3\ket{11} \big)\;.
+\end{align*}
+We can then verify that 
+\begin{align*}
+\bra{+}\bra{+}\mathcal{N}(\proj{+})\ket{+}\ket{+} &= \frac{1}{4}\frac{1}{24}\big( (3+1+1+1)^2 + (1+1+1+3)^2 \big)\\
+&= \frac{1}{96}( 36+36) = \frac{3}{4}\;.
+\end{align*}
+A similar calculation gives the same for the three other BB'84 states!
+\end{enumerate}
+\end{exercises}

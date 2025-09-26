@@ -1,0 +1,188 @@
+
+
+\chapter{}
+
+\begin{exercises}
+
+\item {\bf Classical one time pad}\\
+We meet up with our favourite protagonists, Alice and Bob. As you know by now, Alice and Bob often encounter an adversary named Eve who is intent on listening in on their conversations. In order to protect themselves Alice and Bob have, during the the last quantum cryptography conference, exchanged a large amount of classical key which they can use to encrypt messages. Alice knows that a safe way to encrypt is to use a classical one time pad, but she feels like this uses a large amount of key. She comes up with the following encoding scheme which she claims is also secure but uses less key. Alice's scheme goes as follows. For $i$ ranging from $1$ to $n$, the total number of bits in her message, Alice does the following: 
+\begin{protocolEnumerate}
+\item Alice flips a coin.
+\item If the result is tails she uses a shared key bit to encode the $i$-th message bit, via addition modulo 2 as in the one-time pad.
+\item If the result is heads,  she uses a fresh random bit $r$, generated on the fly, to encode the $i$-th message bit again via addition modulo 2. 
+\end{protocolEnumerate}
+Alice claims that this procedure uses less key, but is this really true?
+\begin{enumerate}
+\item  How many bits of key will Alice use on average for an $n$-bit message? 
+%\solopen{Since Alice consumes a key bit only when the fair coin lands on tails, which happens on average \(n/2\) times, she will consume on average \(n/2\) key bits to send an \(n\) bit message using this protocol.}
+\item This gain in key length probably comes at a price. Which of the following statements about the protocol is true?
+\begin{statements}
+\item The protocol is secure and correct (Bob can decode the message but Eve can not)
+\item The protocol is not secure but correct (Bob and Eve can decode the message)
+\item The protocol is secure but not correct (Neither Bob nor Eve can decode the message)
+\item The protocol is not secure and not correct (Eve can decode the message but Bob can not)
+\end{statements}
+%\solopen{The protocol is secure, because Eve has no knowledge of either the key bits or the random bits Alice generates. But it is not correct, since Bob has no knowledge of the random bits Alice generates. This means that, on average, Bob can not reconstruct half of the message.}
+\end{enumerate}
+
+\item {\bf Density matrices}\\
+Suppose that Alice and Bob share a device which they can use to send qubits to each other. In this exercise we  investigate what happens when the device sends states that are noisy.
+
+Let us imagine that Alice wants to send the state $\ket{0}$ to Bob. However, $50\%$ of the time the quantum device outputs the state $\ket{1}$ instead. 
+\begin{enumerate}
+\item Give an expression for $\rho$, the density matrix describing the state that Bob receives.
+%\solopen{We have
+%    \[ \rho_B = \frac{1}{2}\dens{0} + \frac{1}{2}\dens{1} = \begin{pmatrix} \frac{1}{2} & 0 \\ 0 & \frac{1}{2}\end{pmatrix}\]}
+% \begin{enumerate}[a)]
+% \item $\begin{pmatrix} \frac{1}{2}& 0 \\ 0 &\frac{1}{2}\end{pmatrix}$
+% \item $\begin{pmatrix} 1 &0 \\ 0 &1\end{pmatrix}$
+% \item $\begin{pmatrix} \frac{1}{2} &\frac{1}{2}  \\ \frac{1}{2} & \frac{1}{2}\end{pmatrix}$
+% \end{enumerate}
+\item Imagine that Bob receives two identical, independent copies of this density matrix. He chooses to measure one of them in the standard basis and the other in the Hadamard basis. What are the distributions of the outcomes $0,1,+,-$?
+%\solopen{Note that we can write
+%\[\rho_B = \frac{1}{2}(\dens{0}+\dens{1}) = \frac{1}{2}(\dens{-} + \dens{+})\]
+%This means the probability of getting any answer is \(p=0.5\) regardless of the basis setting.}
+% \begin{enumerate}[a)]
+% \item $p_0 = 1, p_1 = 0, p_+ = 0.5 , p_- = 0.5$
+% \item $p_0 = 0.5, p_1 = 0.5, p_+ = 0.5 , p_- = 0.5$
+% \item $p_0 = 0.5, p_1 = 0.5, p_+ = 1 , p_- = 0$
+% \end{enumerate}
+\item Now suppose that the machine on Alice's side is not noisy but simply wrong and consistently prepares qubits in the state $\ket{+}$. If Bob again has two states and measures one of them in the standard basis and one of them in the Hadamard basis what is the distribution of  outcomes?
+%\solopen{In contrast to the last question the measurement statistics now depend on the chosen basis. Note
+ %   \[\rho_B = \dens{+}.\]
+ %   So we have \(p_+=1\), \( p_- = 0\). But also
+ %   \[\rho_B = \frac{1}{2}(\dens{0}+\dens{1}) + \frac{1}{2}(\ket{0}\bra{1} + \ket{1}\bra{0})\]
+ %   which means we have \(p_0 = p_1 = 0.5\).}
+% \begin{enumerate}[a)]
+% \item $p_0 = 1, p_1 = 0, p_+ = 0.5 , p_- = 0.5$
+% \item $p_0 = 0.5, p_1 = 0.5, p_+ = 0.5 , p_- = 0.5$
+% \item $p_0 = 0.5, p_1 = 0.5, p_+ = 1 , p_- = 0$
+% \end{enumerate}
+\end{enumerate}
+
+
+\item {\bf Classical-quantum states}\\
+Consider again Alice's faulty qubit transmission device. Imagine that, as in the previous exercise, when asked to produce a $\ket{0}$ state the device returns either $\ket{0}$ or $\ket{+}$ with $50\%$ probability. But now suppose further that the device also returns a classical flag that indicates which state was produced, $0$ for $\ket{0}$ and $1$ for $\ket{+}$. The joint state of the flag and the qubit produced can be described by the classical-quantum state
+\begin{equation}
+\rho_{XA} = \frac{1}{2}\dens{0}_X \otimes\dens{0}_A + \dens{1}_X\otimes \dens{+}_A\;,
+\end{equation}
+where $X$ is used to designate the flag bit, and $A$ the qubit. 
+Now imagine Alice generates a state using her machine and sends it to Bob, while keeping the classical flag to herself. From the point of view of Bob, this situation is exactly analogous to the one described in the previous exercise. In particular, Bob receives a qubit that is in the mixed state
+\begin{equation}
+\rho_B = \frac{1}{2}\dens{0}+ \frac{1}{2}\dens{+}
+\end{equation}
+Now Bob can choose to either measure in the standard basis or in the Hadamard basis.
+\begin{enumerate}
+\item Which one of Bob's possible measurement settings, computational or Hadamard, will give him the highest probability of getting outcome $0$ ($+$ in the Hadamard basis)?
+%\solopen{The density matrix \(\rho_B\) is \[\rho_B = \begin{pmatrix} \frac{3}{4} & \frac{1}{4}\\ \frac{1}{4} & \frac{1}{4}\end{pmatrix}\] This allows us to compute \(p_+ = p_0 = \frac{3}{4}\). So both settings give the same probability.}
+% \begin{enumerate}[a)]
+% \item Measuring in the Hadamard basis with $p_+ = \frac{1}{2}$
+% \item Measuring in the standard basis with $p_0 = \frac{1}{2}$
+% \item Both bases will give the same probability $p_0 = p_+ = \frac{2}{3}$
+% \item Both bases will give the same probability $p_0 = p_+ = \frac{3}{4}$
+% \end{enumerate}
+\end{enumerate}
+Now imagine that Alice also sends the flag $X$ to Bob. Thus Bob receives two qubits in the joint state $\rho_{XA}$.
+\begin{enumerate}
+\item[2.] Which of the following strategies allows Bob to recover Alice's intended qubit, $\ket{0}$, with certainty? 
+\begin{statements}
+\item If the flag value is $0$ Bob measures in the standard basis, and in the Hadamard basis otherwise.
+\item If the flag value is $0$ Bob measures in the Hadamard basis, and in the standard basis otherwise.
+\item The flag value does not affect Bob's chances of getting the right result (outcome $0$ in the standard basis, outcome $+$ in the Hadamard basis)
+\end{statements}
+%\solopen{If the flag value is zero Bob knows that the state in his possession is of the form \[\rho_{B,0} = \dens{0}.\] And if the flag value is \(1\) it is of the form \[\rho_{B,1} = \dens{+}.\] Hence Bob should measure in the standard basis if the flag value is zero and in the Hadamard basis otherwise.}
+\end{enumerate}
+
+\item {\bf Quantum one-time pad}\\
+In the chapter we saw that two classical bits of key are needed to encrypt one qubit: one for choosing whether to apply a $Z$, and another for choosing whether to apply an $X$. This was necessary because the $X$ operation has no effect on the $\ket{+}$ state and the $Z$ operation has no effect on the $\ket{0}$ state. Now, Alice has come up with a clever idea for a protocol that uses only one bit of key per qubit. Instead of an $X$ or a $Z$ operation she will apply a Hadamard $H$, which is the unitary transformation such that $H\ket{0} = \ket{+}$ and $H\ket{+} = \ket{0}$. This allows her to avoid the problem of leaving either standard basis states or Hadamard basis states unchanged by the encryption, while only using one bit of key (for deciding wether or not to apply $H$) per qubit. Before Alice rushes to publish her discovery it might be worthwhile to check if her scheme is truly secure.
+\begin{enumerate}
+\item Specify a decryption operation such that Alice's scheme is a correct encryption scheme. 
+%\solopen{Bob can decode by applying an $H$ whenever the key bit is $1$. Using $H^2=\id$, this is correct.}
+\item Is Alice's scheme secure? 
+%\solopen{It is not secure because we have \(H\frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+}) = \frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+})\) and hence this state is not encrypted. One can verify by direct calculation that the state \[\frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+})\] is an eigenstate of \(H\). Hence this state does not get hidden by encryption.}
+\end{enumerate}
+
+
+\item {\bf Unambiguous quantum state discrimination}\\
+In this problem we will explore a practical advantage to performing a general POVM rather than a projective measurement. Consider the following scenario: Bob sends Alice a qubit prepared in one of the two non-orthogonal states $\ket{0}$ and $\ket{+}$, each with probability $\frac{1}{2}$. Alice wants to determine which state Bob has prepared. To this end she performs a measurement on Bob's qubit whose measurement outcome identifies it as either $\ket{0}$ or $\ket{1}$. Alice's goal is to minimize the probability of mis-identifying $\ket{0}$ as $\ket{+}$, or vice versa. Let us first restrict her to projective measurements.
+\begin{enumerate}
+\item Suppose that Alice measures in the basis $\set{\ket{0},\ket{1}}$. She identifies the state as $\ket{0}$ if she gets the outcome $\ket{0}$ and as $\ket{+}$ if she gets the outcome $\ket{1}$. What are $p$, her probability of incorrectly identifying $\ket{0}$, and $q$, her probability of incorrectly identifying $\ket{+}$?
+%\solopen{When Alice gets sent the $\ket{0}$ state, she will perfectly detect this in the computational basis. When Alice gets sent the $\ket{+}$ state, the outcome of a measurement in the computational basis will give her 0 or 1 with probability a half. So $p=1$ and $q=1/2$.}
+% \begin{enumerate}[a)]
+% 	\item $p=1,q=0$
+% 	\item $p=\frac{1}{2},q=0$
+% 	\item $p=1,q=\frac{1}{2}$
+% 	\item $p=q=\frac{1}{2}$
+% \end{enumerate}
+\item Suppose instead Alice measures in the basis $\set{\ket{+},\ket{-}}$. She identifies the state as $\ket{+}$ if she gets the outcome $\ket{+}$ and as $\ket{0}$ if she gets the outcome $\ket{-}$. What are $p$, her probability of incorrectly identifying $\ket{0}$, and $q$, her probability of incorrectly identifying $\ket{+}$?
+%\solopen{This is similar to the previous question. When Alice gets sent the $\ket{+}$ state, she will perfectly detect this in the [$ \{\ket{+},\ket{-}\}$  basis. When Alice gets sent the $\ket{-}$ state, the outcome of a measurement in the $\{\ket{+},\ket{-}\}$ basis will give her 0 or 1 with probability a half.}
+% \begin{enumerate}[a)]
+% 	\item $p=1,q=0$
+% 	\item $p=\frac{1}{2},q=0$
+% 	\item $p=1,q=\frac{1}{2}$
+% 	\item $p=q=\frac{1}{2}$
+% \end{enumerate}
+%
+\end{enumerate}
+One can show (you may try!) that Alice cannot do better than the above with any projective measurement. That is, no projective measurement gives her a smaller average probability of mis-identification $(p+q)/2$. Now suppose that we allow Alice to perform a general measurement. In particular consider the following POVM with three elements:
+\begin{align*}
+E_1 &= \frac{\sqrt{2}}{1+\sqrt{2}} \ketbra{1}{1} \\
+E_2 &= \frac{\sqrt{2}}{1+\sqrt{2}} \frac{(\ket{0}-\ket{1})(\bra{0}-\bra{1})}{2} \\
+E_3 &= \id - E_1 - E_2
+\end{align*}
+\begin{enumerate}
+\item[3.] Alice identifies the state as $\ket{+}$ if she gets outcome 1, as $\ket{0}$ if she gets outcome 2, and makes no identification if she gets outcome 3. What are her probabilities and of mis-identifying $\ket{0}$ and $\ket{+}$ as the other, respectively?
+%\solopen{First note that $E_1$ and $E_2$ are, up to a factor of $\frac{\sqrt{2}}{1+\sqrt{2}}$, projectors unto the $\proj{1}$ and $\proj{-}$ states, respectively. From this it follows that $E_1\ket{0} = 0$ and $E_2\ket{+} = 0$, while $E_1\ket{+} \neq 0$ and $E_2\ket{1} \neq 0$. This means we have some finite probability of correctly detecting the state, while being certain that we will never project unto a `wrong' state. Of course, to satisfy the requirements on a POVM we have to add the additional POVM element $E_3$.}
+%
+% \begin{enumerate}[a)]
+% 	\item $p=q=0$
+% 	\item $p=\frac{1}{2},q=0$
+% 	\item $p=0,q=\frac{1}{2}$
+% 	\item $p=q=\frac{1}{2}$
+% \end{enumerate}
+\end{enumerate}
+
+\item {\bf Robustness of GHZ and W States}\label{ex:robust-GHZ}\\
+In this problem we explore two classes of $N$-qubit states that are especially useful for cryptography and communication, but behave very differently under tracing out a single qubit. Let's first define them for $N=3$:
+\begin{align*}
+& \text{GHZ state:} \quad \ket{GHZ_3} = \frac{1}{\sqrt{2}} (\ket{000}+\ket{111}) \\
+& \text{W state:} \quad \ket{W_3} = \frac{1}{\sqrt{3}} (\ket{100}+\ket{010}+\ket{001})
+\end{align*}
+Note that both states are symmetric under permutation of the three qubits, so without loss of generality we may trace out the last one, $\Tr_3$. Also, we have analogously $\ket{GHZ_2}=\frac{1}{\sqrt{2}} (\ket{00}+\ket{11})$ and $\ket{W_2}=\frac{1}{\sqrt{2}} (\ket{10}+\ket{01})$.
+
+In the following we consider the \textit{overlap} between $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out) and their $(N-1)$-qubit counterparts. The overlap of density matrices $\rho$ and $\sigma$ is defined as $\Tr \rho\sigma$, a measure of ''closeness'' that generalizes the expression $|\braket{\phi}{\psi}|^2$ for pure states.
+\begin{enumerate}
+\item Calculate the overlap between $\ketbra{GHZ_2}{GHZ_2}$ and $\Tr_3\ketbra{GHZ_3}{GHZ_3}$.
+%\solopen{
+%	First note that if $\rho = \proj{\psi}$ is pure, then $\Tr\left(\rho \sigma\right) = \Tr\left(\proj{\psi} \sigma\right) = \Tr\left(\bra{\psi} \sigma\ket{\psi}\right) = \bra{\psi} \sigma\ket{\psi}$.
+%	We can view tracing out part of a state as a consequence of an unknown party, say Bob, measuring that part of the state. In this case, measuring the third qubit in the computational basis (remember that the partial trace is independent of the basis we choose, see the videos and lecture notes) gives Bob either 0 or 1 with probability a half. The corresponding states on the first two qubits are $\proj{00}$ and $\proj{11}$, respectively. Thus, the remaining state is $\frac{1}{2}\proj{00}+\frac{1}{2}\proj{11}$.
+%	We have that $\proj{GHZ_2} = \frac{1}{2}\left(\proj{00}+\proj{11}+\ketbra{00}{11}+\ketbra{11}{00} \right)$, which is a pure state. Using the fact that this is a pure state, we find that
+	%
+%	\begin{gather*}
+%	\Tr\left(\ketbra{GHZ_2}{GHZ_2} \Tr_3\ketbra{GHZ_3}{GHZ_3}\right) \\
+%	= \bra{GHZ_2} \Tr_3 \left(\proj{GHZ_3}\right)\ket{GHZ_2}=\frac{1}{4}\left(\braket{00}{00}+\braket{11}{11}\right)=\frac{1}{2}
+%	\end{gather*}
+%}
+
+\item Calculate the overlap between  $\ketbra{W_2}{W_2}$ and $\Tr_3\ketbra{W_3}{W_3})$.
+%\solopen{
+%Measuring the third qubit gives a 0 with probability $2/3$, so that the state on the other two qubits is equal to $\proj{W_2}$. If a measurement on the third qubit gives a 1 (with probability $1/3$), the corresponding state on the first two qubits is $\proj{00}$. The state on the first two qubits after tracing out the third qubit is $\Tr_3\left(\proj{W_3}\right) = \frac{2}{3}\proj{W_2}+\frac{1}{3}\proj{00}$.
+%Since $\inp{W_2}{00} = 0$, we have that $$\Tr\left(\proj{W_2} \Tr_3\left(\proj{W_3}\right)\right) = \frac{2}{3}$$.
+%}
+\end{enumerate}
+Now we generalize to the $N$-qubit case. As you might expect, $\ket{GHZ_N}=\frac{1}{\sqrt{2}} (\ket{0}^{\otimes N}+\ket{1}^{\otimes N})$ and $\ket{W_N}$ is an equal superposition of all $N$-bit strings with exactly one 1 and $N-1$ 0's.
+\begin{enumerate}
+\item[3.] What is the overlap $\Tr(\ketbra{GHZ_{N-1}}{GHZ_{N-1}} \Tr_N\ketbra{GHZ_N}{GHZ_N})$ in the limit $N \rightarrow \infty$?
+%\solopen{
+%We have that $\Tr_N \left(\proj{GHZ_N}\right) = \frac{1}{2}|\underbrace{00\ldots0}_{N-1}\rangle\langle\underbrace{00\ldots0}_{N-1}|+\frac{1}{2}|\underbrace{11\ldots1}_{N-1}\rangle\langle\underbrace{11\ldots1}_{N-1}|$. Using similar reasoning as in the first problem, we find that the overlap is equal to $1/2$.
+%}
+\item[4.] What is the overlap $\Tr(\ketbra{W_{N-1}}{W_{N-1}} \Tr_N\ketbra{W_N}{W_N})$ in the limit $N \rightarrow \infty$?
+%\solopen{
+%Measuring the last qubit gives a $0$ with probability $\frac{N-1}{N}$, so that the state on the remaining qubits is equal to $\ketbra{W_{N-1}}$. If a measurement on the last qubit gives a 1 (with probability $\frac{1}{N}$), the corresponding state on the remaining qubits is $|\underbrace{00\ldots0}_{N-1}\rangle \langle\underbrace{00\ldots0}_{N-1} |$. The state on the first $N-1$ qubits after tracing out the last qubit is then $\Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right) = \frac{N-1}{N}\ketbra{W_{N-1}}+\frac{1}{N}|\underbrace{00\ldots0}_{N-1}\rangle \langle \underbrace{00\ldots0}_{N-1}|$.
+%Since $\langle W_{N-1}|\underbrace{00\ldots}_{N-1}\rangle = 0$, we have that $\Tr\Big(\left| W_{N-1} \right\rangle \left\langle W_{N-1} \right| \Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right)\Big) = \frac{N-1}{N}$. Taking the limit we get $\lim_{N\rightarrow\infty}\frac{N-1}{N} = 1$.
+%}
+% %
+\end{enumerate}
+The interpretation of these results is that $W$ states are more ``robust'' against loss of a single qubit than GHZ states.
+% \end{enumerate}
+\end{exercises}

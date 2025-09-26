@@ -14,13 +14,13 @@
 \newif\ifnotes\notesfalse
 
 
-\input{../../com440-default.tex}
-\input{../../com440-macros.tex}
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
 
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+{\bf Homework \# 2} \hfill {\bf due: 12:59PM, October 8th, 2019}
 
 
 \medskip
@@ -54,18 +54,81 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 {\bf Problems:}
 \begin{enumerate}
 
-\item (2 points) {\bf Copying qubits.}
-Consider a unitary operation $U$ that can copy the eigenstates of the standard basis. That is, $U$ is a $4\times 4$ unitary matrix such that $U (\ket{0} \otimes \ket{0}) = \ket{0}\otimes  \ket{0}$ and $U (\ket{1} \otimes\ket{0}) = \ket{1} \otimes \ket{1}$. 
-\begin{enumerate}
-\item Does such a $U$ exist? If so, justify; if not, prove why not. 
-\item Assume such a $U$ does exist. Can you infer what vector it sends $\ket{-} \ket{0}$ to? Give a formal statement for the version of the ``no-cloning theorem'' that you have just proved. 
-\item Suppose that $\{\ket{\psi_1},\ket{\psi_2}\}$ are qubit states such that $0<|\langle \psi_1 | \psi_2 \rangle | <1$. Prove that there does not exist an $U$ that satisfies $U(\ket{\psi_i}\ket{0})=\ket{\psi_i}\ket{\psi_i}$ for $i\in\{1,2\}$. \emph{[Hint: this does not use the previous questions. Think about what you know of unitary matrices]} Deduce a second formal statement for a ``no-cloning theorem'', that matches what you just proved.    
-\end{enumerate}
-
 \item (4 points) {\bf The EPR pair.}
 Recall the definition of the EPR pair,
 \[ \ket{\mathrm{EPR}} = \frac{1}{\sqrt{2}} \big( \ket{0} \otimes \ket{0} + \ket{1}\otimes \ket{1}\big)\;.\]
 Prove rigorously that there does not exist two single-qubit states $\ket{\psi}$ and $\ket{\phi}$ such that $\ket{\mathrm{EPR}} = \ket{\psi} \otimes \ket{\phi}$. \emph{[Hint: Reason by contradiction. Expand everything in the standard basis.]}
+
+
+\item {\bf Robustness of GHZ and W States}\label{ex:robust-GHZ}\\
+In this problem we explore two classes of $N$-qubit states that are especially useful for cryptography and communication, but behave very differently under tracing out a single qubit. Let's first define them for $N=3$:
+\begin{align*}
+& \text{GHZ state:} \quad \ket{GHZ_3} = \frac{1}{\sqrt{2}} (\ket{000}+\ket{111}) \\
+& \text{W state:} \quad \ket{W_3} = \frac{1}{\sqrt{3}} (\ket{100}+\ket{010}+\ket{001})
+\end{align*}
+Note that both states are symmetric under permutation of the three qubits, so without loss of generality we may trace out the last one, $\Tr_3$. Also, we have analogously $\ket{GHZ_2}=\frac{1}{\sqrt{2}} (\ket{00}+\ket{11})$ and $\ket{W_2}=\frac{1}{\sqrt{2}} (\ket{10}+\ket{01})$.
+
+In the following we consider the \textit{overlap} between $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out) and their $(N-1)$-qubit counterparts. The overlap of density matrices $\rho$ and $\sigma$ is defined as $\Tr \rho\sigma$, a measure of ''closeness'' that generalizes the expression $|\braket{\phi}{\psi}|^2$ for pure states.
+\begin{enumerate}
+\item Calculate the overlap between $\ketbra{GHZ_2}{GHZ_2}$ and $\Tr_3\ketbra{GHZ_3}{GHZ_3}$.
+\item Calculate the overlap between  $\ketbra{W_2}{W_2}$ and $\Tr_3\ketbra{W_3}{W_3})$.
+\end{enumerate}
+Now we generalize to the $N$-qubit case. As you might expect, $\ket{GHZ_N}=\frac{1}{\sqrt{2}} (\ket{0}^{\otimes N}+\ket{1}^{\otimes N})$ and $\ket{W_N}$ is an equal superposition of all $N$-bit strings with exactly one 1 and $N-1$ 0's.
+\begin{enumerate}
+\item[3.] What is the overlap $\Tr(\ketbra{GHZ_{N-1}}{GHZ_{N-1}} \Tr_N\ketbra{GHZ_N}{GHZ_N})$ in the limit $N \rightarrow \infty$?
+\item[4.] What is the overlap $\Tr(\ketbra{W_{N-1}}{W_{N-1}} \Tr_N\ketbra{W_N}{W_N})$ in the limit $N \rightarrow \infty$?
+\end{enumerate}
+The interpretation of these results is that $W$ states are more ``robust'' against loss of a single qubit than GHZ states.
+
+
+\item {\bf Robustness of GHZ and W States, Part 2}\\
+We return to the multi-qubit GHZ and W states introduced in the previous exercise. 
+In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last of $N$ qubits.
+\begin{enumerate}
+\item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
+%\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
+%
+\end{enumerate}
+ Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
+\begin{enumerate}
+\item[2.] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
+%\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
+% \begin{enumerate}[a)]
+% 	\item 1 and 0
+% 	\item 1 and $\frac{1}{d}$
+% 	\item 1 and $\frac{1}{d^2}$
+% 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
+% \end{enumerate}
+%
+\item[3.] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
+%\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
+\end{enumerate}
+Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
+\begin{enumerate}
+\item[4.] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+%
+\item[5.] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{We have again by direct calculation
+%$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+\end{enumerate}
+Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
+
+
+
+
 
 \end{enumerate}
 \end{document}

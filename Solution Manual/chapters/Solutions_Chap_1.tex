@@ -1,0 +1,36 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Background Material}
+
+\begin{exercises}
+	
+	
+\item {\bf The simplest quantum communication task}
+\begin{enumerate}
+\item 
+$a=0$: $p_0=1$, $p_1=0$\\
+$a=1$: $p_0=0$, $p_1=1$\\
+This can be seen easily by calculating the inner product between $\ket{0}$ and $\ket{1}$ and noting that these are orthonormal vectors.
+
+\item In both cases $p_0=0.5$, $p_1=0.5$.
+
+\item The first scenario. Note that in the first scenario Bob's probability of measuring the outcome 0 when Alice sent the state \(|0\rangle\) was \(p_0=1\) and Bob's probability of measuring the outcome 1 when Alice sent the state \(|1\rangle\) was \(p_1=1\). This means Bob can guess both possible inputs with probability 1, i.e., he is certain that his outcome will be right. In the second scenario, he will measure with probabilities \(p_0=p_1=\frac{1}{2}\) regardless of Alice's input state. This means he cannot distinguish the inputs any better than just a random guess.
+
+\item $U=\frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}$. You can verify that this works by calculating $U\ket{+}$ and $U\ket{-}$.
+
+\item Bob measures in the Hadamard basis and $p_0\approx 0.97$. The easiest way to check this is by calculating the inner product between the state \(|\phi\rangle\) and the \(|0\rangle\) and \(|+\rangle\) states. Don't forget about the square! We have
+$$\abs{\braket{\phi}{0}}^2 = \frac{2}{3}$$
+    $$\abs{\braket{\phi}{+}}^2 \approx 0.97$$
+\end{enumerate}
+
+
+\item {\bf The EPR pair}
+
+
+\begin{enumerate}
+\item We expand
+\[ \ket{\phi}_A \otimes \ket{\psi}_B = \sum_{(x,y)\in\{0,1\}^2} \beta_{x,A}\beta{y,B}\ket{x}_A\ket{y}_B\;.\]
+If $\alpha_{xy}=0$ then $\beta_{x,A}\beta_{y,B}=0$ and so either $\beta_{x,A}=0$ or $\beta_{y,B}=0$.
+\item For the EPR pair, $\alpha_{01}=\alpha_{10}=0$. This means that ($\beta_{0,A}=0$ or $\beta_{1,B}=0$) AND ($\beta_{1,A}=0$ or $\beta_{0,B}=0$). Since we cannot have $\beta_{0,A}=0$ and $\beta_{1,A}=0$, the only two options are $\beta_{0,A}=0$ and $\beta_{0,B}=0$, in which case $\ket{\phi}_A = \ket{\psi}_B = \ket{1}$, or $\beta_{1,B}=0$ and $\beta_{1,A}=0$, in which case $\ket{\phi}_A = \ket{\psi}_B = \ket{0}$. Neither of these cases gives us the EPR pair, hence a contradiction. 
+\end{enumerate}
+\end{exercises}

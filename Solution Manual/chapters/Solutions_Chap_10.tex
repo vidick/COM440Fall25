@@ -1,0 +1,180 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Quantum Cryptography Beyond Key Distribution}
+
+\begin{exercises}
+
+
+\item {\bf A Weak Coin Flipping Protocol}
+\begin{enumerate}
+\item We see from the description of steps 3 and 4 that when Alice and Bob are honest, they always both return the same outcome $c=a\oplus b$. Since $a$ and $b$ are both chosen uniformly at random, $c$ is also uniformly random. Therefore, the protocol is correct. 
+
+\item Bob's reduced density matrix after step 1 is 
+\begin{align*}
+\rho_a &= \Tr_A(\ket{\psi_{a}}\bra{\psi_a}) = \frac12 \Tr_A \big((\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )(\bra{0}\bra{\psi_{a,0}}+\bra{1}\bra{\psi_{a,1}})\big) \\
+&= \frac12 (\ket{\psi_{a,0}}\bra{\psi_{a,0}} + \ket{\psi_{a,1}}\bra{\psi_{a,1}})\;.
+\end{align*}
+Simplifying the latter gives
+\begin{equation*}
+\rho_a = \cos^2(\frac{\alpha}{2}) \proj{0}  +\sin^2(\frac{\alpha}{2}) \proj{a+1}\;.
+\end{equation*}
+
+\item Recalling the interpretation of the fidelity as the square root of the probability that Alice can convince Bob that a state is another. Hence the probability that Alice wins given that Bob sent $b$ is precisely $F^2(\sigma_b, \ket{\psi_b}\bra{\psi_b})$, and this can be upper bounded (tracing out the qubit system) by $F^2(\sigma, \rho_b)$.
+
+\item
+\begin{align*}
+	\Pr(\mbox{Alice wins}) &= \frac12 \big(\Pr(\mbox{Alice wins} | b = 0)+ \Pr(\mbox{Alice wins} | b = 1) \big) \\
+	&\leq \frac12 \big(F^2(\sigma, \rho_0)+F^2(\sigma, \rho_1)\big)\;.
+\end{align*}
+Using the fact from the hint we get
+\begin{equation*}
+\Pr\big(\mbox{Alice wins}\big) \leq \frac12\big(1+F(\rho_0, \rho_1)\big)\;.
+\end{equation*}
+Finally, we can calculate $F(\rho_0, \rho_1) = \|\sqrt{\rho_0}\sqrt{\rho_1} \|_{tr} = \cos^2(\frac{\alpha}{2})$, which gives us the desired bound.
+
+\item The state possessed by Alice after Bob has applied $U$ and returned his qutrit to Alice is
+\begin{equation*}
+\id\otimes U \ket{\psi_a} = \id\otimes U \frac{1}{\sqrt{2}}(\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )\;,
+\end{equation*}
+which is
+\begin{equation*}
+\frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) + \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big)\;.
+\end{equation*}
+The probability of Bob winning, given that Alice has picked $a$, is the modulus squared of the overlap between the honest state $\ket{\psi_a}$ expected by Alice and the state after Bob's unitary, that is
+\begin{align*}
+\Big|\bra{\psi_a} \otimes \id  &\cdot \frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\\
+& \qquad\qquad+ \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big) \Big|^2 \\
+&= \frac14 \Big|\bra{\psi_{a,0}}\otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \\
+&\qquad\qquad+ \bra{\psi_{a,1}} \otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \Big|^2\;.
+\end{align*}
+Substituting the definitions of $\ket{\psi_{a,0}}$ and $\ket{\psi_{a,1}}$ gives, after simplification,
+\begin{equation*}
+\Pr(\mbox{Bob wins $|$ Alice sent $a$} ) =| \cos^2\frac{\alpha}{2} \bra{0}\otimes I \ket{\xi_{0,\bar{a}}} + \sin^2\frac{\alpha}{2} \bra{a+1} \otimes I \ket{\xi_{a+1,\bar{a}}}|^2\;.
+\end{equation*}
+
+\item Yes, it should be!
+
+\item You are told that 
+\[\Pr(\mbox{Bob wins} | \mbox{Alice picked $a$}) \leq \Big(\cos^2(\frac{\alpha}{2}) \|\ket{\xi_{0,\bar{a}}}\| + \sin^2(\frac{\alpha}{2})\Big)^2\;.\]
+You can bound $\Pr(\mbox{Bob wins})$ by averaging the latter bound over $a \in \{0,1\}$. This is maximized when $\|\ket{\xi_{0,0}}\| = \|\ket{\xi_{0,1}}\| = \frac{1}{\sqrt{2}}$ (recall that $\|\ket{\xi_{0,0}}\|^2 + \|\ket{\xi_{0,1}}\|^2 = 1$). \\
+Thus, $\Pr(\mbox{Bob wins})$ is bounded by $\Big( \frac{1}{\sqrt{2}}\cos^2(\frac{\alpha}{2}) +\sin^2(\frac{\alpha}{2})\Big)^2$.
+
+\item The bias is minimized by choosing $\alpha$ that makes Alice and Bob's probabilities of dishonestly winning equal. That is, from the tight bounds found earlier, $\alpha$ such that
+\begin{equation*}
+\frac12(1+\cos^2\frac{\alpha}{2}) = \Big(\frac{1}{\sqrt{2}}\cos^2\frac{\alpha}{2} + \sin^2\frac{\alpha}{2}\Big)^2\;.
+\end{equation*}
+Solving for $\alpha$ makes the two sides equal to $0.739$, i.e. no player can win with probability greater than $0.739$. Thus the bias is $0.239$.
+\end{enumerate}
+
+\item {\bf A Simple Quantum Bit Commitment Protocol}
+\begin{enumerate}
+\item $\rho_b = \Tr_1(\ket{\psi_b}\bra{\psi_b}) = \alpha \proj{b} + (1-\alpha) \proj{2}$.
+
+\item Recall that the optimal probability with which Bob can distinguish between two states $\rho$ and $\sigma$ is $\frac12 + \frac14 \|\rho-\sigma\|_{tr}$.
+In our protocol, Bob's cheating probability is the optimal probability with which he can distinguish between Alice commiting to $0$ or to $1$, i.e. between $\rho_0$ and $\rho_1$. 
+So 
+\[ P_B^{*} = \frac12 + \frac14 \|\rho_0 - \rho_1\| = \frac12 + \frac{\alpha}{4} \| \ket{0}\bra{0}- \ket{1}\bra{1}\|_{tr} = \frac12 + \frac{\alpha}{2}\;.\]
+
+\item The probability that Alice successfully opens bit $b$ equals the probability that she passes Bob's check for $b$ at the end of the protocol, i.e. that Bob measures his part of the joint state and gets the honest $\ket{\psi_b}$ as the outcome:
+\begin{align*}
+\Pr(\mbox{Alice successfully opens $b$}) &= \sum_{i} p_i |\braket{\psi_b}{\tilde{\psi_{i,b}}}|^2 \\
+&= F^2(\sigma_b, \ket{\psi_b}\bra{\psi_b})\;.
+\end{align*}
+Now, tracing out the system $\mathcal{H}_s$, and using the fact that the fidelity is non-decreasing under taking partial trace, we have
+\begin{align*}
+\Pr(\mbox{Alice successfully opens $b$}) &\leq F^2\Big(Tr_{\mathcal{H}_s}(\sigma_b), \Tr_{\mathcal{H}_s}(\ket{\psi_b}\bra{\psi_b})\Big)\\
+& = F^2(\sigma, \rho_b)\;.
+\end{align*}
+Hence
+\begin{equation*}
+P_A^* \leq \frac{1}{2} \big( F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1) \big)\;.
+\end{equation*}
+
+\item From the previous problem we have that $P_A^* \leq \frac12 \Big(F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1)\Big)$.\\
+Applying the bound in the hint, we have $P_A^* \leq \frac12 \Big(1 + F(\rho_0, \rho_1)\Big)$. \\
+Now, one can compute $F(\rho_0, \rho_1) = 1-\alpha$. So, substituting gives $P_A^* \leq 1-\frac{\alpha}{2}$.
+
+\item When solving question 3, you found that 
+\[\Pr(\mbox{Alice successfully opens b}) = F^2(\sigma_b, \proj{\psi_b})\;.\]
+Now, when Alice dishonestly prepares the state $\ket{\psi_0} + \ket{\psi_1}$ normalized, the fidelity is between two pure states. Thus,
+\begin{equation*}
+\Pr(\mbox{Alice successfully opens b}) = \Big|(\bra{\psi_0}+\bra{\psi_1}) \ket{\psi_b}\Big|^2/\Big\|\ket{\psi_0}+\ket{\psi_1} \Big\|^2\;.
+\end{equation*}
+Now, one can easily compute $\|\ket{\psi_0}+\ket{\psi_1} \|^2 = 2(2-\alpha)$, and $|\bra{\psi_0}+\bra{\psi_1} \ket{\psi_b}|^2 = (2-\alpha)^2$.
+Clearly, by symmetry 
+\[\Pr(\mbox{Alice successfully opens 0}) = \Pr(\mbox{Alice successfully opens 1})\;.\] Hence,
+\begin{equation}
+P_A^* = \frac{(2-\alpha)^2}{2(2-\alpha)} = 1-\frac{\alpha}{2}\;,
+\end{equation}
+which achieves the upper bound.
+With similar calculations, one can check that options II and III do not achieve the upper bound.
+
+\item To minimize the cheating probability, one just needs to pick $\alpha$ such that $P_A^* = P_B^*$, i.e. $\frac12(1+\alpha) = 1-\frac{\alpha}{2}$.\\
+Solving for $\alpha$ gives $\alpha = \frac12$, which implies $P_A^* = P_B^* = \frac34$. And the latter is the cheating probability.
+\end{enumerate}
+
+
+\item {\bf From Coin Flipping to Bit Commitment}
+\begin{enumerate}
+\item Because it decreases the trace distance between the two possible commitments that Alice can send to Bob during the commit phase. Increasing the amplitude of the term $\ket{22}$ decreases the trace distance between $\ket{\psi_0}$ and $\ket{\psi_1}$, making it harder for Bob to distinguish between the two.
+
+\item At the end of the commit phase, depending on Alice's committed bit $b$, the joint state is
+\begin{equation*}
+\ket{\Omega_b^*} =  \sqrt{p'} \ket{L,b}_A \otimes \ket{ L,b, G'_L}_B + \sqrt{1-p'} \ket{W,2}_A \otimes \ket{ W,2, G'_W}_B\;.
+\end{equation*}
+Bob's reduced density matrix is
+\begin{equation*}
+\sigma_b^* = p' \ket{b,G'_L}\bra{b,G'_L} + (1-p')\ket{2,G'_W}\bra{2,G'_W}\;.
+\end{equation*}
+So,
+\begin{align*}
+P_B^* &= \Pr(\mbox{Bob guesses $b$})\\
+& = \frac12 + \frac{D(\sigma_0,\sigma_1)}{2} = \frac12 + \frac{1+p'}{2} \leq \frac{1+p}{2}+\frac{\epsilon}{2}\;,
+\end{align*}
+since $p' \leq p+\epsilon$ because the weak coin flipping protocol has $\epsilon$-bias. (As usual, $D(\sigma_0,\sigma_1)$ is the trace-distance.)
+
+\item Condition II is true because the weak coin flipping protocol has $\epsilon$-bias. Condition III is a normalization condition. Condition I doesn't necessarily hold because in a weak coin flipping protocol Alice must not be able to bias in her favour only her winning outcome, not the losing outcome ($\ket{\bar{0}}$ and $\ket{\bar{1}}$ correspond to $L$.)
+
+\item Let $\mathcal{M}$ be the operation that performs a measurement with respect to an orthonormal basis containing $\ket{\bar{0}}, \ket{\bar{1}}$ and $\ket{\bar{2}}$. 
+Then
+\begin{align*}
+	M(\rho_b) &= \rho_b\;, \\
+	M(\sigma) &= \sum_{i=0}^2 \bra{\bar{i}}\sigma \ket{\bar{i}}\ket{\bar{i}}\bra{\bar{i}} +
+	\begin{pmatrix}
+		\mbox{terms of same form involving the}\\
+		\mbox{other elements of the measurement basis}\\
+	\end{pmatrix}
+\end{align*}
+
+So,
+\begin{equation*}
+F(\sigma, \rho_b) \leq F(\mathcal{M}(\sigma), \mathcal{M}(\rho_b)) = \Big\|\sqrt{\mathcal{M}(\rho_b)} \sqrt{\mathcal{M}(\sigma)} \Big\|_{tr}\;.
+\end{equation*}
+The latter is equal to (since $\mathcal{M}(\rho_b)$ and $\mathcal{M}(\sigma)$ are already diagonal):
+\begin{equation*}
+\Big\|\big(\sqrt{p} \ket{\bar{b}}\bra{\bar{b}} + \sqrt{1-p} \ket{2}\bra{2}\big)\big(\sum_{i=0}^2 \sqrt{r_i}\ket{\bar{i}}\bra{\bar{i}} + (\mbox{other terms that vanish in the product}) \big) \Big\|_{tr}\;.
+\end{equation*}
+And one can easily see that the latter equals $\sqrt{pr_b}+\sqrt{(1-p)r_2}$. 
+Hence,
+\begin{equation*}
+F(\sigma, \rho_b) \leq \sqrt{pr_b}+\sqrt{(1-p)r_2}\;.
+\end{equation*}
+
+\item As the hint suggests, it is the case that $P_A^* \leq \frac{1}{2} \big( F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1) \big)$. Plugging in the bound we just derived gives
+\begin{equation*}
+P_A^* \leq \frac12 \Big( \big(\sqrt{p r_0}+\sqrt{(1-p)r_2}\big)^2 + \big(\sqrt{p r_1}+\sqrt{(1-p)r_2}\big)^2 \Big)\;.
+\end{equation*}
+
+\item We are told that for $\epsilon < p(1-\frac{1}{2-p})$, the bound is maximal when $r_2$ is maximal, i.e. when $r_2 = 1-p+\epsilon$, given the constraint from Problem 3. By the symmetry in $r_0$ and $r_1$ we deduce that, at the maximum, $r_0 = r_1$.\\
+Recalling the normalization constraint $r_0 + r_1 +r_2 \leq 1$, we deduce that the maximum for the bound is then achieved at $r_0 = r_1 =\frac{p-\epsilon}{2}$.\\
+Hence the maximum value of the bound is $\Big(\sqrt{p (\frac{p-\epsilon}{2})} + \sqrt{(1-p)(1-p+\epsilon)}\Big)^2$.
+
+\item Since the bounds we found for $P_A^*$ and $P_B^*$ in the previous problems are tight, we have
+$P_B^* = \frac{1+p}{2} + \frac{\epsilon}{2}$ and $P_A^* = \Big(\sqrt{p (\frac{p-\epsilon}{2})} + \sqrt{(1-p)(1-p+\epsilon)}\Big)^2 $. And ignoring $O(\epsilon)$ terms, $P_A^* = \Big(1-\big(1-\frac{1}{\sqrt{2}} \big)p \Big)$ and $P_B^* = \frac{1+p}{2}$. \\
+As usual, in order to minimize the overall cheating probability, we need to set $P_A^* = P_B^*$ and solve for $p$. So,
+\begin{equation*}
+\Big(1-\big(1-\frac{1}{\sqrt{2}} \big)p \Big) = \frac{1+p}{2}\;.
+\end{equation*}
+Solving for $p$ gives $P_A^* = P_B^* \approx 0.739$, which is the overall cheating probability of the protocol.
+\end{enumerate}
+\end{exercises}

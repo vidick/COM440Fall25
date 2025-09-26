@@ -1,0 +1,78 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Quantum Tools and a First Protocol}
+
+\begin{exercises}
+
+
+\item {\bf Classical one-time pad}
+\begin{enumerate}
+\item Since Alice consumes a key bit only when the fair coin lands on tails, which happens on average \(n/2\) times, she will consume on average \(n/2\) key bits to send an \(n\) bit message using this protocol.
+\item The correct answer is option III. The protocol is secure, because Eve has no knowledge of either the key bits or the random bits Alice generates. But it is not correct, since Bob has no knowledge of the random bits Alice generates. This means that, on average, Bob cannot reconstruct half of the message.
+\end{enumerate}
+
+
+\item {\bf Density matrices}
+\begin{enumerate}
+\item We have
+	\[ \rho_B = \frac{1}{2}\dens{0} + \frac{1}{2}\dens{1} = \begin{pmatrix} \frac{1}{2} & 0 \\ 0 & \frac{1}{2}\end{pmatrix}\]
+\item Note that we can write
+	\[\rho_B = \frac{1}{2}(\dens{0}+\dens{1}) = \frac{1}{2}(\dens{-} + \dens{+})\]
+	This means the probability of getting any answer is \(p=0.5\) regardless of the basis setting.
+\item In contrast to the last question the measurement statistics now depend on the chosen basis. Note
+	\[\rho_B = \dens{+}.\]
+	So we have \(p_+=1\), \( p_- = 0\). But also
+	\[\rho_B = \frac{1}{2}(\dens{0}+\dens{1}) + \frac{1}{2}(\ket{0}\bra{1} + \ket{1}\bra{0})\]
+	which means we have \(p_0 = p_1 = 0.5\).
+\end{enumerate}
+
+
+\item {\bf Classical-quantum states}
+\begin{enumerate}
+\item The density matrix \(\rho_B\) is \[\rho_B = \begin{pmatrix} \frac{3}{4} & \frac{1}{4}\\ \frac{1}{4} & \frac{1}{4}\end{pmatrix}\] This allows us to compute \(p_+ = p_0 = \frac{3}{4}\). So both settings give the same probability.
+\item The correct answer is I. If the flag value is zero Bob knows that the state in his possession is of the form \[\rho_{B,0} = \dens{0}.\] And if the flag value is \(1\) it is of the form \[\rho_{B,1} = \dens{+}.\] Hence Bob should measure in the standard basis if the flag value is zero and in the Hadamard basis otherwise.
+\end{enumerate}
+
+
+\item {\bf Quantum one-time pad}
+\begin{enumerate}
+\item Bob can decode by applying an $H$ whenever the key bit is $1$. Using $H^2=\id$, this is correct.
+
+\item It is not secure because we have \(H\frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+}) = \frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+})\) and hence this state is not encrypted. One can verify by direct calculation that the state \[\frac{1}{\sqrt{2+\sqrt{2}}}(\ket{0}+ \ket{+})\] is an eigenstate of \(H\). Hence this state does not get hidden by encryption.
+\end{enumerate}
+
+
+\item {\bf Unambiguous quantum state discrimination}
+\begin{enumerate}
+\item When Alice gets sent the $\ket{0}$ state, she will perfectly detect this in the computational basis. When Alice gets sent the $\ket{+}$ state, the outcome of a measurement in the computational basis will give her 0 or 1 with probability a half. So $p=1$ and $q=1/2$.
+
+\item This is similar to the previous question. When Alice gets sent the $\ket{+}$ state, she will perfectly detect this in the [$ \{\ket{+},\ket{-}\}$  basis. When Alice gets sent the $\ket{-}$ state, the outcome of a measurement in the $\{\ket{+},\ket{-}\}$ basis will give her 0 or 1 with probability a half.
+
+\item First note that $E_1$ and $E_2$ are, up to a factor of $\frac{\sqrt{2}}{1+\sqrt{2}}$, projectors unto the $\proj{1}$ and $\proj{-}$ states, respectively. From this it follows that $E_1\ket{0} = 0$ and $E_2\ket{+} = 0$, while $E_1\ket{+} \neq 0$ and $E_2\ket{1} \neq 0$. This means we have some finite probability of correctly detecting the state, while being certain that we will never project unto a `wrong' state. Of course, to satisfy the requirements on a POVM we have to add the additional POVM element $E_3$.
+\end{enumerate}
+
+
+\item {\bf Robustness of GHZ and $W$ States}\label{ex:robust-GHZ}
+\begin{enumerate}
+\item
+	First note that if $\rho = \proj{\psi}$ is pure, then
+	\[\Tr\left(\rho \sigma\right) = \Tr\left(\proj{\psi} \sigma\right) = \Tr\left(\bra{\psi} \sigma\ket{\psi}\right) = \bra{\psi} \sigma\ket{\psi}\]
+	We can view tracing out part of a state as a consequence of an unknown party, say Bob, measuring that part of the state. In this case, measuring the third qubit in the computational basis (remember that the partial trace is independent of the basis we choose, see the videos and lecture notes) gives Bob either 0 or 1 with probability a half. The corresponding states on the first two qubits are $\proj{00}$ and $\proj{11}$, respectively. Thus, the remaining state is $\frac{1}{2}\proj{00}+\frac{1}{2}\proj{11}$.
+	We have that $\proj{GHZ_2} = \frac{1}{2}\left(\proj{00}+\proj{11}+\ketbra{00}{11}+\ketbra{11}{00} \right)$, which is a pure state. Using the fact that this is a pure state, we find that
+	\begin{align*}
+		\Tr\big(\ketbra{GHZ_2}{GHZ_2} & \Tr_3\ketbra{GHZ_3}{GHZ_3}\big) \\
+		& = \bra{GHZ_2} \Tr_3 \left(\proj{GHZ_3}\right)\ket{GHZ_2}\\
+		& = \frac{1}{4}\left(\braket{00}{00}+\braket{11}{11}\right)=\frac{1}{2}
+	\end{align*}
+\item
+	Measuring the third qubit gives a 0 with probability $2/3$, so that the state on the other two qubits is equal to $\proj{W_2}$. If a measurement on the third qubit gives a 1 (with probability $1/3$), the corresponding state on the first two qubits is $\proj{00}$. The state on the first two qubits after tracing out the third qubit is $\Tr_3\left(\proj{W_3}\right) = \frac{2}{3}\proj{W_2}+\frac{1}{3}\proj{00}$.
+	Since $\inp{W_2}{00} = 0$, we have that $$\Tr\left(\proj{W_2} \Tr_3\left(\proj{W_3}\right)\right) = \frac{2}{3}$$
+\item
+	We have that
+	\[\Tr_N \left(\proj{GHZ_N}\right) = \frac{1}{2}|\underbrace{00\ldots0}_{N-1}\rangle\langle\underbrace{00\ldots0}_{N-1}|+\frac{1}{2}|\underbrace{11\ldots1}_{N-1}\rangle\langle\underbrace{11\ldots1}_{N-1}|\]
+	Using similar reasoning as in the first problem, we find that the overlap is equal to $1/2$.
+\item	
+	Measuring the last qubit gives a $0$ with probability $\frac{N-1}{N}$, so that the state on the remaining qubits is equal to $\ketbra{W_{N-1}}$. If a measurement on the last qubit gives a 1 (with probability $\frac{1}{N}$), the corresponding state on the remaining qubits is $|\underbrace{00\ldots0}_{N-1}\rangle \langle\underbrace{00\ldots0}_{N-1} |$. The state on the first $N-1$ qubits after tracing out the last qubit is then $\Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right) = \frac{N-1}{N}\ketbra{W_{N-1}}+\frac{1}{N}|\underbrace{00\ldots0}_{N-1}\rangle \langle \underbrace{00\ldots0}_{N-1}|$.
+	Since $\langle W_{N-1}|\underbrace{00\ldots}_{N-1}\rangle = 0$, we have that $\Tr\Big(\left| W_{N-1} \right\rangle \left\langle W_{N-1} \right| \Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right)\Big) = \frac{N-1}{N}$. Taking the limit we get $\lim_{N\rightarrow\infty}\frac{N-1}{N} = 1$.
+\end{enumerate}
+\end{exercises}

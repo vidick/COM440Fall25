@@ -1,0 +1,31 @@
+% !TeX root = ../main_only_solutions.tex
+
+\chapter{Security from Physical Assumptions}
+
+\begin{exercises}
+
+
+\item {\bf Security from special resources: the PR Box}
+\begin{enumerate}
+\item Protocol 3 is the correct protocol. Note that the inputs and outputs of the box satisfy \((x_0+x_1)\cdot y = r+b \mod 2\). Bob thus computes \( m+b = x_0 + r + b = x_0 + (x_0+x_1) \cdot y\mod 2\). Hence if \(y=0\) this becomes \(x_0\) and if \(y=1\) we have \(x_0 + x_0 + x_1 = x_1\mod 2\) since all additions are taken modulo 2.
+\item Protocol 3 gives the highest winning probability. The easiest way to see this is by checking the winning condition \(a + b = x\cdot y\). In protocol 3 Alice sets her answer bit \(a =r\) and Bob sets his answer bit to \( b= x\cdot y + r\). This makes the winning condition \( a+b = r + x\cdot y + r = x\cdot y\). This means that that, using this strategy, Alice and Bob can win with probability one (which is of course the maximal possible probability).
+\item It is fairly straightforward to check that the box does not violate the non-signalling condition. The easiest way to see this is by noting that
+\[p(a,b|x,y) = \begin{cases} \frac{1}{2} \hspace{5mm} \text{if}\hspace{5mm} a+ b = x\cdot y \\
+0\hspace{5mm} \hspace{5mm}\text{otherwise}\end{cases}
+\] and then working out the condition. This is interesting in the sense that it is possible to create thought experiments that involve machines that generate CHSH winning probabilities that are strictly larger than those achievable using only quantum mechanics, but that do respect the non-signaling condition! So quantum is more limited than no-signalling alone - much work has gone into understanding both why as well as the consequences of this. Of course in our Bell experiment in Delft we saw CHSH behaviour that is strictly below the quantum bound, but also quantum would not tell us how to design an experiment to achieve a higher winning probability: after all quantum is limited to ~ 0.85! Do we simply not know how to design such an experimental apparatus? Or is there really some fundamental limit that nature imposes to restrict us to the quantum bound? It turns out that Nature would behave very differently if one could go beyond the quantum bound. You can find pointers in the article ``Connection between Bell nonlocality and Bayesian game theory'' by Brunner and Linden (Nature Communications 2013). 
+\item The correct answer string would be ``ciabed" corresponding to the protocol:
+\begin{quote}
+\begin{quote}
+	\begin{protocolEnumerate}
+	    \item Alice generates a random \(n\) bit string \(x\), enters it into the box and receives an output string \(a\).
+	    \item Bob inputs his bit \(y\) into the box and receives an output bit \(b\).
+	    \item Alice creates two keys \(k_0 = r\) and \(k_1 =x+r \).
+	    \item Alice encodes the strings \(s_0, s_1\) as \(e_0 = s_0+k_0\) and \(e_1 = s_1+k_1\).
+		\item Alice sends the encoded strings to Bob.
+	    \item Bob uses his output string to decode the encoded message \(e_y\).
+	\end{protocolEnumerate}
+\end{quote}
+\end{quote}
+\item The main difference with 1-2 OT is that here, Bob does not have the choice of the bit $b$: it is provided to him by the box. This is called ``Rabin's OT,'' already considered in Quiz 10.3.1. While it is not so obvious how, 1-2 OT can indeed be constructed from Rabin's OT. 
+\end{enumerate}
+\end{exercises}
