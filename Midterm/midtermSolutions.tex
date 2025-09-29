@@ -78,6 +78,34 @@ We can then verify that
 A similar calculation gives the same for the three other BB'84 states!
 \end{enumerate}
 
+
+
+
+
+
+\item  \textbf{Secret sharing among three people.}
+\begin{enumerate}[(a)]
+\item We directly calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{A} & = \text{Tr}_{BC}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\text{tr}(\ketbra{0}0_B)\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\text{tr}(\ketbra{1}1_B)\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A + \ketbra{1}1_A) \\ & = \frac{\mathbb{I}}2\end{aligned}$$ We similarly have $\rho_B =\frac{1}2(\ketbra{0}0_B + \ketbra{1}1_B) = \frac{\mathbb{I}}2$ and $\rho_C = \frac{1}2(\ketbra{0}0_C + \ketbra{1}1_C) = \frac{\mathbb{I}}2$. Notice that this state is independent of $b$ and so any measurement these people take alone will be independent of $b$, and the secret cannot be retrieved on their own. \\ 
+
+\item Again calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{AB} & = \text{Tr}_{C}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\ketbra{0}0_B\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\ketbra{1}1_B\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A\otimes \ketbra{0}0_B + \ketbra{1}1_A\otimes \ketbra{1}1_B) \\ & = \frac{1}2(\ketbra{00}{00}_{AB} + \ketbra{11}{11}_{AB})\end{aligned}$$ and similarly $\rho_{BC} = \frac{1}2(\ketbra{00}{00}_{BC} + \ketbra{11}{11}_{BC})$ and $\rho_{AC} = \frac{1}2(\ketbra{00}{00}_{AC} + \ketbra{11}{11}_{AC})$. Again, we see that these densities are independent of $B$, so any measurement made by any pair of people will not give information about $b$.
+
+\item Have Alice, Bob, and Charlie apply the Hadamard operation on their qubit to get the new state $$\ket{\Psi_0} = \frac{1}4((\ket{0}+\ket{1})^3 + (\ket{0}-\ket{1})^3) = \frac{1}4((\ket{000}+\ket{011}+\ket{110}+\ket{101})$$ if $b=0$ and the new state $$ \ket{\Psi_1} = \frac{1}4((\ket{0}+\ket{1})^3 - (\ket{0} - \ket{1})^3) = \frac{1}4 (\ket{001}+\ket{010}+\ket{100}+\ket{111})$$ if $b=1$. Next, we have Alice, Bob, and Charlie measure their qubits. Note by inspection, the tensor product of all three observations must either be in the set $$S_0 = \{\ket{0}_A\ket{0}_B\ket{0}_C, \ket{0}_A\ket{1}_B\ket{1}_C,  \ket{1}_A\ket{1}_B\ket{0}_C,\ket{1}_A\ket{0}_B\ket{1}_C\}$$ if $b=0$, and must be in the set $$S_1 = \{\ket{0}_A\ket{0}_B\ket{1}_C, \ket{0}_A\ket{1}_B\ket{0}_C,  \ket{1}_A\ket{0}_B\ket{0}_C,\ket{1}_A\ket{1}_B\ket{1}_C\}$$ if $b=1$. \\ 
+
+ Hence we can have Alice and Bob send their measurement to Charlie, and Charlie will see whether their collective measurements are in $S_0$ or $S_1$ to recover $b$.
+\end{enumerate} 
+
+
+
+
+
+\item \textbf{A Guessing Game.}
+\begin{enumerate}[(a)]
+\item If we assume $U_A(\ket{0}) = \alpha_0\ket{0}+\beta_0\ket{1}$ and $U_A(\ket{1}) = \alpha_1\ket{0}+\beta_1\ket{1}$we can note that $$\begin{aligned}(U_A\otimes \mathbb{I}_B)\frac{1}{\sqrt{2}}(\ket{00}+\ket{11}) & = \frac{1}{\sqrt{2}}(U_A(\ket{0})\otimes \ket{0} + U_A(\ket{1})\otimes \ket{1}) \\ & = \frac{1}{\sqrt{2}}(\alpha_0\ket{00}+\beta_0\ket{10} + \alpha_1\ket{01}+\beta_1\ket{11}) \\ & = \frac{1}{\sqrt{2}} (\ket{0}\otimes (\alpha_0\ket{0}+\alpha_1\ket{1}) + \ket{1}\otimes (\beta_0\ket{0} + \beta_1\ket{1})) \\ & = \frac{1}{\sqrt{2}}(\ket{0}\otimes U_B^T(\ket{0}) + \ket{1}\otimes U_B^T(\ket{1})) \\ & = (\mathbb{I}_A\otimes U_B^T)\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})\end{aligned}$$ Hence, if Eve applies the unitary transformation $(U^T)^{-1} = (U^\dagger)^T = \conj{U}$, we will have undone this unitary transformation. Then we can replicate the argument given in the problem statement, and so using $\theta$, can measure in the same basis that Alice did and perfectly recover Alice's bit with probability 1. \\
+
+\item We claim that by using only two matrices unitary matrices we can get a success probability of 1/2, which is equivalent to simply guessing. Simply have Alice choose one of $\mathbb{I}$ or $H$ uniformly at random irregardless of $\theta$. Then for either value of $\theta$, the density matrix for $\rho_E$ would be the mixture $$ \rho_E = \frac{1}4 (\ketbra{0}0 + \ketbra{1}1 + \ketbra{+}+ +\ketbra{-}-) = \frac{\mathbb{I}}2$$ which is independent of $\theta$. Hence Eve's best bet is just guessing independently at random.
+
+\item See part (b)
+\end{enumerate}
 \end{enumerate}
 \end{document}
 

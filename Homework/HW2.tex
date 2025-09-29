@@ -20,7 +20,7 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 2} \hfill {\bf due: 12:59PM, October 8th, 2019}
+{\bf Homework \# 2} \hfill {\bf due: 12:59PM, October 14th, 2025}
 
 
 \medskip
@@ -40,31 +40,38 @@ homework problems, but each person must write up the final solutions
 individually. You should note on your homework specifically which
 problems were a collaborative effort and with whom. You may not search
 online for solutions, but if you do use research papers or other
-sources in your solutions, you must cite them.
+sources in your solutions, you must cite them. If you use an AI tool to 
+partially solve a question, or improve your write-up of a solution, then 
+you should also mention it. All questions on the homework, including requests for clarifications or typos, should be directed to the Ed forum.
 
-Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of an academic committee. 
+
+Each of the four problem set counts for 20\% of the total homework grade. (Each of the two readings will count for 10\% of the final homework grade.)
 
 
 \medskip
 
 \hrule
 
- 
 \medskip
+
+\emph{In this problem set we learn about various type of bipartite and tripartite correlations. The first three exercises consider forms of tripartite entanglement. The first exercise shows that tripartite entanglement can beat the classical bound in a three-player game (this is in contrast to the ``2-out-of-3'' CHSH game seen in exercise session). Exercises 2 and 3 explore how entanglement can be ``lost'' when some of the qubits, or parties, are discarded. Finally, Exercise 4 explores a generalization of quantum correlations and nevertheless respects the no-signaling condition. While these generalized correlations can be stronger and lead to higher success probabilities in some games such as the CHSH games, they also have limitations (which we will later use for cryptography).\\
+The first three exercises are shorter. The fourth exercise is longer. Question 4(f) is the longest. Question 4(g) is interesting but somewhat technical and entirely optional.}
+
+Revisions since the first posting are in \textcolor{blue}{blue}.
+
 {\bf Problems:}
 \begin{enumerate}
 
-\item (4 points) {\bf The EPR pair.}
-Recall the definition of the EPR pair,
-\[ \ket{\mathrm{EPR}} = \frac{1}{\sqrt{2}} \big( \ket{0} \otimes \ket{0} + \ket{1}\otimes \ket{1}\big)\;.\]
-Prove rigorously that there does not exist two single-qubit states $\ket{\psi}$ and $\ket{\phi}$ such that $\ket{\mathrm{EPR}} = \ket{\psi} \otimes \ket{\phi}$. \emph{[Hint: Reason by contradiction. Expand everything in the standard basis.]}
 
 
-\item {\bf A three-player game}
+\item {(6 points)} {\bf A three-player game.}
 
 We learned about the CHSH game in class. In this problem we'll explore another nonlocal game, this time with \emph{three players} (called Alice, Bob and Charlie).
 
-The referee chooses three bits $(x,y,z)$ uniformly at random from the set $\{ (0,0,0), (0,1,1), (1,1,0), (1,0,1) \}$. Alice gets $x$, Bob gets $y$, and Charlie gets $z$. They respond with bits $a,b,c \in \{0,1\}$, respectively, and they win if $a \oplus b \oplus c = x \vee y \vee z$. 
+The referee chooses three bits $(x,y,z)$ uniformly at random from the set 
+\[\big\{ (0,0,0), (0,1,1), (1,1,0), (1,0,1) \big\}\;.\] 
+Alice gets $x$, Bob gets $y$, and Charlie gets $z$. They respond with bits $a,b,c \in \{0,1\}$, respectively, and they win if $a \oplus b \oplus c = x \vee y \vee z$. 
 \begin{enumerate}
 \item Suppose that Alice, Bob, and Charlie use a classical strategy. Compute their maximum winning probability.
 \item Suppose that Alice, Bob and Charlie share the tripartite entangled state 
@@ -86,7 +93,7 @@ Show that this strategy wins this nonlocal game with probability $1$.
 
 
 
-\item {\bf Robustness of GHZ and W States}\label{ex:robust-GHZ}\\
+\item {(6 points)} {\bf Robustness of GHZ and W States, Part I.}\label{ex:robust-GHZ}\\
 In this problem we explore two classes of $N$-qubit states that are especially useful for cryptography and communication, but behave very differently under tracing out a single qubit. Let's first define them for $N=3$:
 \begin{align*}
 & \text{GHZ state:} \quad \ket{GHZ_3} = \frac{1}{\sqrt{2}} (\ket{000}+\ket{111}) \\
@@ -101,15 +108,15 @@ In the following we consider the \textit{overlap} between $N$-qubit GHZ and W st
 \end{enumerate}
 Now we generalize to the $N$-qubit case. As you might expect, $\ket{GHZ_N}=\frac{1}{\sqrt{2}} (\ket{0}^{\otimes N}+\ket{1}^{\otimes N})$ and $\ket{W_N}$ is an equal superposition of all $N$-bit strings with exactly one 1 and $N-1$ 0's.
 \begin{enumerate}
-\item[3.] What is the overlap $\Tr(\ketbra{GHZ_{N-1}}{GHZ_{N-1}} \Tr_N\ketbra{GHZ_N}{GHZ_N})$ in the limit $N \rightarrow \infty$?
-\item[4.] What is the overlap $\Tr(\ketbra{W_{N-1}}{W_{N-1}} \Tr_N\ketbra{W_N}{W_N})$ in the limit $N \rightarrow \infty$?
+\item[(c)] What is the overlap $\Tr(\ketbra{GHZ_{N-1}}{GHZ_{N-1}} \Tr_N\ketbra{GHZ_N}{GHZ_N})$ in the limit $N \rightarrow \infty$?
+\item[(d)] What is the overlap $\Tr(\ketbra{W_{N-1}}{W_{N-1}} \Tr_N\ketbra{W_N}{W_N})$ in the limit $N \rightarrow \infty$?
 \end{enumerate}
 The interpretation of these results is that $W$ states are more ``robust'' against loss of a single qubit than GHZ states.
 
 
-\item {\bf Robustness of GHZ and W States, Part 2}\\
+\item {(6 points)} {\bf Robustness of GHZ and W States, Part II.}\\
 We return to the multi-qubit GHZ and W states introduced in the previous exercise. 
-In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last of $N$ qubits.
+In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last one out of $N$ qubits.
 \begin{enumerate}
 \item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
 %\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
@@ -117,7 +124,7 @@ In class we learned to distinguish product states from (pure) entangled states b
 \end{enumerate}
  Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
 \begin{enumerate}
-\item[2.] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
+\item[(b)] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
 %\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
 % \begin{enumerate}[a)]
 % 	\item 1 and 0
@@ -126,12 +133,12 @@ In class we learned to distinguish product states from (pure) entangled states b
 % 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
 % \end{enumerate}
 %
-\item[3.] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
+\item[(c)] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
 %\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
 \end{enumerate}
 Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
 \begin{enumerate}
-\item[4.] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
+\item[(d)] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
 %\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
 % \begin{enumerate}[a)]
 % 	\item 0
@@ -140,7 +147,7 @@ Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit
 % 	\item 1
 % \end{enumerate}
 %
-\item[5.] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
+\item[(e)] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
 %\solopen{We have again by direct calculation
 %$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
 % \begin{enumerate}[a)]
@@ -152,6 +159,46 @@ Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit
 \end{enumerate}
 Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
 
+\item  {(8 points)} \textbf{Nonlocal boxes.}\\
+Given an integer $n$ and finite sets $\mathcal{X}_1,\ldots,\mathcal{X}_n$ (``inputs'') and $\mathcal{A}_1,\ldots,\mathcal{A}_n$ (``outputs''), an $n$-partite \emph{non-local box} is a family of distributions $\{p(\cdot|x_1,\ldots,x_n),\, x_1,\ldots,x_n \in \mathcal{X}_1\times \cdots \times \mathcal{X}_n\}$, each defined on $\mathcal{A}_1\times\cdots\times\mathcal{A}_n$, i.e. 
+$$ \sum_{a_i\in\mathcal{A}_i} p(a_1,\ldots,a_n|x_1,\ldots,x_n) =1 \quad\forall x_i, \quad\text{and}\quad p(a_1,\ldots,a_n|x_1,\ldots,x_n) \geq 0\quad \forall x_i,a_i.$$
+Intuitively, a non-local box is called \emph{non-signaling} if the $i$-th output does not provide information about the $j$-th input, for $i\neq j$. This is a natural condition if we think of each output, $a_i$, as being produced locally given the input $x_i$: in that case, the distribution of $a_i$ should not depend on what the inputs $x_j$ where at other locations $j\neq i$. 
+More formally, it is required that for each $i\in\{1,\ldots,n\}$ and all input tuples $(x_1,\ldots,x_n)$ and $(x'_1,\ldots,x'_n)$ such that $x_i=x'_i$,
+$$\forall a_i\in\mathcal{A}_i,\qquad \sum_{a_j:\,j\neq i} p(a_1,\ldots,a_n|x_1,\ldots,x_n) \,=\,  \sum_{a_j:\,j\neq i} p(a_1,\ldots,a_n|x'_1,\ldots,x'_n).$$
+Similarly, the condition is required when taking marginals on more than one location, e.g. the marginal on any pair $(a_i,a_j)$ should be independent of questions $x_k$ for $k\notin \{i,j\}$
+This condition implies that the marginal distribution on any single coordinate $i$ is a well-defined distribution which only depends on the input $x_i$ associated with that coordinate. 
+\begin{enumerate}
+\item[(a)] Show that if a non-local box $p$ is quantum, i.e.\ there is an $n$-partite quantum state $\rho_{A_1\cdots A_n}$ and POVM $\{A_x^{(i),a}\}_a$, for $i=1,\ldots,n$, such that 
+\[ \Tr\big( (A_{x_1}^{(1),a_1} \otimes \cdots\otimes A_{x_n}^{(n),a_n}) \rho_{A_1\cdots A_n}\big)=p(a_1,\ldots,a_n|x_1,\ldots,x_n)\]
+for all $(a_1,\ldots,a_n,x_1,\ldots,x_n)$, then the non-local box is non-signaling.  
+\end{enumerate}
+However, not all non-local box that is non-signaling needs to be quantum. Let's first see some examples of nonlocal boxes for the bipartite $(n=2)$ case. Here are four of them. In each case $\mathcal{X}_i = \mathcal{A}_i = \{0,1\}$, and any un-specified probability is set to $0$ by default:
+\begin{center}
+\begin{tabular}{lll}
+(U) & $p(a,b|x,y) = 1/4$& $\forall (x,y,a,b)$.\\[2mm]
+(PR)& $p(0,0|x,y)=p(1,1)|x,y)=1/2$ & {if }$(x,y)\neq (1,1)$,\\
+& $p(1,0|x,y)=p(0,1)|x,y)=1/2$ & {if }$(x,y)= (1,1)$.\\[2mm]
+(CH) {}& $p(0,0|x,y)=p(1,1)|x,y)= \frac{1}{2}\cos^2\pi/8$ & and\\
+& $p(1,0|x,y)=p(0,1)|x,y)= \frac{1}{2}\sin^2\pi/8$ & if $(x,y)\neq (1,1)$,\\
+& $p(0,0|x,y)=p(1,1)|x,y)= \frac{1}{2}\sin^2\pi/8$ & and\\
+& $p(1,0|x,y)=p(0,1)|x,y)= \frac{1}{2}\cos^2 \pi/8$ & if $(x,y)= (1,1)$.\\[2mm]
+(SIG) & $p(y,x|x,y) = 1$ & $\forall (x,y)$.\\
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item[(b)] Verify that each of these indeed specifies a nonlocal box, i.e. that the probabilities add up to $1$ when they should. (You do not need to show your calculations---but make sure you do it to understand the definition of each of the boxes.)
+\item[(c)] Among the four boxes, which are non-signaling? (You do not need to show your calculations.)
+\item[(d)] For each of the boxes, evaluate its success probability in the CHSH game. That is, assuming Alice and Bob are able to generate answers distributed according to $p(a,b|x,y)$ whenever their respective inputs are $x$ and $y$, what is the probability that they produce valid answers in the game (when the questions are chosen uniformly at random, as usual)? (You do not need to show your calculations.)
+\item[(e)] For each of the four boxes, state which can be implemented using quantum mechanics. If it can, provide a strategy: a bipartite state $\rho_{AB}$ and POVM $\{A_x^a\}_a$ and $\{B_y^b\}_b$, for all $x$ and $y$, such that $\Tr\big( (A_x^A \otimes B_y^b) \rho_{AB}\big)=p(a,b|x,y)$ for all $(a,b,x,y)$. If it cannot, provide a short argument justifying your answer. 
+\end{enumerate}
+Now let's look into some tripartite $(n=3)$ nonlocal boxes. We say that a tripartite box $\{q(\cdot,\cdot,\cdot|x,y,z)\}$ is an \emph{extension} of a bipartite box $\{p(\cdot,\cdot|x,y)\}$ if the marginals satisfy $\sum_c q(a,b,c|x,y,z) = p(a,b|x,y)$, for all $(a,b,x,y)$. 
+\begin{enumerate}
+\item[(f)] Show that any non-signaling tripartite extension of the (PR) box must have a product form, i.e. $q(a,b,c|x,y,z) = q(a,b|x,y)p'(c|z)$ for some family of distributions $\{p'(\cdot|z)\}$ (note that the marginal $q(a,b|x,y)$ is well-defined by the no-signaling condition). \emph{[Hint: define $\{p'(\cdot|z)\}$ in some way, and then use the non-signaling conditions to show $q(a,b,c|x,y,z) = q(a,b|x,y)p'(c|z)$ for all $a,b,c$ and $x,y,z$. Using the definition of (PR), many of these probabilities will equal $0$.]}
+\end{enumerate}
+Part (e) has a very important consequence for cryptography: it means that certain types of bipartite correlations imply \emph{perfect privacy}: \emph{any} extension of the distribution which takes into account a third system must be \emph{completely uncorrelated} from the first two (as long as it respects the basic non-signaling conditions). This phenomenon is often referred to as a \emph{monogamy} property of the bipartite (PR) box. While this is not true of the (CH) box, the latter still provides some limited amount of secrecy, which will be key to its use in quantum key distribution, a topic we will soon explore in class. 
+\begin{enumerate}
+\item[(g)] \emph{(Bonus 3pts)} Consider a three-player variant of the CHSH game in which each of the three possible pairs of players is chosen uniformly at random by the referee to execute the CHSH game (with the third player being ignored; see the notes on EdX for a complete description). Determine, either analytically or numerically, the optimum success probability achieved by any non-signaling tripartite box in this game. Another manifestation of monogamy! (If you used numerics, include your code.)
+\end{enumerate}
 
 
 

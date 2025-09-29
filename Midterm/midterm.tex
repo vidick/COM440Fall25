@@ -68,15 +68,47 @@ Let
 \item (4 points) \textbf{Superdense Coding}\\
 In Homework 1, you were introduced to the idea of "quantum teleportation". By sending just two bits of classical information, Alice was able to "teleport" her single-qubit quantum state to Bob, provided they shared a pair of maximally entangled qubits to begin with. \\
 In this problem, Alice instead wants to share two classical bits with Bob, but she only has a quantum channel at her disposal, and she is only allowed to use it once (i.e. send only one single-qubit state). Can she succeed? \\
-
 \begin{enumerate}
 \item[(a)] The first idea she has is to encode her two classical bits into her preparation of one of four states in $\{ \ket{0}, \ket{1}, \ket{+}, \ket{-}\}$, and then send this qubit to Bob. \\
 Suppose that the a priori distribution of Alice's two classical bits is uniform. What is the maximum probability with which Bob can correctly guess both of Alice's two classical bits?\\
 \item[(b)] Suppose that Alice and Bob share a maximally entangled pair of qubits. Alice thinks that it is a good idea to start by performing one of four unitary transformations on the qubit in her possession depending on the value of the two classical bits that she wishes to communicate and send her qubit to Bob. What next? Help Alice (and Bob) devise a scheme that achieves the desired task with certainty.\\
 \item[(c)] After all the thought that Alice and Bob put into coming up with a working scheme, they finally decide to employ it.\\
 Unfortunately, the tireless eavesdropper Eve has heard of their new scheme, and as soon as Alice and Bob use it, she intercepts the qubit as it's sent from Alice to Bob. Can Eve recover information about the two confidential classical bits that Alice intended to share with Bob?\\
-
 \end{enumerate}
+
+
+\item (6 points) \textbf{Secret sharing among three people.}\\
+In class we saw how to share a classical secret between two people using an entangled state. In this problem we create a scheme that shares a classical secret among three people, Alice, Bob and Charlie. We encode the secret $b\in \{0,1\}$ in a GHZ-like state of the form
+\[
+\ket{\Psi} = \frac{1}{\sqrt{2}}(\ket{0}_A\ket{0}_B\ket{0}_C+ (-1)^b\ket{1}_A\ket{1}_B\ket{1}_C).
+\]
+\begin{enumerate}
+\item[(a)] Calculate the single-party reduced density matrices $\rho_A$, $\rho_B$, and $\rho_C$. Verify that no single one of Alice, Bob, and Charlie can recover the secret on their own.
+\item[(b)] Calculate the two-party reduced densities $\rho_{AB}$, $\rho_{BC}$, and $\rho_{AC}$. Verify that no pair of Alice, Bob, and Charlie can recover the secret on their own.
+\item[(c)] Suppose each of Alice, Bob, and Charlie is limited to the following operations:
+	\begin{itemize}
+	\item Local Hadamard operation on their qubit;
+	\item Local measurement of their qubit in the computational basis $\{\ket{0},\ket{1}\}$;
+	\item Sending a (classical) measurement outcome to one of the other two players.
+	\end{itemize}
+Devise a scheme by which they can together recover the secret $b$. 
+\end{enumerate}
+[A scheme of the type considered in part (c) is called an \emph{LOCC protocol}, for ``local operations and classical communication''. You may wish to think if there exists a secret-sharing scheme such that even an LOCC protocol would not allow colluding parties to recover the secret? Intuitively, such a scheme would have the property that the secret is hidden ``deep inside the entanglement'', in the sense that even if everyone decides to collaborate in cheating \emph{but} is restricted to LOCC then they still can't recover the secret. In such a situtation the only way to recover the secret would be to get access to the entire quantum state at once and make a general measurement on all the shares (as opposed to local measurements followed by exchange of classical information).]
+
+
+\item (4 points) \textbf{A Guessing Game.}\\
+Imagine that Alice and Eve play a guessing game where they share a two-qubit state \(\rho_{AE}\). First, Alice produces a random bit \(\theta\in\{0,1\}\), and she measures her qubit in the standard basis if \(\theta=0\) and in the Hadamard basis if \(\theta=1\). In both cases she obtains a bit \(x\in\{0,1\}\) as measurement outcome. She then announces \(\theta\) to Eve. Eve's goal is to guess the bit \(x\). Imagine that \(\rho_{AE} = |\mathrm{EPR}\rangle\langle\mathrm{EPR}|\), where as usual $\ket{\mathrm{EPR}} = \frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$, so Alice and Eve share a maximally entangled pair of qubits. In this scenario we know that if Eve measures in the same basis as Alice she will get the same outcome and this thus able to guess \(x\) perfectly.
+\begin{enumerate}
+\item Suppose now that Alice wants to foil Eve so, before measuring, she first applies some unitary \(U_A\) to her qubit, and then measures. Of course Eve, being really smart, gets wind of this so she will know what unitary Alice has used before measuring. So they share the state\\
+\[|\Phi_U\rangle = (U_A\otimes \mathbf{1}_E)\frac{1}{\sqrt{2}}(\ket{00}+ \ket{11})\]
+and Eve knows \(\theta\) and \(U_A\). In this scenario, what is Eve's optimal guessing probability, and what is a strategy that achieves it? 
+\item Consider now a scenario in which Alice's strategy consists in choosing one out of three possible unitaries, according to a distribution that may depend on her choice of $\theta$. The three unitaries are the same whether $\theta=0$ or $\theta=1$, and Eve knows what they are as well as the distribution used by Alice, but she does not learn which unitary Alice eventually selected. Provide a set of three unitaries that makes Eve's guessing probability the lowest possible. (You do not need to prove that your strategy is optimal.)
+\item Suppose we restrict Alice's set of possible unitaries to contain only two. Can she still make Eve's guessing probability as low as in part (b)?
+\end{enumerate}
+
+
+
+
 
 \end{enumerate}
 \end{document}
