@@ -33,29 +33,77 @@
 &= \Pr\big((a_0,b_0)=(0,0) | (x,y)=(0,0)\big)+\Pr\big((a_0,b_0)=(1,1) | (x,y)=(0,0)\big)\\
 &\quad - \Pr\big((a_0,b_0)=(0,1) | (x,y)=(0,0)\big)-\Pr\big((a_0,b_0)=(1,0) | (x,y)=(0,0)\big) \\
 &= \Pr\big(a_0\oplus b_0=0 | (x,y)=(0,0)\big) - \Pr\big(a_0\oplus b_0=1 | (x,y)=(0,0)\big)\\
-&= 2\Pr\big(WIN| (x,y)=(0,0)\big)-1\;,
+&= 2\Pr\big(\text{WIN}| (x,y)=(0,0)\big)-1\;,
 \end{align*}
 where for the last line we used 
 \[ \Pr\big(a_0\oplus b_0=0 | (x,y)=(0,0)\big) + \Pr\big(a_0\oplus b_0=1 | (x,y)=(0,0)\big)= 1 \;.\]
-Performing a similar calculation for the three other terms gives the result. 
-\item By expanding the squares we get 
+Performing a similar calculation for the three other terms, we can get
 \begin{align*}
-P^2 = I + \frac{1}{2}\big(2I+B_0B_1+B_1B_0\big) -\frac{2}{\sqrt{2}}A_0(B_0+B_1)\;,\\
-Q^2 = I + \frac{1}{2}\big(2I-B_0B_1-B_1B_0\big) -\frac{2}{\sqrt{2}}A_1(B_0-B_1)\;.
+\bra{\psi} A_0 B_1 \ket{\psi}
+&= \Pr\big(a_0\oplus b_0=0 | (x,y)=(0,1)\big) - \Pr\big(a_0\oplus b_0=1 | (x,y)=(0,1)\big)\\
+&= 2\Pr\big(\text{WIN}| (x,y)=(0,1)\big)-1\;,
+\end{align*}
+\begin{align*}
+\bra{\psi} A_1 B_0 \ket{\psi}
+&= \Pr\big(a_0\oplus b_0=0 | (x,y)=(1,0)\big) - \Pr\big(a_0\oplus b_0=1 | (x,y)=(1,0)\big)\\
+&= 2\Pr\big(\text{WIN}| (x,y)=(1,0)\big)-1\;,
+\end{align*}
+\begin{align*}
+\bra{\psi} A_1 B_1 \ket{\psi}
+&= \Pr\big(a_0\oplus b_0=0 | (x,y)=(1,1)\big) - \Pr\big(a_0\oplus b_0=1 | (x,y)=(1,1)\big)\\
+&= 1 - 2\Pr\big(\text{WIN}| (x,y)=(1,1)\big)\;.
+\end{align*}
+
+By total probability, 
+\begin{align*}
+	p_{\text{succ}} &= \sum_{x^* \in \{0, 1\}, y^* \in \{0, 1\}} \Pr\big(\text{WIN}| (x,y)=(x^*,y^*)\big) \Pr\big((x,y)=(x^*,y^*)\big)\\
+	&= \frac{1}{4}\sum_{x^* \in \{0, 1\}, y^* \in \{0, 1\}} \Pr\big(\text{WIN}| (x,y)=(x^*,y^*)\big)\\
+	&= \frac{1}{2} + \frac{\bra{\psi} C \ket{\psi}}{8}\;
+\end{align*}
+which is the desired equality.
+\item By expanding the squares (and using the identities $A_0^2 = A_1^2 = B_0^2 = B_1^2 = I$ and $A_iB_j = B_j A_i$), we get that
+\begin{align*}
+P^2 = I + \frac{1}{2}\big(2I+B_0B_1+B_1B_0\big) -\sqrt{2}A_0(B_0+B_1)\;,\\
+Q^2 = I + \frac{1}{2}\big(2I-B_0B_1-B_1B_0\big) -\sqrt{2}A_1(B_0-B_1)\;.
 \end{align*}
 Summing the two expressions, we get the desired relation. 
 \item From part (b) it then follows that 
-\[ 0\leq \bra{\psi}(P^2+Q^2)\ket{\psi} = 4 \bra{\psi}\psi\rangle - \sqrt{2}\bra{\psi}C\ket{\psi}\;.\]
-Since $\bra{\psi}\psi\rangle=1$, using the expression for $p_{succ}$ given in part (a) be obtain Tsirelson's bound. 
+\[ 0\leq \bra{\psi}(P^2+Q^2)\ket{\psi} = 4 \bra{\psi}\psi\rangle - \sqrt{2}\bra{\psi}C\ket{\psi} = 4 - \sqrt{2}\bra{\psi}C\ket{\psi}\;.\]
+We can use the expression for $p_{\text{succ}}$ given in part (a) be obtain the desired bound. 
 \end{enumerate}
 
 \item \textbf{A monogamy bound on 2-out-of-3 CHSH. }
 \begin{enumerate}
 \item It doesn't work, because Bob doesn't know ahead of time if he will play CHSH with Alice or with Charlie. He can share an EPR pair with each of them, but he doesn't know which qubit to measure to return his result. 
-\item[(b)] We obtain 
-\[p_{succ} = \frac{1}{2} + \frac{1}{16}\big( \bra{\psi} C_{AB}\ket{\psi} + \bra{\psi} C_{BC}\ket{\psi}\big)\;.\]
-\item[(c)] This identity can be verified by direct calculation. 
-\item[(d)] We obtain the bound $p_{succ}\leq \frac34$. This is the same success probability obtained by the  classical strategy where all players answer $0$ all the time. 
+\item[(b)]
+Using the same reasoning as in part (1a), we can show that, conditioned on the referee verifying that $a \oplus b = x \wedge y$, the success probability can be written as $\frac{1}{2} + \frac{\bra{\psi} C_{AB}\ket{\psi}}{8}$.
+
+And conditioned on the referee verifying that $b \oplus c = y \wedge z$, the success probability can be written as $\frac{1}{2} + \frac{\bra{\psi} C_{BC}\ket{\psi}}{8}$.
+
+Note that the referee does the above checks with equal probability, we can obtain that
+\[p_{\text{succ}} = \frac{1}{2} + \frac{1}{16}\big( \bra{\psi} C_{AB}\ket{\psi} + \bra{\psi} C_{BC}\ket{\psi}\big)\;.\]
+\item[(c)] This identity can be verified by direct calculation. Note that 
+\begin{align*}
+Q_1^2 =& \frac{1}{8}\left(A_0^2(B_0 - B_1)^2 + C_1^2(B_0 + B_1)^2 + 4A_0^2C_1^2\right)\\
+ &+ \frac{1}{8} A_0C_1 (B_0 - B_1) (B_0 + B_1) + \frac{1}{8} A_0C_1 (B_0 + B_1) (B_0 - B_1)\\
+ &- \frac{1}{2}A_0 C_1^2(B_0 + B_1) - \frac{1}{2}A_0^2C_1(B_0 - B_1)\\
+ =& \frac{1}{8}\left(2B_0^2 + 2B_1^2 + 4I\right) + \frac{1}{4} A_0C_1 (B_0^2 - B_1^2) - \frac{1}{2}A_0(B_0 + B_1) - \frac{1}{2}C_1(B_0 - B_1)\\
+  =& I - \frac{1}{2}A_0(B_0 + B_1) - \frac{1}{2}C_1(B_0 - B_1)\enspace.
+\end{align*}
+
+Similarly, we can show that
+\begin{align*}
+Q_2^2
+  =& I - \frac{1}{2}A_1(B_0 - B_1) - \frac{1}{2}C_0(B_0 + B_1)\enspace.
+\end{align*}
+
+Therefore, we have that
+\begin{align*}
+Q_1^2 + Q_2^2 = 2I - \frac{1}{2}(C_{AB} + C_{BC})\enspace.
+\end{align*}
+
+
+\item[(d)] Using the same reasoning as in part (1c), we obtain that $\bra{\psi}C_{AB}\ket{\psi} + \bra{\psi}C_{BC}\ket{\psi} \le 4$ and thus thus from the part (2b), $p_{\text{succ}}\leq \frac{3}{4}$. This is the same success probability obtained by the  classical strategy where all players answer $0$ all the time. 
 \end{enumerate}
 \end{enumerate}
 

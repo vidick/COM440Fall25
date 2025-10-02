@@ -25,7 +25,7 @@
 This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
 
 \begin{enumerate}
-\item \textbf{Tsirelson's bound via sum of square decompositions. }\\
+\item (*, $\blacklozenge$)\textbf{Tsirelson's bound via sum of square decompositions. }\\
 In class we saw a quantum strategy that succeeds in the CHSH game with success probability $\frac12+\frac{\sqrt{2}}{4}$. In this problem we show that this bound is optimal. 
 \begin{enumerate}
 \item Suppose that a quantum strategy for the CHSH game is based on observables $A_0$ and $A_1$ on $\mH_A$ for Alice, $B_0$ and $B_1$ on $\mH_B$ for Bob, and a shared entangled state $\ket{\psi}\in \mH_A\otimes \mH_B$. Let $C = A_0B_0 + A_1B_0 + A_0B_1-A_1B_1$, where we omit the tensor product sign for convenience (this is the same as abusing notation and using e.g.\ $A_1$ to denote $A_1 \otimes I_B$, etc.). Show that this strategy succeeds with probability 
@@ -33,13 +33,13 @@ In class we saw a quantum strategy that succeeds in the CHSH game with success p
  p_{succ} = \frac{1}{2} + \frac{\bra{\psi} C \ket{\psi}}{8} 
 \end{equation}
 in the CHSH game. 
-\item Let $P = A_0 - \frac{1}{\sqrt{2}}(B_0+B_1)$ and $Q= A_0 - \frac{1}{\sqrt{2}}(B_0-B_1)$. Using identities $A_0^2=A_1^2=B_0^2=B_1^2=I$ and $A_iB_j=B_jA_i$ for $i,j\in\{1,2\}$, show by direct calculation that 
+\item Let $P = A_0 - \frac{1}{\sqrt{2}}(B_0+B_1)$ and $Q= A_1 - \frac{1}{\sqrt{2}}(B_0-B_1)$. Using identities $A_0^2=A_1^2=B_0^2=B_1^2=I$ and $A_iB_j=B_jA_i$ for $i,j\in\{0,1\}$, show by direct calculation that 
 \[P^2 + Q^2 = 4I - \sqrt{2}C\;.\]
 \item Recall that if $X$ is Hermitian then $X^2 \geq 0$. Deduce from the previous questions that 
 \[ p_{succ} \leq \frac12+\frac{\sqrt{2}}{4}\;.\]
 \end{enumerate}
 
-\item \textbf{A monogamy bound on 2-out-of-3 CHSH. }\\
+\item (*) \textbf{A monogamy bound on 2-out-of-3 CHSH. }\\
 Consider the following $3$-player nonlocal game, where the three players are Alice, Bob and Charlie. The referee selects inputs $x,y,z\in\{0,1\}$ uniformaly at random and sends $x$ to Alice, $y$ to Bob and $z$ to Charlie. The players respond with a single bit each, $a,b,c\in\{0,1\}$ respectively. With probability $\frac12$ the referee checks that $a\oplus b = x\wedge y$ and accepts if and only if this is the case. With probability $\frac12$ the referee checks that $b\oplus c = y\wedge z$ and accepts if and only if this is the case. 
 \begin{enumerate}
 \item Since this is just two copies of the CHSH game, it may at first seem that quantum players can win with probability $\frac12+\frac{\sqrt{2}}{4}$ overall. Take a few minutes to see if you can make this work. In particular, try to write down carefully the entangled state that the players would share. 
