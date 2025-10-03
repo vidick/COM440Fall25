@@ -55,8 +55,8 @@ Each of the four problem set counts for 20\% of the total homework grade. (Each 
 
 \medskip
 
-\emph{In this problem set we learn about various type of bipartite and tripartite correlations. The first three exercises consider forms of tripartite entanglement. The first exercise shows that tripartite entanglement can beat the classical bound in a three-player game (this is in contrast to the ``2-out-of-3'' CHSH game seen in exercise session). Exercises 2 and 3 explore how entanglement can be ``lost'' when some of the qubits, or parties, are discarded. Finally, Exercise 4 explores a generalization of quantum correlations and nevertheless respects the no-signaling condition. While these generalized correlations can be stronger and lead to higher success probabilities in some games such as the CHSH games, they also have limitations (which we will later use for cryptography).\\
-The first three exercises are shorter. The fourth exercise is longer. Question 4(f) is the longest. Question 4(g) is interesting but somewhat technical and entirely optional.}
+\emph{In this problem set we learn about various type of bipartite and tripartite correlations. The first two exercises consider forms of tripartite entanglement. The first exercise shows that tripartite entanglement can beat the classical bound in a three-player game (this is in contrast to the ``2-out-of-3'' CHSH game seen in exercise session). Exercise 2 explores how entanglement can be ``lost'' when some of the qubits, or parties, are discarded. Finally, Exercise 3 explores a generalization of quantum correlations and nevertheless respects the no-signaling condition. While these generalized correlations can be stronger and lead to higher success probabilities in some games such as the CHSH games, they also have limitations (which we will later use for cryptography).\\
+The first two exercises are shorter. The third exercise is longer. Question 3(f) is the longest. Question 3(g) is interesting but somewhat technical and entirely optional.}
 
 Revisions since the first posting are in \textcolor{blue}{blue}.
 
@@ -93,7 +93,7 @@ Show that this strategy wins this nonlocal game with probability $1$.
 
 
 
-\item {(6 points)} {\bf Robustness of GHZ and W States, Part I.}\label{ex:robust-GHZ}\\
+\item {(6 points)} {\bf Robustness of GHZ and W States.}\label{ex:robust-GHZ}\\
 In this problem we explore two classes of $N$-qubit states that are especially useful for cryptography and communication, but behave very differently under tracing out a single qubit. Let's first define them for $N=3$:
 \begin{align*}
 & \text{GHZ state:} \quad \ket{GHZ_3} = \frac{1}{\sqrt{2}} (\ket{000}+\ket{111}) \\
@@ -113,51 +113,51 @@ Now we generalize to the $N$-qubit case. As you might expect, $\ket{GHZ_N}=\frac
 \end{enumerate}
 The interpretation of these results is that $W$ states are more ``robust'' against loss of a single qubit than GHZ states.
 
-
-\item {(6 points)} {\bf Robustness of GHZ and W States, Part II.}\\
-We return to the multi-qubit GHZ and W states introduced in the previous exercise. 
-In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last one out of $N$ qubits.
-\begin{enumerate}
-\item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
-%\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
 %
-\end{enumerate}
- Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
-\begin{enumerate}
-\item[(b)] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
-%\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
-% \begin{enumerate}[a)]
-% 	\item 1 and 0
-% 	\item 1 and $\frac{1}{d}$
-% 	\item 1 and $\frac{1}{d^2}$
-% 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
-% \end{enumerate}
-%
-\item[(c)] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
-%\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
-\end{enumerate}
-Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
-\begin{enumerate}
-\item[(d)] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
-%\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
-% \begin{enumerate}[a)]
-% 	\item 0
-% 	\item $1/N$
-% 	\item 1/2
-% 	\item 1
-% \end{enumerate}
-%
-\item[(e)] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
-%\solopen{We have again by direct calculation
-%$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
-% \begin{enumerate}[a)]
-% 	\item 0
-% 	\item $1/N$
-% 	\item 1/2
-% 	\item 1
-% \end{enumerate}
-\end{enumerate}
-Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
+%\item {(6 points)} {\bf Robustness of GHZ and W States, Part II.}\\
+%We return to the multi-qubit GHZ and W states introduced in the previous exercise. 
+%In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last one out of $N$ qubits.
+%\begin{enumerate}
+%\item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
+%%\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
+%%
+%\end{enumerate}
+ %Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
+%\begin{enumerate}
+%\item[(b)] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
+%%\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
+%% \begin{enumerate}[a)]
+%% 	\item 1 and 0
+%% 	\item 1 and $\frac{1}{d}$
+%% 	\item 1 and $\frac{1}{d^2}$
+%% 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
+%% \end{enumerate}
+%%
+%\item[(c)] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
+%%\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
+%\end{enumerate}
+%Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
+%\begin{enumerate}
+%\item[(d)] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
+%%\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
+%% \begin{enumerate}[a)]
+%% 	\item 0
+%% 	\item $1/N$
+%% 	\item 1/2
+%% 	\item 1
+%% \end{enumerate}
+%%
+%\item[(e)] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
+%%\solopen{We have again by direct calculation
+%%$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
+%% \begin{enumerate}[a)]
+%% 	\item 0
+%% 	\item $1/N$
+%% 	\item 1/2
+%% 	\item 1
+%% \end{enumerate}
+%\end{enumerate}
+%Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
 
 \item  {(8 points)} \textbf{Nonlocal boxes.}\\
 Given an integer $n$ and finite sets $\mathcal{X}_1,\ldots,\mathcal{X}_n$ (``inputs'') and $\mathcal{A}_1,\ldots,\mathcal{A}_n$ (``outputs''), an $n$-partite \emph{non-local box} is a family of distributions $\{p(\cdot|x_1,\ldots,x_n),\, x_1,\ldots,x_n \in \mathcal{X}_1\times \cdots \times \mathcal{X}_n\}$, each defined on $\mathcal{A}_1\times\cdots\times\mathcal{A}_n$, i.e. 
