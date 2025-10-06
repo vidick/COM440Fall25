@@ -32,6 +32,53 @@
 {\bf Problems:}
 
 \begin{enumerate}
+
+	
+\item {\bf Perfect secrecy}
+\begin{enumerate}
+	\item True. 
+	
+	$\Rightarrow$: If an encryption scheme is perfectly secret, then the distribution of $\skcenc_{k}(m_0)$ where $k \gets \skcgen$ is the same as the distribution of $\skcenc_{k}(m_1)$ where $k \gets \skcgen$, and thus no function $\Adv$ can tell them apart.
+	
+	$\Leftarrow$: For a ciphertext $c^*$ and messages $m_0, m_1$, construct an adversary  $\Adv$ as follows: on input $c$, it outputs 0 if $c \ne c^*$; otherwise, it outputs 1. Then we have that
+	\begin{align*}
+	&\Pr_{k \gets \skcgen,\; b \gets_U \bit}[\Adv(\skcenc_{k}(m_{b}))
+    = b]\\
+    =& \frac{1}{2}(1 - \Pr_{k \gets \skcgen}[\skcenc_{k}(m_{0}) = c^*]) + \frac{1}{2}\Pr_{k \gets \skcgen}[\skcenc_{k}(m_{1}) = c^*]\enspace.
+	\end{align*}
+	By assumption, this equals to $\frac{1}{2}$. Therefore,
+	\[\Pr_{k \gets \skcgen}[\skcenc_{k}(m_{0}) = c^*]) = \Pr_{k \gets \skcgen}[\skcenc_{k}(m_{1}) = c^*]\enspace.\]
+	
+	As this holds for arbitrary $c^*, m_0, m_1$, the scheme is perfectly secret.
+	\item True. Consider the scheme $\skcenc_{k}(m) = (k_1 \oplus m) \parallel k_2$ where $k = k_1 \parallel k_2$, $k_1 \in \{0, 1\}$, $k_2 \in \{0, 1\}^{99}$ and $m \in \{0, 1\}$. This scheme is perfectly secret while the ciphertext always reveals 99\% of the bits of the key $k$ to the adversary.
+	\item True. The scheme $\skcenc_{k}(m) = m$ is not perfectly secret, but the adversary cannot guess the key with probability greater than $1/|\mathcal{K}|$.
+	\item False. The perfect secrecy only means that for every $c, m_0, m_1$, $\Pr_{k \gets \skcgen}(\skcenc_{k}(m_0)= {c}) = \Pr_{k \gets \skcgen}(\skcenc_{k}(m_1)= {c})$. It does not mean that the ciphertext is uniformly random. For example, $\skcenc_{k}(m) = (m \oplus k) \parallel (m \oplus k)$ is perfectly secret where $k \in \{0, 1\}, m \in \{0, 1\}$, but the ciphertext is not uniform: for each $m$, $\Pr(\skcenc_{k}(m) = 01) = 0$ while $\Pr(\skcenc_{k}(m) = 00) = 1/2$.
+	\item True.
+	
+	$\Rightarrow$: If an encryption scheme is perfectly secret, by the law of total probability, it is not hard to see that for any $\bar{m} \in \msgspace$ and $\bar{c} \in \ctspace$, $\Pr_{m \gets \calD,\; k \gets \skcgen}\big(\skcenc_{k}(m) = \bar{c}\big) = \Pr_{k \gets \skcgen}\big(\skcenc_{k}(\bar{m}) = \bar{c}\big)$. Therefore, 
+	\begin{align*}
+ 	&\Pr_{m \gets \calD,\; k \gets \skcgen}\big( m = \bar{m} \wedge
+    \skcenc_{k}(m) =  \bar{c}\big)\\
+     &=\, \Pr_{m \gets \calD}(m = \bar{m})\cdot
+    \Pr_{m \gets \calD,\; k \gets \skcgen}\big(\skcenc_{k}(m) =
+    \bar{c} \vert m = \bar{m}\big)\\
+    &= \, \Pr_{m \gets \calD}(m = \bar{m})\cdot
+    \Pr_{k \gets \skcgen}\big(\skcenc_{k}(\bar{m}) =
+    \bar{c}\big)\\
+    &= \, \Pr_{m \gets \calD}(m = \bar{m})\cdot\Pr_{m \gets \calD,\; k \gets \skcgen}\big(\skcenc_{k}(m) = \bar{c}\big)\enspace.
+ \end{align*}
+ 
+ $\Leftarrow$: For $m_0 \ne m_1$, we consider the uniform distribution over $m_0$ and $m_1$. Choose $\bar{m} = m_0$, we can get that
+ \[ \Pr_{m \gets \calD,\; k \gets \skcgen}\big( m = m_0 \wedge
+    \skcenc_{k}(m) = \bar{c}\big) \,=\, \Pr_{m \gets \calD}(m = m_0)\cdot
+    \Pr_{m \gets \calD,\; k \gets \skcgen}\big(\skcenc_{k}(m) =
+    \bar{c}\big)\;. \]
+    
+ The lefthand side equals to $\frac{1}{2} \Pr_{k \gets \skcgen}\big(\skcenc_{k}(m_0) = \bar{c}\big)$. The righthand side equals to $\frac{1}{2}\left(\frac{1}{2}Pr_{k \gets \skcgen}\big(\skcenc_{k}(m_0) = \bar{c}\big) + \frac{1}{2}Pr_{k \gets \skcgen}\big(\skcenc_{k}(m_1) = \bar{c}\big)\right)$. Therefore, we get that \[Pr_{k \gets \skcgen}\big(\skcenc_{k}(m_0) = \bar{c}\big) = Pr_{k \gets \skcgen}\big(\skcenc_{k}(m_1) = \bar{c}\big)\enspace.\]
+ 
+ As this holds for arbitrary $\bar{c}, m_0, m_1$, the scheme is perfectly secret.
+\end{enumerate}
+
 		
 
 
@@ -42,8 +89,8 @@
 \item We evaluate the success probability of this attack for each of the $4$ possible states. If the initial state is $\ket{0}$, the outcome $b=0$ is obtained with probability $|\alpha|^2$, and $b=1$ is obtained with probability $|\beta|^2$. Preparing the state $\proj{u_b} \otimes \proj{u_b}$ leads to success probabilities of $|\alpha|^4$ and $|\beta|^4$ respectively. For the state $\ket{1}$, the probabilties are exchanged. For the states $\ket{+}$ and $\ket{-}$, $\alpha$ and $\beta$ are replaced with $(\alpha + \beta)/\sqrt{2}$ and $(\alpha-\beta)/\sqrt{2}$ respectively. Therefore, the overall success probability of this attack is 
 \[ \frac{1}{4}\Big( 2 \big( |\alpha|^6 + |\beta|^6\big) + 2\Big( \Big| \frac{\alpha + \beta}{\sqrt{2}}\Big|^6
 +\Big| \frac{\alpha - \beta}{\sqrt{2}}\Big|^6\Big)\Big)\;.\]
-\item The optimum is achieved for $\alpha=\beta=\frac{1}{\sqrt{2}}$. 
-\item No... The success probability is the same: $5/8$. 
+\item The global phase does not affect the success probability, so without loss of generality, we can suppose $\alpha = \cos\theta$, $\beta = e^{i\varphi} \sin \theta $. We can rewrite the success probability in terms of $\theta$ and $\varphi$, and it is not hard to see that the optimum is achieved when $\varphi = 0$. For example, when $\alpha= 1, \beta=0$, the optimum is achieved. 
+\item The success probability is the same: $5/8$. 
 \end{enumerate}
 
 
