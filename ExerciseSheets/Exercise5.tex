@@ -1,0 +1,91 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise \# 5}
+
+This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
+
+\begin{enumerate}
+
+\item {\em Computing the min-entropy.}\\
+How much can a quantum register $E$ help us guess $X$? In the following, you will show that $\hmin(X|E) \geq \hmin(X) - \log |E|$, where $E$ denotes the dimension of the associated Hilbert space (so $\log |E|$ is just the number of qubits of $E$).
+\begin{enumerate}
+\item[(a)] Write out what we want to show as an inequality in terms of the guessing probabilities $P_{\rm guess}(X|E)$, $P_{\rm guess}(X)$, and $|E|$, using the definition of the min-entropy.
+\item[(b)] It will be useful to establish the following fact. Suppose given two Hermitian matrices $A$ and $B$, which are positive semidefinite: $A \geq 0$ and $B \geq 0$. Show that $\Tr(AB) \leq \lambda_{\rm max}(B) \Tr(A)$, where $\lambda_{\rm max}(B)$ is the largest eigenvalue of $B$.
+\item[(c)] Use this fact to show that for any POVM $\{M_x\}$ and any quantum state $\rho^E_x$ we have $\Tr(M_x \rho^E_x) \leq \Tr(M_x)$. 
+\item[(d)] Using this trick together with what you know about POVMs, show that $\hmin(X|E) \geq \hmin(X) - \log |E|$. 
+\end{enumerate}
+
+
+\item {\em A dual formulation for the conditional min-entropy.}\\
+In the notes the conditional min-entropy of a cq state $\rho_{XE}  = \sum_{x\in\mathcal{X}} \proj{x}\otimes \rho_x^E$ (where $\mathcal{X}$ is any finite set of outcomes) is defined through the guessing probability, $\hmin(X|E) = -\log P_{\rm guess}(X|E)$ where 
+\begin{equation}\label{eq:pguess}
+ P_{\rm guess}(X|E) = \sup_{\{M_x\}}\,\sum_{x\in\mathcal{X}} \,\Tr\big(M_x\rho_x\big), 
+\end{equation}
+where the supremum is over all POVM $\{M_x\}$.
+
+It turns out that the min-entropy can also be written in a different way, and this other expression can be useful in calculations. To derive it, we first rewrite~\eqref{eq:pguess} as a semidefinite program (SDP). Recall the primal and dual forms of an SDP from Problem 1 in Homework 3.  Consider the map 
+$$\Phi(Z) = \sum_{x\in\mathcal{X}} \,\big(\bra{x} \otimes \Id_E\big) \,Z\, \big(\ket{x}\otimes\Id_E\big),$$
+where $Z$ is any matrix over the space $\mH_X\otimes \mH_E$ associated to registers $X$ and $E$. 
+\begin{enumerate}
+\item[(a)] Suppose $\{N_x\}$ is a valid POVM. Show that the matrix $Z = \sum_x \proj{x}\otimes N_x$ satisfies $Z\geq 0 $, and compute $\Phi(Z)$ (the result should be a matrix defined on system $E$ only).
+\item[(b)] For the same matrix $Z$ as in the previous question, compute $\Tr(Z\rho_{XE})$. 
+\item[(c)] Conversely, suppose $Z \geq 0$ and $\Phi(Z) = \Id_E$. Show that the elements $N_x = (\bra{x} \otimes \Id_E) Z (\ket{x}\otimes\Id_E)$ form a valid POVM $\{N_x\}$ over $\mH_E$ (with outcomes $x\in \mathcal{X}$).  
+\item[(d)] Use the previous questions to give a semidefinite program in primal form whose optimum is $P_{\rm guess}(X|E)$. That is, specify the map $\Phi$ and matrices $A$ and $B$ that define the SDP.  
+\item[(e)] Show that the map $\Phi^*$ associated to $\Phi$ is such that $\Phi^*(Y) = \Id_X \otimes Y$, for any matrix $Y$ defined over system $E$ (remember the definition of $\Phi^*$ from $\Phi$ given in Homework 3, Problem 1).
+\item[(f)] Write the dual program to your SDP explicitly. 
+\item[(g)] Conclude that the guessing probability satisfies
+$$ P_{\rm guess}(X|E) = \inf_\sigma \Tr(\sigma),$$
+ where the infimum is taken over all matrices $\sigma$ defined on system $E$ such that $\sigma \geq \rho_x$ for all $x\in\mathcal{X}$. 
+\end{enumerate}
+In the last part of this problem we use the first part (whose results you may use even if you didn't prove them) to compute the min-entropy of cq states given as the tensor product of many copies of the same state. 
+\begin{enumerate}
+\item[(h)] Show that for any $\sigma$ such that $\sigma \geq \rho_x$ we have $P_{\rm guess}(X|E)\leq \Tr(\sigma)$. \emph{[Hint: remember Exercise 1 from Homework 3...]}
+\item[(i)] Suppose that $\rho_{XE} = \tau_{X_1E_1}^{\otimes n}$, where $\tau_{X_1E_1}$ is a cq-state. That is, $\rho_{XE}$ is formed of $n$ identical copies of the same state. Show that $\hmin(X|E)_\rho = n \hmin(X_1|E_1)_\tau$, where we have used the subscripts $\rho$ and $\tau$ to remind ourselves
+of which states we compute the min-entropy. \emph{[Hint: consider the solutions for the primal and dual SDP from the previous problem for a single instance $\sigma_{X_1E_1}$. Use these solutions to construct matching solutions for the primal and dual SDP associated to the cq state $\rho$.]}
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
