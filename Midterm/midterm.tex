@@ -154,6 +154,36 @@ Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit
 Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
 
 
+\item {\bf Using the Pretty-Good-Measurement}\\
+Alice sends Bob one of the three states 
+\[\rho_0 = \ketbra 00 ,\; \rho_1 = \frac12 \Id,\; \rho_2 = \ketbra 11\]
+ with equal probability. Bob wants to determine which state Alice sent him. In this problem we work out the success probability of different possible strategies for Bob. A strategy is a POVM $\{B_0,B_1,B_2\}$ and its success probability is 
+\[ p_{succ}(B) \,=\, \frac{1}{3} \Tr(B_0\rho_0) + \frac{1}{3}\Tr(B_1\rho_1)+\frac{1}{3}\Tr(B_2\rho_2)\,\]
+i.e.\ it is the probability that Bob correctly guesses the state sent by Alice, assuming that Alice sends him each of the three states with equal probability $\frac{1}{3}$. 
+
+The first strategy that we consider consists in Bob measuring in the Hadamard basis. 
+\begin{enumerate}
+\item Bob sets $B_0 = \proj{+}$, $B_1=0$ and $B_2 = \proj{-}$. That is, if he measures $\ket +$, then he guesses that the state sent was $\rho_0 = \ketbra 00$ and if he measures $\ket -$ he guesses that the state sent was $\rho_2 = \ketbra 11$. What is Bob's success probability?
+%\solopen{The overall success probability is $\frac13 \bra{+} \rho _0 \ket{+}  + \frac13 \bra{-} \rho _2 \ket{-}  = \frac13$.}
+\end{enumerate}
+After trying that procedure, Bob decides to switch to measuring $\rho$ in the standard basis.
+\begin{enumerate}
+\item[(b)] Bob sets $B_0=\proj{0}$, $B_1=0$ and $B_2 = \proj{1}$. What is his new success probability?
+%\solopen{Bob's overall success probability is $\frac13\bra{0} \rho _0 \ket{0}  + \frac13\bra{1} \rho_2 \ket{1}  = \frac23$.}
+\end{enumerate}
+Bob decides that he's done with ad-hoc approaches and wants to use a measurement that will be somewhat reliable.
+\begin{enumerate}
+\item[(c)] What is Bob's success probability if he uses the pretty-good measurement? 
+%\solopen{Let $\rho=\frac{1}{3}(\rho_0+\rho_1+\rho_2) = \frac{1}{2}\Id$. The elements of the pretty-good measurement are $M_ i = \frac13\rho ^{-1/2}\rho_i\rho ^{-1/2}$. Since $\rho = \frac{1}{2}\id$, we have that $\rho ^{-1/2} = \sqrt{2}\id$. The overall success probability is $\frac{1}{3}\sum_i \Tr(M_i\rho_i) = \frac{2}{9} \sum_i \Tr(\rho _ i^2) = \frac{2}{9}\left(1 + \frac{1}{2} + 1\right) = \frac{5}{9}$.}
+\end{enumerate}
+Bob wants to know whether he's found the optimal measurement. To help find this out, he will apply the following fact. Suppose that $\sigma$ is a positive semidefinite matrix (not necessarily of trace $1$) such that $p_i\rho_i \leq \sigma$ for each $i$. Then the optimal success probability of a distinguishing measurement on the ensemble $\rho = \sum_ip_i\rho_i$ is at most $\Tr\sigma$. (Recall that $A\leq B$ means that $B-A$ is positive semidefinite.)
+\begin{enumerate}
+\item[(d)] What is the best upper bound Bob can derive from this fact?
+%\solopen{We check that for each $i$, $\frac13 \rho _ i \leq \sigma = \frac13\id$. $\frac13\rho _0 = \frac13\left( \begin{array}{cc}1&  0 \\ 0 & 0 \end{array} \right) \leq \frac13\id$ $\frac13\rho _1 =\frac16\id\leq \frac13\id$
+%$\frac13\rho _2 = \frac13\left( \begin{array}{cc}0&  0 \\ 0 & 1 \end{array} \right) \leq \frac13\id$
+%Thus the upper bound on the guessing probability is $\operatorname {Tr}\sigma = \frac23$.}
+\item[(e)] Can you prove the above-claimed fact?
+\end{enumerate}
 
 
 \end{enumerate}

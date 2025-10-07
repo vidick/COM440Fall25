@@ -1,0 +1,75 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise \# 6}
+
+This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
+
+\begin{enumerate}
+
+
+\item \textbf{Deterministic Extractors on Bit-Fixing Sources.}
+We saw in class that no deterministic function can serve as an extractor for all random sources of a given length. However, this doesn't rule out the possibility that a deterministic extractor can work for some restricted class of sources.
+\begin{enumerate}
+	\item Fix an even integer $n$ and integer $t < \frac n2$. Consider the following sources.
+	\begin{itemize}
+		\item $X_0$ is $100\cdots00$ on the first $t$ bits and uniformly random on the last $n-t$ bits.
+		\item $X_1$ is uniformly random over the set of strings with an even number of $0$s. 
+		\item $X_2$ is uniformly random over the set of strings where the first $\frac n2$ bits are the same as the last $\frac n2$ bits. 
+	\end{itemize}
+	Compute the min-entropy $H_\text{min}(X_i)$ for each $i\in \set{0,1,2}$.
+
+	\item  Consider the following deterministic functions:
+	\begin{itemize}
+		\item $f_0(x):=$ the XOR of the first $t$ bits of $x$.
+		\item $f_1(x):= x_L\cdot x_R$, where $x=(x_L,x_R)$ are the left and right halves of $x$ {and the inner product is taken modulo $2$}. 
+		\item $f_2(x):=$ the XOR of all of the bits of $x$.
+	\end{itemize}
+	For which pairs $(i,j)$ is $f_i(X_j)$ distributed as a uniformly random bit?
+	\item Alice and Bob share a classical secret $X\in \set{0,1}^n$ generated uniformly at random. Alice and Bob make an error in their secure communication protocol and as a result, Eve learns $t$ bits of $X$. Give a deterministic function $f$ such that $f(X)$ is uniformly random over strings of length $\left\lfloor\frac n{t+1}\right\rfloor$ and is totally uncorrelated from Eve's bits. Justify, with proof, that your function $f$ achieves the desired task.
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

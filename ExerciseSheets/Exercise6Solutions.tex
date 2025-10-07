@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 4}
+
+
+\begin{enumerate}
+
+\item {\bf Deterministic Extractors on Bit-Fixing Sources}
+
+\begin{enumerate}
+\item We can think of generating $X_0$ by $n-t$ independent fair coin flips, so each of its strings occurs with equal probability $2^{t-n}$ and $\Hmin (X_0) = -\log{2^{t-n}}=n-t$.
+
+\item The number of strings with an even number of $0$s is equal to the number of strings with an odd number of $0$s, so each of these is equal to $2^{n-1}$. Thus the min-entropy of $X_1$ is $-\log \frac{1}{2^{n-1}}=(n-1)$.
+
+\item As before, think of generating $X_2$ through a series of independent fair coin flips: it is fully determined by $\frac {n}{2}$ of them and so $\Hmin(X_2)=\frac{n}{2}$.
+
+\item Let us look at all the proposed answers consecutively. We're interested in finding which ones are not constant.
+\begin{itemize}
+\item $f_1(X_1)$ --- true. The string $X_1$ can be seen as $n-1$ random bits followed by a bit that is fully determined by the previous $n-1$ bits. Since there are $n-1$ random bits, performing \(x_ L\cdot x_ R \) will generate a random bit. Notice that this is not uniformly random; for example, if $n=4$, then an output of $0$ is $3$ times more likely than an output of $1$.
+\item $f_1(X_2)$ --- true. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, we have \(x_ L\cdot x_ R  = XOR(x_L) = XOR(x_R)\) which is a uniformly random bit since the strings \(x_L=x_R\) are random.
+\item $f_2(X_0)$ --- true. Since the last \(n-k\) bits of $X_0$ are fully random, the XOR of the entire string will result in a uniformly random bit.
+\item $f_2(X_1)$ --- false. Since the number of $0$'s in the string is known the parity of the string (computed by the XOR) is $0$ for $n$ even.
+\item $f_2(X_2)$ --- false. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, the parity of the bit string is zero.
+\end{itemize}
+
+\item The XOR of all of the bits is equal to $b\oplus r$, for $r$ equal to the XOR of the bits learned by Eve and $b$ equal to the XOR of all of the other bits. Regardless of the distribution of $r$, $b\oplus r$ is uniform independent of Eve's knowledge.
+
+\item $t=n-1$. In this case there is at least one bit that Eve did not get access to. Call this bit $b$. From Eve's point of view, $b$ is uniformly distributed and independent of everything else. We only require the existence of one bit that Eve does not get access to.
+
+\item Following the last question, each subsource must have at least $t+1$ bits. They can make at most $\lfloor \frac{n}{t+1}\rfloor$ such subsources.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
