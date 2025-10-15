@@ -28,26 +28,40 @@
 \item {\bf Deterministic Extractors on Bit-Fixing Sources}
 
 \begin{enumerate}
-\item We can think of generating $X_0$ by $n-t$ independent fair coin flips, so each of its strings occurs with equal probability $2^{t-n}$ and $\Hmin (X_0) = -\log{2^{t-n}}=n-t$.
+\item \begin{itemize}
+ 	\item We can think of generating $X_0$ by $n-t$ independent fair coin flips, so each of its strings occurs with equal probability $2^{t-n}$ and $\Hmin (X_0) = -\log{2^{t-n}}=n-t$.
+ 	\item The number of strings with an even number of $0$s is equal to the number of strings with an odd number of $0$s, so each of these is equal to $2^{n-1}$. Thus the min-entropy of $X_1$ is $-\log \frac{1}{2^{n-1}}=(n-1)$.
+ 	\item As before, think of generating $X_2$ through a series of independent fair coin flips: it is fully determined by $\frac {n}{2}$ of them and so $\Hmin(X_2)=\frac{n}{2}$.
+ \end{itemize}
 
-\item The number of strings with an even number of $0$s is equal to the number of strings with an odd number of $0$s, so each of these is equal to $2^{n-1}$. Thus the min-entropy of $X_1$ is $-\log \frac{1}{2^{n-1}}=(n-1)$.
-
-\item As before, think of generating $X_2$ through a series of independent fair coin flips: it is fully determined by $\frac {n}{2}$ of them and so $\Hmin(X_2)=\frac{n}{2}$.
-
-\item Let us look at all the proposed answers consecutively. We're interested in finding which ones are not constant.
+\item Let us look at all the proposed answers consecutively. We're interested in finding which ones are distributed as a uniformly random bit.
 \begin{itemize}
-\item $f_1(X_1)$ --- true. The string $X_1$ can be seen as $n-1$ random bits followed by a bit that is fully determined by the previous $n-1$ bits. Since there are $n-1$ random bits, performing \(x_ L\cdot x_ R \) will generate a random bit. Notice that this is not uniformly random; for example, if $n=4$, then an output of $0$ is $3$ times more likely than an output of $1$.
+\item $f_0(X_0)$ --- false. Since the first $t$ bits of $X_0$ is fixed (100$\cdots$00), $f_0(X_0)$, the parity of the first $t$ bits of $X_0$, is always $1$.
+\item $f_0(X_1)$ --- true. The string $X_1$ can be seen as $n-1$ random bits followed by a bit that is fully determined by the previous $n-1$ bits. Therefore, the first $n - 1$ bits of $X_1$ is distributed uniformly, and thus $f_0(X_1)$, the parity of the first $t \leq n - 1$ bits of $X_1$, is distributed uniformly.
+\item $f_0(X_2)$ --- true. The first $\frac{n}{2}$ bits of $X_2$ is distributed uniformly, and thus $f_0(X_2)$, the parity of the first $t < \frac{n}{2}$ bits of $X_2$, is distributed uniformly.
+\item $f_1(X_0)$ --- true. Let $X_0 = x_1\cdots x_n$. Then $f_1(X_0) = \left(\sum_{i = 1}^{n/2}x_i x_{i + n/2}\right) \bmod 2 = \left(x_{1 + n/2} + \sum_{i = t + 1}^n x_i x_{i + n/2}\right) \bmod 2$. Since $x_{1 + n/2}$ is a random bit, $f_1(X_0)$ is distributed as a uniformly random bit.
+\item $f_1(X_1)$ --- it depends on $n$. If $n$ is divisible by 4, $f_1(X_1)$ is not a uniformly random bit; otherwise, if $n$ is even but not divisible by 4, $f_1(X_1)$ is a uniformly random bit. The reason is as follows.
+
+The string $X_1$ can be seen as $n-1$ random bits followed by a bit that is fully determined by the previous $n-1$ bits. We can write it as $x_1\cdots x_n$ where $x_n = (\sum_{i = 1}^{n - 1} x_i)\bmod 2$. Therefore, 
+\begin{align*}
+f_1(X_1) =& \left(\sum_{i = 1}^{n/2}x_i x_{i + n/2}\right) \bmod 2\\
+=& \left(x_{n/2}\cdot\sum_{i = 1}^{n - 1}x_i + \sum_{i = 1}^{n/2 - 1}x_i x_{i + n/2}\right) \bmod 2\\
+=& \left(\sum_{i = 1}^{n/2 - 1}(x_i + x_{n/2})(x_{i + n/2} + x_{n/2}) - (n/2 - 2)x_{n/2}\right) \bmod 2\enspace.
+\end{align*} 
+
+If $n$ is divisible by 4, the above equation can be simplified to \[\left(\sum_{i = 1}^{n/2 - 1}\left((x_i + x_{n/2})(x_{i + n/2} + x_{n/2})\bmod 2\right)\right) \bmod 2\enspace.\]
+Each term in the summation is independent and identically distributed, and is 1 with probability $1/4$, and is 0 with probability $3/4$. Therefore, the parity of the terms in the summation is not a uniformly random bit (but becomes closer to uniformly random bit when $n$ becomes bigger).
+
+If $n$ is not divisible by 4, the above equation can be simplified to \[\left(\sum_{i = 1}^{n/2 - 1}(x_i + x_{n/2})(x_{i + n/2} + x_{n/2}) - x_{n/2}\right) \bmod 2\enspace.\]
+Note that the following $n - 1$ random variables, $x_i + x_{n/2}$ ($i = 1, 2, \cdots, n/2 - 1, n/2 + 1, \cdots, n - 1$), $x_{n/2}$ are uniform random bits that are independent. Therefore, $f_1(X_1)$ is a uniform random bit.
 \item $f_1(X_2)$ --- true. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, we have \(x_ L\cdot x_ R  = XOR(x_L) = XOR(x_R)\) which is a uniformly random bit since the strings \(x_L=x_R\) are random.
 \item $f_2(X_0)$ --- true. Since the last \(n-k\) bits of $X_0$ are fully random, the XOR of the entire string will result in a uniformly random bit.
 \item $f_2(X_1)$ --- false. Since the number of $0$'s in the string is known the parity of the string (computed by the XOR) is $0$ for $n$ even.
 \item $f_2(X_2)$ --- false. Since the first \(\frac{n}{2}\) bits of $X_2$ are the same as the second half, the parity of the bit string is zero.
 \end{itemize}
+\item We divide $X$ into $\lfloor \frac{n}{t + 1}\rfloor$ blocks of length as least $t + 1$, i.e. $X = Y_1 \parallel Y_2 \parallel \cdots \parallel Y_{\lfloor \frac{n}{t + 1}\rfloor}$ where each $Y_i$ has length at least $t + 1$. We define $g(Y) = \text{the XOR of all the bits of } Y$ and set $f(X) = g(Y_1) \parallel g(Y_2) \parallel \cdots \parallel g(Y_{\lfloor \frac{n}{t + 1}\rfloor})$.
 
-\item The XOR of all of the bits is equal to $b\oplus r$, for $r$ equal to the XOR of the bits learned by Eve and $b$ equal to the XOR of all of the other bits. Regardless of the distribution of $r$, $b\oplus r$ is uniform independent of Eve's knowledge.
-
-\item $t=n-1$. In this case there is at least one bit that Eve did not get access to. Call this bit $b$. From Eve's point of view, $b$ is uniformly distributed and independent of everything else. We only require the existence of one bit that Eve does not get access to.
-
-\item Following the last question, each subsource must have at least $t+1$ bits. They can make at most $\lfloor \frac{n}{t+1}\rfloor$ such subsources.
+From the construction, $f(X)$ is a deterministic function. Moreover, each $g(Y_i)$ is totally uncorrelated from Eve's bits as Eve learns at most $t$ bits of $X$ (so as least one bit of $Y_i$ is hidden from Eve's view). Notice that each $g(Y_i)$ is independent as $Y_i$ is independent. Therefore, $f(X)$ is uniformly random over strings of length $\left\lfloor\frac n{t+1}\right\rfloor$ and is totally uncorrelated from Eve's bits.
 \end{enumerate}
 
 \end{enumerate}
