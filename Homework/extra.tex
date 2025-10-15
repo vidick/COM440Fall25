@@ -1,0 +1,155 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 2} \hfill {\bf due: 12:59PM, {\color{blue}October 19th}, 2025}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them. If you use an AI tool to 
+partially solve a question, or improve your write-up of a solution, then 
+you should also mention it. All questions on the homework, including requests for clarifications or typos, should be directed to the Ed forum.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of an academic committee. 
+
+Each of the four problem set counts for 20\% of the total homework grade. (Each of the two readings will count for 10\% of the final homework grade.)
+
+
+\medskip
+
+\hrule
+
+\medskip
+
+
+Revisions since the first posting are in \textcolor{blue}{blue}.
+
+{\bf Problems:}
+\begin{enumerate}
+
+
+
+\item (4 points) \textbf{A Guessing Game.}\\
+Imagine that Alice and Eve play a guessing game where they share a two-qubit state \(\rho_{AE}\). First, Alice produces a random bit \(\theta\in\{0,1\}\), and she measures her qubit in the standard basis if \(\theta=0\) and in the Hadamard basis if \(\theta=1\). In both cases she obtains a bit \(x\in\{0,1\}\) as measurement outcome. She then announces \(\theta\) to Eve. Eve's goal is to guess the bit \(x\). Imagine that \(\rho_{AE} = |\mathrm{EPR}\rangle\langle\mathrm{EPR}|\), where as usual $\ket{\mathrm{EPR}} = \frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$, so Alice and Eve share a maximally entangled pair of qubits. In this scenario we know that if Eve measures in the same basis as Alice she will get the same outcome and  thus be able to guess \(x\) perfectly.
+\begin{enumerate}
+\item Suppose now that Alice wants to foil Eve so, before measuring, she first applies some unitary \(U_A\) to her qubit, and then measures. Of course Eve, being really smart, gets wind of this so she will know what unitary Alice has used before measuring. So they share the state\\
+\[|\Phi_U\rangle = (U_A\otimes \mathbf{1}_E)\frac{1}{\sqrt{2}}(\ket{00}+ \ket{11})\]
+and Eve knows \(\theta\) and \(U_A\). In this scenario, what is Eve's optimal guessing probability, and what is a strategy that achieves it? 
+\item Consider now a scenario in which Alice's strategy consists in choosing one out of three possible unitaries, according to a distribution that may depend on her choice of $\theta$. The three unitaries are the same whether $\theta=0$ or $\theta=1$, and Eve knows what they are as well as the distribution used by Alice, but she does not learn which unitary Alice eventually selected. Provide a set of three unitaries that makes Eve's guessing probability the lowest possible. (You do not need to prove that your strategy is optimal.)
+\item Suppose we restrict Alice's set of possible unitaries to contain only two. Can she still make Eve's guessing probability as low as in part (b)?
+\end{enumerate}
+
+
+
+\item {(6 points)} {\bf Robustness of GHZ and W States, Part II.}\\
+We return to the multi-qubit GHZ and W states introduced in the previous exercise. 
+In class we learned to distinguish product states from (pure) entangled states by calculating the Schmidt rank of $\ket{\Psi}_{AB}$, i.e. the rank of the reduced state $\rho_A=\Tr_B \ketbra{\Psi}{\Psi}$. In particular $\rho$ is pure if and only if $\ket{\Psi}$ has Schmidt rank 1. In the following, we denote by $\Tr_N$ the operation of tracing out only the last one out of $N$ qubits.
+\begin{enumerate}
+\item What are the ranks $r_{GHZ}$ of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ and $r_W$ of $\Tr_N \ketbra{W_N}{W_N}$, respectively? (Note that these are the Schmidt ranks of $\ket{GHZ_N}$ and $\ket{W_N}$ if we partition each of them between the first $N-1$ qubits and the last qubit.)
+%\solopen{By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}.$$ Both of which are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.}
+%
+\end{enumerate}
+ Let us now introduce a more discriminating (in fact, continuous) measure of the entanglement of a state $\ket{\Psi}_{AB}$: namely, the \textit{purity} of the reduced state $\rho_A$ given by $\Tr \rho_A^2 $. First let's see how this works in practice with the extreme cases in $d$ dimensions:
+\begin{enumerate}
+\item[(b)] What are the purities $\Tr \left(\rho^2\right)$ for $\rho=\ketbra{0}{0}$ and the ''maximally mixed'' state $\rho=\frac{1}{d} \id_d$, respectively?
+%\solopen{For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr\left(\rho^2\right)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr \left(\rho^2\right)=\frac{1}{d}$}
+% \begin{enumerate}[a)]
+% 	\item 1 and 0
+% 	\item 1 and $\frac{1}{d}$
+% 	\item 1 and $\frac{1}{d^2}$
+% 	\item $\frac{1}{d}$ and $\frac{1}{d^2}$
+% \end{enumerate}
+%
+\item[(c)] Is the purity of $\rho_A$ higher or lower for more entangled states $\ket{\Psi}_{AB}$? Can you explain this in terms of the definition $\Tr \left(\rho_A^2\right) $?
+%\solopen{The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have-the more information you lose-in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.}
+\end{enumerate}
+Now consider again the behavior of the $N$-qubit GHZ and W states with one qubit discarded (i.e. traced out):
+\begin{enumerate}
+\item[(d)] What is the purity of $\Tr_N \ketbra{GHZ_N}{GHZ_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr \left(\rho^2\right)=\frac{1}{2}$ for all $N$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+%
+\item[(e)] What is the purity of $\Tr_N \ketbra{W_N}{W_N}$ in the limit $N \rightarrow \infty$?
+%\solopen{We have again by direct calculation
+%$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr \rho ^2 = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.}
+% \begin{enumerate}[a)]
+% 	\item 0
+% 	\item $1/N$
+% 	\item 1/2
+% 	\item 1
+% \end{enumerate}
+\end{enumerate}
+Discuss the implications for the ``robustness'' of multipartite entanglement under loss of one qubit in GHZ versus W states. What can we say about losses of more than one qubit?
+
+
+\item  {\bf An optimal attack}\label{ex:opt-wiesner}\\
+Let 
+\[ N_1 = \frac{1}{\sqrt{12}} \begin{pmatrix} 3 & 0 \\ 0 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix} \quad \text{and}\quad N_2 = \frac{1}{\sqrt{12}} \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ 1 & 0 \\ 0 & 3\end{pmatrix}\;.\]
+\begin{enumerate}
+\item Show that $(N_1,N_2)$ are valid Kraus operators in the definition of a quantum channel $\mathcal{N}(\rho)=N_1\rho N_1^\dagger + N_2 \rho N_2^\dagger$ mapping one qubit to two qubits. 
+\item Show that using $\mathcal{N}$, a quantum adversary succeeds in the CLONE security game for Wiesner's quantum money scheme with probability $\frac{3}{4}$. 
+\end{enumerate}
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
