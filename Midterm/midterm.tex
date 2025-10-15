@@ -58,7 +58,7 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 
 
 
-\item (6 points) \textbf{Superdense Coding}\\
+\item (6 points) \textbf{Superdense Coding.}\\
 In Homework 1, you were introduced to the idea of "quantum teleportation". By sending just two bits of classical information, Alice was able to "teleport" her single-qubit quantum state to Bob, provided they shared a pair of maximally entangled qubits to begin with. \\
 In this problem, Alice instead wants to share two classical bits with Bob, but she only has a quantum channel at her disposal, and she is only allowed to use it once (i.e. send only one single-qubit state). Can she succeed? \\
 \begin{enumerate}
@@ -91,34 +91,36 @@ Devise a scheme by which they can together recover the secret $b$.
 
 
 
-\item (8 points) {\bf Inner product extractor}
+\item (8 points) {\bf Inner product extractor.}
 
-Define the inner product extractor $\Ext_\IP:\{0,1\}^n\times\{0,1\}^n\to\{0,1\}$, $\Ext_\IP(x,y)=x\cdot y\mod 2$. Our goal is to show that this is a valid strong extractor. 
+Define the inner product extractor $\Ext_\IP:\{0,1\}^n\times\{0,1\}^n\to\{0,1\}$ by $\Ext_\IP(x,y)=x\cdot y\mod 2$. Our goal is to show that this is a valid strong seeded extractor. 
 \begin{enumerate}
-\item Let $\mathcal{F}=\{\}$. Show that $\mathcal{F}$ is $2$-universal.
+\item Let 
+\[\mathcal{F}=\big\{f_y:x\mapsto x\cdot y \ | \ y\in\{0,1\}^n\big\}\subseteq \big\{ f: \{0,1\}^n\to\{0,1\}\big\}\;.\]
+Show that $\mathcal{F}$ is $2$-universal.
 \end{enumerate}
-Based on the work done in class, we already know that $\Ext_\IP$ is a $(k,\eps)$ extractor. The goal of this exercise is to give a different proof of this fact, by reduction to a problem in communication complexity. For the remainder of the problem you may take the following statement as fact: 
-
-
-In the following we consider a source of the form
-\[ \ket{\psi}_{XE}=\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} \ket{x}\ket{\psi_x}\]
-where for ease of notation we write the entire state as a pure state. Here, the $\ket{\psi_x}$ are normalized states (but not necessarily orthogonal), so that the marginal on $X$ is uniform: if we define $\rho_{XE} = \proj{\psi}_{XE}$ then the marginal $\rho_X= \frac{1}{2^n}\Id$. 
+Based on the work done in class, we already know that $\Ext_\IP$ is a $(k,\eps)$ extractor for any $k\geq 1+2\log(1/\eps)$. The goal of this exercise is to give a different, more direct proof of this fact. In the following we consider a source of the form
+\[\rho_{XE}=\proj{\psi}_{XE}\;, \quad\text{where}\quad \ket{\psi}_{XE}=\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} \ket{x}_X\ket{\psi_x}_E\;.\]
+Here, the $\ket{\psi_x}$ are normalized states (but not necessarily orthogonal), so that the marginal on $X$ is uniform: $\rho_X= \frac{1}{2^n}\Id_X$. 
 \begin{enumerate}
 \item[(b)] We first rule out perfect adversaries. Namely, suppose that $\ket{\psi}_{XE}$ is such that given any $y\in\{0,1\}^n$, there is a measurement $\{M^y_b\}$ on $E$ that returns $x\cdot y$ with certainty, i.e. $\Tr(M^y_{b} \rho_x)=1$ if $b=x\cdot y$ and $0$ otherwise. 
  \begin{enumerate}
-\item Show carefully that there is a unitary $U$ acting on $E$, $Y$, and an additional single-qubit register $A$ such that $U:\ket{\psi_x}_E\ket{y}_Y\ket{a}_A \mapsto \ket{\psi_x}_E\ket{y}_Y\ket{a\oplus x\cdot y}_A$ for all $x,y$ and $a\in\{0,1\}$.
-\item What is the effect of $U$ on $\ket{\psi_x}_E\ket{y}_Y\ket{-}_A$ ?
-\item Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\mapsto \ket{x}_E\ket{0}_Y\ket{0}_A$ for all $x$ (where we make sure that $E$ is large enough so that we are able to write `$x$' in it). 
-\item State an upper bound on $\Hmin(X|E)_\rho$ for this to be possible. 
+\item Show carefully that there is a unitary $U$ acting on $E$, $Y$, and an additional single-qubit register $A$ such that $U:\ket{\psi_x}_E\ket{y}_Y\ket{0}_A \mapsto \ket{\psi_x}_E\ket{y}_Y\ket{x\cdot y}_A$ for all $x,y$.
+\item Consider an additional register $B$, initialized in $\ket{-}_B$. Compute the effect of  
+\[  U':=(U\otimes \Id_B)^\dagger (\Id_{EY}\otimes \mathrm{CNOT}_{A\to B})(U\otimes \Id_{B})\]
+ on $\ket{\psi_x}_E\ket{y}_Y\ket{0}_A\ket{-}_B$, where here  $\mathrm{CNOT}_{A\to B}$ applies an $X$ bit flip to $B$ controlled on $A$ being in state $\ket{1}$.
+\item Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\ket{0}_B\mapsto \ket{x}_E\ket{0}_Y\ket{0}_A\ket{0}_B$ for all $x$ (where we make sure that $E$ is large enough so that we are able to write `$x$' in it). Say how to construct $V$ as a function of $U'$ and any other building blocks you may need. 
+\item State an upper bound on $\Hmin(X|E)_\rho$ for this (i.e.\ the assumption in (b)(i)) to be possible. 
 \end{enumerate}
 \item[(c)] We now analyze the more delicate case where the adversary does not perfectly predict the inner product. Let 
-\[ \rho_{ZYE}=\frac{1}{2^{2n}}\sum_{x,y} \proj{x\cdot y}\otimes \proj{y}\otimes\proj{\psi_x}_E\quad\text{and}\quad\eps = \|\rho_{ZYE} - \frac{1}{2} I_Z\otimes \frac{1}{2^n} I_Y \otimes \rho^E\|_{tr}\;.\]
+\[ \rho_{ZYE}=\frac{1}{2^{2n}}\sum_{x,y} \proj{x\cdot y}\otimes \proj{y}\otimes\proj{\psi_x}\quad\text{and}\quad\eps = \Big\|\rho_{ZYE} - \frac{\Id_Z}{2} \otimes \frac{\Id_Y}{2^n}  \otimes \rho^E\Big\|_{tr}\;.\]
  \begin{enumerate}
 \item For $b\in\{0,1\}$ and $y\in\{0,1\}^n$ let $\sigma_{b,y} = \frac{1}{2^{2n}}\sum_{x:\ c\cdot y=b} \proj{\psi_x}_E$. 
  Show that for every $y$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ such that 
-\[\frac{1}{2^n}\sum_y \Big(  \frac{1}{2}\Tr(M^y_{0} \sigma_{0,y})+\frac{1}{2}\Tr(M^y_{1} \rho_{1,y}\Big) \geq \delta\;,\]
+\[\frac{1}{2^n}\sum_y \Big(  \frac{1}{2}\Tr(M^y_{0} \sigma_{0,y})+\frac{1}{2}\Tr(M^y_{1} \rho_{1,y})\Big) \geq \delta\;,\]
  for some $\delta$ depending on $\eps$ that you will determine. 
 \item Deduce that there is a unitary $U:\ket{\psi_x}\ket{y}\ket{a} \mapsto \ket{\psi'_x}\ket{y}(\alpha_{x,y}\ket{a\oplus x\cdot y}+\beta_{x,y}\ket{a\oplus x\cdot y\oplus 1})$ for all $x,y$ and $a\in\{0,1\}$, and where $2^{-2n}\sum_{x,y} |\alpha_{x,y}|^2 \geq \delta$. Here, $\ket{\psi'_x}$ may be different from $\ket{\psi_x}$ but it is still normalized.
+\item Let $\ket{\psi_{ideal}} = (-1)^{x\cdot y}\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ be the ``ideal'' state obtained as in (b)(ii). Compute the \emph{difference} between $\ket{\psi_{ideal}}$ and $U'\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ and bound its norm as a function of $\alpha_{xy}$ and $\beta_{xy}$.
 \item Deduce a lower bound on $k$, as a function of $n$ and $\eps$, such that $\Ext_\IP$ is a $(k,\eps)$ strong extractor.  
 \end{enumerate}
 \end{enumerate}
