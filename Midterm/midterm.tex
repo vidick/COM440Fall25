@@ -101,25 +101,25 @@ Show that $\mathcal{F}$ is $2$-universal.
 \end{enumerate}
 Based on the work done in class, we already know that $\Ext_\IP$ is a $(k,\eps)$ extractor for any $k\geq 1+2\log(1/\eps)$. The goal of this exercise is to give a different, more direct proof of this fact. In the following we consider a source of the form
 \[\rho_{XE}=\proj{\psi}_{XE}\;, \quad\text{where}\quad \ket{\psi}_{XE}=\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} \ket{x}_X\ket{\psi_x}_E\;.\]
-Here, the $\ket{\psi_x}$ are normalized states (but not necessarily orthogonal), so that the marginal on $X$ is uniform: $\rho_X= \frac{1}{2^n}\Id_X$. 
+Here, the $\ket{\psi_x}$ are normalized states (but not necessarily orthogonal), so that the marginal on $X$ is uniform: $\rho_X= \frac{1}{2^n}\Id_X$. We also let $\rho_x = \proj{\psi_x}$ and $\rho^E = 2^{-n}\sum_x \rho_x$. 
 \begin{enumerate}
-\item[(b)] We first rule out perfect adversaries. Namely, suppose that $\ket{\psi}_{XE}$ is such that given any $y\in\{0,1\}^n$, there is a measurement $\{M^y_b\}$ on $E$ that returns $x\cdot y$ with certainty, i.e. $\Tr(M^y_{b} \rho_x)=1$ if $b=x\cdot y$ and $0$ otherwise. 
+\item[(b)] We first rule out perfect adversaries. Namely, suppose that $\ket{\psi}_{XE}$ is such that given any $y\in\{0,1\}^n$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ that returns $x\cdot y$ with certainty, i.e. $\Tr(M^y_{b} \rho_x)=1$ if $b=x\cdot y$ and $0$ otherwise. 
  \begin{enumerate}
 \item Show carefully that there is a unitary $U$ acting on $E$, $Y$, and an additional single-qubit register $A$ such that $U:\ket{\psi_x}_E\ket{y}_Y\ket{0}_A \mapsto \ket{\psi_x}_E\ket{y}_Y\ket{x\cdot y}_A$ for all $x,y$.
 \item Consider an additional register $B$, initialized in $\ket{-}_B$. Compute the effect of  
 \[  U':=(U\otimes \Id_B)^\dagger (\Id_{EY}\otimes \mathrm{CNOT}_{A\to B})(U\otimes \Id_{B})\]
  on $\ket{\psi_x}_E\ket{y}_Y\ket{0}_A\ket{-}_B$, where here  $\mathrm{CNOT}_{A\to B}$ applies an $X$ bit flip to $B$ controlled on $A$ being in state $\ket{1}$.
-\item Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\ket{0}_B\mapsto \ket{x}_E\ket{0}_Y\ket{0}_A\ket{0}_B$ for all $x$ (where we make sure that $E$ is large enough so that we are able to write `$x$' in it). Say how to construct $V$ as a function of $U'$ and any other building blocks you may need. 
+\item Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\ket{0}_B\mapsto \ket{\psi_x}_E\ket{x}_Y\ket{0}_A\ket{0}_B$ for all $x$. Say how to construct $V$ as a function of $U'$ and any other building blocks you may need. 
 \item State an upper bound on $\Hmin(X|E)_\rho$ for this (i.e.\ the assumption in (b)(i)) to be possible. 
 \end{enumerate}
 \item[(c)] We now analyze the more delicate case where the adversary does not perfectly predict the inner product. Let 
 \[ \rho_{ZYE}=\frac{1}{2^{2n}}\sum_{x,y} \proj{x\cdot y}\otimes \proj{y}\otimes\proj{\psi_x}\quad\text{and}\quad\eps = \Big\|\rho_{ZYE} - \frac{\Id_Z}{2} \otimes \frac{\Id_Y}{2^n}  \otimes \rho^E\Big\|_{tr}\;.\]
  \begin{enumerate}
-\item For $b\in\{0,1\}$ and $y\in\{0,1\}^n$ let $\sigma_{b,y} = \frac{1}{2^{2n}}\sum_{x:\ c\cdot y=b} \proj{\psi_x}_E$. 
+\item For $b\in\{0,1\}$ and $y\in\{0,1\}^n$ let $\sigma_{b,y} = \frac{1}{2^{n-1}}\sum_{x:\ x\cdot y=b}\rho_x$. 
  Show that for every $y$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ such that 
-\[\frac{1}{2^n}\sum_y \Big(  \frac{1}{2}\Tr(M^y_{0} \sigma_{0,y})+\frac{1}{2}\Tr(M^y_{1} \rho_{1,y})\Big) \geq \delta\;,\]
+\[\frac{1}{2^n}\sum_y \Big(  \frac{1}{2}\Tr(M^y_{0} \sigma_{0,y})+\frac{1}{2}\Tr(M^y_{1} \sigma_{1,y})\Big) \geq \frac{1}{2}+\delta\;,\]
  for some $\delta$ depending on $\eps$ that you will determine. 
-\item Deduce that there is a unitary $U:\ket{\psi_x}\ket{y}\ket{a} \mapsto \ket{\psi'_x}\ket{y}(\alpha_{x,y}\ket{a\oplus x\cdot y}+\beta_{x,y}\ket{a\oplus x\cdot y\oplus 1})$ for all $x,y$ and $a\in\{0,1\}$, and where $2^{-2n}\sum_{x,y} |\alpha_{x,y}|^2 \geq \delta$. Here, $\ket{\psi'_x}$ may be different from $\ket{\psi_x}$ but it is still normalized.
+\item Deduce that there is a unitary $U:\ket{\psi_x}\ket{y}\ket{0} \mapsto \ket{\psi'_x}\ket{y}(\alpha_{x,y}\ket{x\cdot y}+\beta_{x,y}\ket{x\cdot y\oplus 1})$ for all $x,y$, where $2^{-2n}\sum_{x,y} |\alpha_{x,y}|^2 \geq \delta$. Here, $\ket{\psi'_x}$ may be different from $\ket{\psi_x}$ but it is still normalized.
 \item Let $\ket{\psi_{ideal}} = (-1)^{x\cdot y}\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ be the ``ideal'' state obtained as in (b)(ii). Compute the \emph{difference} between $\ket{\psi_{ideal}}$ and $U'\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ and bound its norm as a function of $\alpha_{xy}$ and $\beta_{xy}$.
 \item Deduce a lower bound on $k$, as a function of $n$ and $\eps$, such that $\Ext_\IP$ is a $(k,\eps)$ strong extractor.  
 \end{enumerate}

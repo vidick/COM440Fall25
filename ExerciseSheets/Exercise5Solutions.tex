@@ -1,0 +1,185 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+\newcommand{\pguess}{P_{\rm guess}}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 5}
+
+
+\begin{enumerate}
+
+\item \textbf{Computing the min-entropy. }
+\begin{enumerate}
+\item By definition of the min-entropy, $\hmin(X \vert E) =  -\log \pguess(X \vert E)$, $\hmin(X) = -\log \pguess(X)$. So the desired inequality $\hmin(X|E) \geq \hmin(X) - \log |E|$ is equivalent to the inequality $-\log \pguess(X \vert E) \ge -\log (|E|\cdot\pguess(X))$.
+
+Since $-\log x$ is monotonically decreasing, it suffices to prove that \[\pguess(X \vert E) \leq |E|\cdot\pguess(X)\enspace.\]
+\item Suppose $A \ge 0$ and $B \ge 0$. Write the eigenvalue decomposition of $B$:
+$B=\sum_i \lambda_i(B)\, \ketbra{u_i}{u_i}$. Using the linearity
+and cyclicity of the trace,
+\[
+\begin{aligned}
+\Tr(AB)
+&= \Tr \Big(A \sum_i \lambda_i(B)\ketbra{u_i}{u_i}\Big)
+ = \sum_i \lambda_i(B) \Tr\big(A \ketbra{u_i}{u_i}\big) \\
+&\le \lambda_{\max}(B) \sum_i \Tr\big(A \ketbra{u_i}{u_i}\big)
+ = \lambda_{\max}(B) \Tr \Big(A \sum_i \ket{u_i}\!\bra{u_i}\Big) \\
+&= \lambda_{\max}(B) \cdot \Tr(A\cdot \Id) = \lambda_{\max}(B) \cdot \Tr(A),
+\end{aligned}
+\]
+where the inequality uses $\Tr\big(A \ketbra{u_i}{u_i}\big)=
+\bra{u_i}A\ket{u_i}\ge 0$ since $A\ge 0$.
+\item Let $\{M_x\}$ be a POVM and $\rho^{E}_x$ be a quantum state on $E$.
+Then $M_x \ge 0$ and $\rho^{E}_x \ge 0$ with $\Tr(\rho^{E}_x)\le 1$, which implies $\lambda_{\max}(\rho^{E}_x)\le 1$.
+Applying part (b) to $A=M_x$, $B=\rho^{E}_x$ gives
+\[
+\Tr \big(M_x \rho^{E}_x\big) \;\le\; \lambda_{\max}(\rho^{E}_x) \cdot \Tr(M_x) \;\le\; \Tr(M_x)\enspace.
+\]
+\item Let $\rho_{XE} = \sum_x p_x \ketbra{x}{x}_X \otimes \rho_x^E$. Then by definition of the guessing probability,
+\[\pguess(X \vert E) = \max_{\{M_x\} \text{ is a POVM}} \left(p_x \Tr(M_x \rho_x^E)\right)\enspace.\]
+
+Applying part (c) to the above equation gives
+\begin{align*}
+	\pguess(X \vert E) \le&  \max_{\{M_x\} \text{ is a POVM}} \left(p_x \Tr(M_x)\right)\\
+	\le& \max_x p_x \max_{\{M_x\} \text{ is a POVM}}\left(\sum_{x}\Tr(M_x)\right)\\
+	=& \pguess(X) \max_{\{M_x\} \text{ is a POVM}}\Tr(\sum_x M_x)\\
+	=& \pguess(X) \max_{\{M_x\} \text{ is a POVM}}\Tr(\Id_{E})\\
+	=& \pguess(X) \cdot |E|\enspace.
+\end{align*}
+
+By part(a), this implies the desired inequality $\hmin(X|E) \geq \hmin(X) - \log |E|$.
+\end{enumerate}
+
+\item \textbf{A dual formulation for the conditional min-entropy. }
+\begin{enumerate}
+\item $Z$ is block-diagonalized. Therefore, $Z \ge 0$ is equivalent to $\forall\, x, N_x \ge 0$, which holds because $\{N_x\}$ is a valid POVM. 
+
+Moreover, by definition of the POVM, we have
+\begin{align*}
+\Phi(Z) = \sum_{x\in\mathcal{X}} \,\big(\bra{x} \otimes \Id_E\big) \,Z\, \big(\ket{x}\otimes\Id_E\big) = \sum_{x\in\mathcal{X}} N_x = \Id_E	
+\end{align*}
+\item 
+\begin{align*}
+\Tr(Z\rho_{XE})
+&= \Tr \Big( \sum_{x\in \mathcal{X}} \ketbra{x}{x} \otimes N_x \sum_{x'\in\mathcal{X}} \proj{x'}\otimes \rho_{x'}^E \Big) \\
+&= \sum_{x,x'\in \mathcal{X}} \Tr \big( \ketbra{x}{x} \ketbra{x'}{x'} \big)\Tr \big(N_x \rho^E_{x'}\big) \\
+&= \sum_{x\in \mathcal{X}} \Tr \big(N_x \rho^E_{x}\big).
+\end{align*}
+\item Since $Z \ge 0$, it is easy to see that $N_x = (\bra{x} \otimes \Id_E) Z (\ket{x}\otimes\Id_E) \ge 0$ for all $x$. Besides, it is easy to verify that$\sum_{x \in \mathcal{X}}N_x = \sum_{x \in \mathcal{X}} (\bra{x} \otimes \Id_E) Z (\ket{x}\otimes\Id_E) = \Tr_{X}(Z) = \Id_E$. Therefore, $\{N_x\}$ is a valid POVM.
+\item By the previous results, $\{M_x\}$ can be grouped together into the diagonal of a single matrix $Z$, and the constraint that $\{M_x\}$ is a POVM can be equivalently written as $Z \ge 0$ and $\Phi(Z) = \Id_E$. Besides, the objective function $\pguess(X|E) = \sup_{\{M_x\}}\,\sum_{x\in\mathcal{X}} \,\Tr\big(M_x\rho_x\big)$ can also be written in terms of $Z$ as shown in part (b). Therefore the primal problem that gives $\pguess(X|E)$ is
+\[
+\begin{aligned}
+\pguess(X|E)
+&= \sup_Z \Tr(Z \rho_{XE}) \\
+&\text{s.t. } \Phi(Z) = \Id_E, \\
+&\phantom{\text{s.t. }} Z \geq 0.
+\end{aligned}
+\]
+
+In the language of Problem 1 in Exercise 3, we are using $A = \rho_{XE}$ and $B = \Id_E$, and the map $$\Phi(Z) = \sum_{x\in\mathcal{X}} \,\big(\bra{x} \otimes \Id_E\big) \,Z\, \big(\ket{x}\otimes\Id_E\big).$$
+\item By Exercise 3, for any matrix $Y$ defined over system $E$, $$\Phi^*(Y) = \sum_{x\in\mathcal{X}} \, \big(\ket{x}\otimes\Id_E\big) Y \big(\bra{x} \otimes \Id_E\big) = \left(\sum_{x\in\mathcal{X}} \, \ketbra{x}{x}\right)\otimes Y  = \Id_X \otimes Y.$$
+\item By part (d) and part (e), the dual problem is
+\begin{align*}
+\pguess(X|E) &=\inf_{Y}\ \Tr(Y)\\
+\quad &\text{s.t.}\quad
+\Id_X \otimes Y \ge \rho_{XE}, \\
+&\quad \quad \; Y=Y^\dagger.
+\end{align*}
+\item We will show that $\Id_X \otimes Y \ge \rho_{XE}$ is equivalent to $\forall\, x \in \mathcal{X}, Y \ge \rho_x$.
+
+$\Leftarrow$: if $Y \ge \rho_x$, then $\ketbra{x}{x} \otimes Y \ge \ketbra{x}{x} \otimes \rho_x$. We can do a summation over $x$ and we will get $\Id_X \otimes Y \ge \rho_{XE}$.
+
+$\Rightarrow$: by definition, we have that for all $x \in \mathcal{X}$, $\bra{x}\Id_X \otimes Y \ket{x} \ge \bra{x}\rho_{XE}\ket{x}$, which is $Y \ge \rho_x$ for each $x$.
+
+Therefore, we can replace the constraint in the dual problem in part (f) with $\sigma \ge \rho_x$ for all $x \in \mathcal{X}$, which concludes the proof of part (g).
+\item Such $\sigma$ is a feasible solution to the problem in part (g). Therefore, by the definition of infimum, we have $\pguess(X|E)\leq \Tr(\sigma)$.
+\item Set the feasible solution sets for $\tau$ and $\rho$ as follows:
+\[
+\begin{aligned}
+P_1&=\big\{\{M_{x_1}\}\,:\ \{M_{x_1}\}\text{ a POVM on }\mH_{E_1}\big\},\quad
+&\Omega_1&=\big\{\sigma_1:\ \sigma_1 \ge \tau_{x_1}^{E_1},\ \forall x_1\in\mathcal{X}_1\big\},\\
+P&=\big\{\{M_x\}\,:\ \{M_x\}\text{ a POVM on }\mH_{E}\big\},\quad
+&\Omega&=\big\{\sigma:\ \sigma\ge \rho_x^{E},\ \forall x\in\mathcal{X}^{n}\big\}.
+\end{aligned}
+\]
+Define the product-restricted sets
+\[
+\tilde P := \Big\{\{M_x\}:\ M_x=M_{x_1}\otimes\cdots\otimes M_{x_n},\ 
+\{M_{x_i}\}\in P_1\Big\},\qquad
+\tilde \Omega := \Big\{\sigma=\sigma_1\otimes\cdots\otimes\sigma_n:\ \sigma_i\in\Omega_1\Big\}.
+\]
+
+It is clear that $\tilde P \subseteq P$ and $\tilde \Omega \subseteq \Omega$.
+
+From previous results, we have that
+\[
+\pguess(X|E)
+= \sup_{\{M_x\}\in P}\sum_{x\in\mathcal{X}^{n}}\Tr(M_x\rho_x^E)
+\ \ge\ 
+\sup_{\{M_x\}\in \tilde P}\sum_{x\in\mathcal{X}^{n}}\Tr(M_x\rho_x^E),
+\]
+and
+\[
+\pguess(X|E)
+= \inf_{\sigma\in\Omega}\Tr(\sigma)
+\ \le\ 
+\inf_{\sigma\in\tilde\Omega}\Tr(\sigma).
+\]
+
+It is not hard to verify that
+\begin{align*}
+\sup_{\{M_x\}\in \tilde P}\sum_{x\in\mathcal{X}^{n}}\Tr(M_x\rho_x^E) = (\sup_{\{M_{x_1}\}\in P_1}\sum_{x_1\in\mathcal{X}}\Tr(M_{x_1}\tau_{x_1}^E))^n = (\pguess(X_1|E_1)))^n\enspace;	
+\end{align*}
+Moreover,
+\begin{align*}
+	\inf_{\sigma\in\tilde\Omega}\Tr(\sigma) = (\inf_{\sigma_1\in\Omega_1}\Tr(\sigma_1))^n = (\pguess(X_1|E_1)))^n\enspace.
+\end{align*}
+
+Therefore, $\pguess(X|E) = (\pguess(X_1|E_1)))^n$.
+
+Thus $\hmin(X|E)_\rho = n \hmin(X_1|E_1)_\tau$.
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
