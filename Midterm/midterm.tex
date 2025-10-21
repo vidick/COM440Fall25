@@ -20,7 +20,7 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+{\bf Midterm} \hfill {\bf due: October 23rd, 2025}
 
 
 \medskip
@@ -35,20 +35,11 @@ Ground rules:
   format your solutions so that each problem begins on a new page, and
   so that your name appears at the top of each page.}
 
-You are encouraged to collaborate with your classmates on
-homework problems, but each person must write up the final solutions
-individually. You should note on your homework specifically which
-problems were a collaborative effort and with whom. You may not search
-online for solutions, but if you do use research papers or other
-sources in your solutions, you must cite them.
-
-Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
-
-
+\medskip
+\hrule
 \medskip
 
-\hrule
-
+The total points value of the problems is 25 points. Your midterm grade will be the \emph{minimum} of your total points number and \emph{20}. This means that we do not expect you to solve all problems. Instead, we encourage you to spend the first 5-10 minutes looking at all problems and deciding which ones to attempt. Your goal is to collect as close to 20 points as possible in total, not necessarily to solve all questions. 
  
 \medskip
 {\bf Problems:}
@@ -59,13 +50,12 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 
 
 \item (6 points) \textbf{Superdense Coding.}\\
-In Homework 1, you were introduced to the idea of "quantum teleportation". By sending just two bits of classical information, Alice was able to "teleport" her single-qubit quantum state to Bob, provided they shared a pair of maximally entangled qubits to begin with. \\
-In this problem, Alice instead wants to share two classical bits with Bob, but she only has a quantum channel at her disposal, and she is only allowed to use it once (i.e. send only one single-qubit state). Can she succeed? \\
+In this problem, Alice wants to send two classical bits to Bob, but she only has a quantum channel at her disposal, and she is only allowed to use it once (i.e. send only one single-qubit state). Can she succeed? \\
 \begin{enumerate}
-\item[(a)] The first idea she has is to encode her two classical bits into her preparation of one of four states in $\{ \ket{0}, \ket{1}, \ket{+}, \ket{-}\}$, and then send this qubit to Bob. \\
+\item[(a, 2pts)] The first idea she has is to encode her two classical bits into her preparation of one of four states in $\{ \ket{0}, \ket{1}, \ket{+}, \ket{-}\}$, and then send this qubit to Bob. \\
 Suppose that the a priori distribution of Alice's two classical bits is uniform. What is the maximum probability with which Bob can correctly guess both of Alice's two classical bits?\\
-\item[(b)] Suppose that Alice and Bob share a maximally entangled pair of qubits. Alice thinks that it is a good idea to start by performing one of four unitary transformations on the qubit in her possession depending on the value of the two classical bits that she wishes to communicate and send her qubit to Bob. What next? Help Alice (and Bob) devise a scheme that achieves the desired task with certainty.\\
-\item[(c)] After all the thought that Alice and Bob put into coming up with a working scheme, they finally decide to employ it.\\
+\item[(b, 2pts)] Suppose that Alice and Bob share a maximally entangled pair of qubits. Alice thinks that it is a good idea to start by performing one of four unitary transformations on the qubit in her possession depending on the value of the two classical bits that she wishes to communicate and send her qubit to Bob. What next? Help Alice (and Bob) devise a scheme that achieves the desired task with certainty.\\
+\item[(c, 2pts)] After all the thought that Alice and Bob put into coming up with a working scheme, they finally decide to employ it.\\
 Unfortunately, the tireless eavesdropper Eve has heard of their new scheme, and as soon as Alice and Bob use it, she intercepts the qubit as it's sent from Alice to Bob. Can Eve recover information about the two confidential classical bits that Alice intended to share with Bob?\\
 \end{enumerate}
 
@@ -76,9 +66,9 @@ In class we saw how to share a classical secret between two people using an enta
 \ket{\Psi} = \frac{1}{\sqrt{2}}(\ket{0}_A\ket{0}_B\ket{0}_C+ (-1)^b\ket{1}_A\ket{1}_B\ket{1}_C).
 \]
 \begin{enumerate}
-\item[(a)] Calculate the single-party reduced density matrices $\rho_A$, $\rho_B$, and $\rho_C$. Verify that no single one of Alice, Bob, and Charlie can recover the secret on their own.
-\item[(b)] Calculate the two-party reduced densities $\rho_{AB}$, $\rho_{BC}$, and $\rho_{AC}$. Verify that no pair of Alice, Bob, and Charlie can recover the secret on their own.
-\item[(c)] Suppose each of Alice, Bob, and Charlie is limited to the following operations:
+\item[(a, 2pts)] Calculate the single-party reduced density matrices $\rho_A$, $\rho_B$, and $\rho_C$. Verify that no single one of Alice, Bob, and Charlie can recover the secret on their own.
+\item[(b, 2pts)] Calculate the two-party reduced densities $\rho_{AB}$, $\rho_{BC}$, and $\rho_{AC}$. Verify that no pair of Alice, Bob, and Charlie can recover the secret on their own.
+\item[(c, 2pts)] Suppose each of Alice, Bob, and Charlie is limited to the following operations:
 	\begin{itemize}
 	\item Local Hadamard operation on their qubit;
 	\item Local measurement of their qubit in the computational basis $\{\ket{0},\ket{1}\}$;
@@ -88,40 +78,60 @@ Devise a scheme by which they can together recover the secret $b$.
 \end{enumerate}
 %[A scheme of the type considered in part (c) is called an \emph{LOCC protocol}, for ``local operations and classical communication''. You may wish to think if there exists a secret-sharing scheme such that even an LOCC protocol would not allow colluding parties to recover the secret? Intuitively, such a scheme would have the property that the secret is hidden ``deep inside the entanglement'', in the sense that even if everyone decides to collaborate in cheating \emph{but} is restricted to LOCC then they still can't recover the secret. In such a situtation the only way to recover the secret would be to get access to the entire quantum state at once and make a general measurement on all the shares (as opposed to local measurements followed by exchange of classical information).]
 
+\item (3 points) {\bf Quantum money security variant.}
+
+Recall that in Wiesner's quantum money scheme, a bill is $(\$,\ket{\psi_\$}=\ket{x_1}_{\theta_1}\cdots \ket{x_n}_{\theta_n})$ where $x,\theta\in\{0,1\}^n$ and $\ket{x}_\theta=H^\theta\ket{x}$ and $\$\in\{0,1\}^n$ is a serial number. The tuple $(\$,(x,\theta))$ is generated uniformly at random by the bank and kept in its private database, while $(\$,\ket{\psi_\$})$ is given to the user. Verification is performed by measuring in the correct bases $\theta$ and accepting if and only if all outcomes match $x$.
+
+In class we considered the security of Wiesner's quantum money  under two different variants of the security game. In the first variant, the challenger gives a randomly generated bill $(\$,\ket{\psi_\$})$ to the user, who is tasked with creating two quantum states both passing verification together with the same serial number $\$$. In the second variant, the user is additionally allowed to query a \emph{verification oracle} that verifies the bill and returns it in case it was deemed valid. We saw that Wiesner's money is secure under the first variant (the adversary success probability is at most $(3/4)^n$), but not under the second due to the Elitzur-Vaidman bomb tester ``attack'' (the adversary success probability can be made $1-\eps$ for any $\eps>0$). 
+
+Consider a third variant where in the security game, the user is allowed to submit any bill for verification, \emph{but} the only information they get as feedback is a single bit: whether the bill passed verification or not. The bill submitted to verification is not returned to the user. However, the adversary gets this feedback whether verification passed or not, i.e.\ they are not sent to jail even in case verification failed. 
+
+Do you think that Wiesner's scheme is secure under this third variant of the security game? Argue carefully your answer: if you believe the scheme is secure, provide a security proof or a reduction to the first variant ; if you believe it is insecure then sketch an attack. 
 
 
-
-\item (8 points) {\bf Inner product extractor.}
+\item (10 points) {\bf Inner product extractor.}
 
 Define the inner product extractor $\Ext_\IP:\{0,1\}^n\times\{0,1\}^n\to\{0,1\}$ by $\Ext_\IP(x,y)=x\cdot y\mod 2$. Our goal is to show that this is a valid strong seeded extractor. 
 \begin{enumerate}
-\item Let 
+\item[(a, 1pt)] Let 
 \[\mathcal{F}=\big\{f_y:x\mapsto x\cdot y \ | \ y\in\{0,1\}^n\big\}\subseteq \big\{ f: \{0,1\}^n\to\{0,1\}\big\}\;.\]
-Show that $\mathcal{F}$ is $2$-universal.
+Is the family $\mathcal{F}$ $2$-universal? \emph{[Recall the definition: $\mathcal{F}$ is $2$ universal if, for every $x\neq x'$ and every $z,z'$, $\Pr_{f\leftarrow_U \mathcal{F}}[f(x)=z\wedge f(x')=z']=2^{-2m}$ in case functions in $f$ have range $\{0,1\}^m$.]} 
 \end{enumerate}
-Based on the work done in class, we already know that $\Ext_\IP$ is a $(k,\eps)$ extractor for any $k\geq 1+2\log(1/\eps)$. The goal of this exercise is to give a different, more direct proof of this fact. In the following we consider a source of the form
+%Based on the work done in class, we already know that $\Ext_\IP$ is a $(k,\eps)$ extractor for any $k\geq 1+2\log(1/\eps)$. 
+The goal of this exercise is to give a direct, self-contained proof that $\Ext_\IP$ is a $(k,\eps)$ extractor, for a certain range of $k$ depending on $\eps$ that we will determine at the end. In the following we consider a source of the form
 \[\rho_{XE}=\proj{\psi}_{XE}\;, \quad\text{where}\quad \ket{\psi}_{XE}=\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} \ket{x}_X\ket{\psi_x}_E\;.\]
 Here, the $\ket{\psi_x}$ are normalized states (but not necessarily orthogonal), so that the marginal on $X$ is uniform: $\rho_X= \frac{1}{2^n}\Id_X$. We also let $\rho_x = \proj{\psi_x}$ and $\rho^E = 2^{-n}\sum_x \rho_x$. 
 \begin{enumerate}
-\item[(b)] We first rule out perfect adversaries. Namely, suppose that $\ket{\psi}_{XE}$ is such that given any $y\in\{0,1\}^n$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ that returns $x\cdot y$ with certainty, i.e. $\Tr(M^y_{b} \rho_x)=1$ if $b=x\cdot y$ and $0$ otherwise. 
+\item[(b)] We first rule out perfect adversaries. For $b\in\{0,1\}$ and $y\in\{0,1\}^n$ let 
+\begin{equation}\label{eq:def-sigma}
+\sigma_{b,y} = \frac{1}{2^{n-1}}\sum_{x:\ x\cdot y=b}\rho_x\;.
+\end{equation}
+%Namely, suppose that $\ket{\psi}_{XE}$ is such that given any $y\in\{0,1\}^n$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ that returns $x\cdot y$ with certainty, i.e. $\Tr(M^y_{b} \rho_x)=1$ if $b=x\cdot y$ and $0$ otherwise. 
  \begin{enumerate}
-\item Show carefully that there is a unitary $U$ acting on $E$, $Y$, and an additional single-qubit register $A$ such that $U:\ket{\psi_x}_E\ket{y}_Y\ket{0}_A \mapsto \ket{\psi_x}_E\ket{y}_Y\ket{x\cdot y}_A$ for all $x,y$.
-\item Consider an additional register $B$, initialized in $\ket{-}_B$. Compute the effect of  
+\item[(i, 1pt)] Suppose that for some $y$, it holds that 
+\begin{equation}\label{eq:sigy}
+\|\sigma_{0,y}-\sigma_{2,y}\|_{tr}=1\;.
+\end{equation}
+ Show that there is a projection $P_y$ such that $\Tr(P_y\sigma_{0,y})=1$ and $\Tr(P_y\sigma_{1,y})=0$.
+\item[(ii, 1pt)] Suppose that the condition from the previous question is satisfied for all $y$. Show that there is a unitary $U$ acting on $E$, $Y$, and an additional single-qubit register $A$ such that $U:\ket{\psi_x}_E\ket{y}_Y\ket{0}_A \mapsto \ket{\psi_x}_E\ket{y}_Y\ket{x\cdot y}_A$ for all $x,y$ ($U$ should not depend on specific $x,y$, but it of course depends on the definition of $\ket{\psi}_{XE}$).
+\item[(iii, 1pt)] Consider an additional register $B$, initialized in $\ket{-}_B$. Compute the effect of  
 \[  U':=(U\otimes \Id_B)^\dagger (\Id_{EY}\otimes \mathrm{CNOT}_{A\to B})(U\otimes \Id_{B})\]
  on $\ket{\psi_x}_E\ket{y}_Y\ket{0}_A\ket{-}_B$, where here  $\mathrm{CNOT}_{A\to B}$ applies an $X$ bit flip to $B$ controlled on $A$ being in state $\ket{1}$.
-\item Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\ket{0}_B\mapsto \ket{\psi_x}_E\ket{x}_Y\ket{0}_A\ket{0}_B$ for all $x$. Say how to construct $V$ as a function of $U'$ and any other building blocks you may need. 
-\item State an upper bound on $\Hmin(X|E)_\rho$ for this (i.e.\ the assumption in (b)(i)) to be possible. 
+\item[(iv, 2pts)] Deduce that there is a unitary $V: \ket{\psi_x}_E\ket{0}_Y\ket{0}_A\ket{0}_B\mapsto \ket{\psi_x}_E\ket{x}_Y\ket{0}_A\ket{0}_B$ for all $x$. Say how to construct $V$ as a function of $U'$ and any other building blocks you may need. 
+\item State an upper bound on $\Hmin(X|E)_\rho$ for this (i.e.\ the assumption~\eqref{eq:sigy} for all $y$) to be possible. 
 \end{enumerate}
 \item[(c)] We now analyze the more delicate case where the adversary does not perfectly predict the inner product. Let 
 \[ \rho_{ZYE}=\frac{1}{2^{2n}}\sum_{x,y} \proj{x\cdot y}\otimes \proj{y}\otimes\proj{\psi_x}\quad\text{and}\quad\eps = \Big\|\rho_{ZYE} - \frac{\Id_Z}{2} \otimes \frac{\Id_Y}{2^n}  \otimes \rho^E\Big\|_{tr}\;.\]
  \begin{enumerate}
-\item For $b\in\{0,1\}$ and $y\in\{0,1\}^n$ let $\sigma_{b,y} = \frac{1}{2^{n-1}}\sum_{x:\ x\cdot y=b}\rho_x$. 
+\item[(i, 1pt)] Recall the definition of $\sigma_{b,y}$ in~\eqref{eq:def-sigma}. 
  Show that for every $y$, there is a measurement $\{M^y_b\}_{b\in\{0,1\}}$ on $E$ such that 
 \[\frac{1}{2^n}\sum_y \Big(  \frac{1}{2}\Tr(M^y_{0} \sigma_{0,y})+\frac{1}{2}\Tr(M^y_{1} \sigma_{1,y})\Big) \geq \frac{1}{2}+\delta\;,\]
  for some $\delta$ depending on $\eps$ that you will determine. 
-\item Deduce that there is a unitary $U:\ket{\psi_x}\ket{y}\ket{0} \mapsto \ket{\psi'_x}\ket{y}(\alpha_{x,y}\ket{x\cdot y}+\beta_{x,y}\ket{x\cdot y\oplus 1})$ for all $x,y$, where $2^{-2n}\sum_{x,y} |\alpha_{x,y}|^2 \geq \delta$. Here, $\ket{\psi'_x}$ may be different from $\ket{\psi_x}$ but it is still normalized.
-\item Let $\ket{\psi_{ideal}} = (-1)^{x\cdot y}\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ be the ``ideal'' state obtained as in (b)(ii). Compute the \emph{difference} between $\ket{\psi_{ideal}}$ and $U'\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ and bound its norm as a function of $\alpha_{xy}$ and $\beta_{xy}$.
-\item Deduce a lower bound on $k$, as a function of $n$ and $\eps$, such that $\Ext_\IP$ is a $(k,\eps)$ strong extractor.  
+\item[(ii, 1pt)] Deduce that there is a unitary 
+\[ U\:\; \ket{\psi_x}\ket{y}\ket{0} \ \mapsto\ \alpha_{x,y}\ket{\psi'_x}\ket{y}\ket{x\cdot y}+\beta_{x,y}\ket{\psi''_x}\ket{x\cdot y\oplus 1}\]
+ for all $x,y$, where $2^{-2n}\sum_{x,y} |\alpha_{x,y}|^2 \geq \delta$. Here, $\ket{\psi'_x}$ and $\ket{\psi''_x}$ may be different from $\ket{\psi_x}$ but each of them is still required to have norm $1$.
+\item[(iii, 1pt)] Let $\ket{\psi_{ideal}} = (-1)^{x\cdot y}\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ be the ``ideal'' state obtained as in (b)(iii). Compute the \emph{difference} between $\ket{\psi_{ideal}}$ and $U'\ket{\psi_x}\ket{y}\ket{0}\ket{-}$ and bound its norm as a function of $\alpha_{xy}$ and $\beta_{xy}$.
+\item[(iv, 1pt)] Deduce a lower bound on $k$, as a function of $n$ and $\eps$, such that $\Ext_\IP$ is a $(k,\eps)$ strong extractor.  
 \end{enumerate}
 \end{enumerate}
 
