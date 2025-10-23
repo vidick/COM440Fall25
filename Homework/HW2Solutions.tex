@@ -59,7 +59,7 @@ Finally, since the state $\ket{\psi}$ is invariant under permutation of any two 
 \item
 	First note that if $\rho = \proj{\psi}$ is pure, then
 	\[\Tr\left(\rho \sigma\right) = \Tr\left(\proj{\psi} \sigma\right) = \Tr\left(\bra{\psi} \sigma\ket{\psi}\right) = \bra{\psi} \sigma\ket{\psi}\]
-	We can view tracing out part of a state as a consequence of an unknown party, say Bob, measuring that part of the state. In this case, measuring the third qubit in the computational basis (remember that the partial trace is independent of the basis we choose, see the videos and lecture notes) gives Bob either 0 or 1 with probability a half. The corresponding states on the first two qubits are $\proj{00}$ and $\proj{11}$, respectively. Thus, the remaining state is $\frac{1}{2}\proj{00}+\frac{1}{2}\proj{11}$.
+	We can view tracing out part of a state as a consequence of an unknown party, say Bob, measuring that part of the state. In this case, measuring the third qubit in the computational basis (remember that the partial trace is independent of the basis we choose) gives Bob either 0 or 1 with probability a half. The corresponding states on the first two qubits are $\proj{00}$ and $\proj{11}$, respectively. Thus, the remaining state is $\frac{1}{2}\proj{00}+\frac{1}{2}\proj{11}$.
 	We have that $\proj{GHZ_2} = \frac{1}{2}\left(\proj{00}+\proj{11}+\ketbra{00}{11}+\ketbra{11}{00} \right)$, which is a pure state. Using the fact that this is a pure state, we find that
 	\begin{align*}
 		\Tr\big(\ketbra{GHZ_2}{GHZ_2} & \Tr_3\ketbra{GHZ_3}{GHZ_3}\big) \\
@@ -72,10 +72,65 @@ Finally, since the state $\ket{\psi}$ is invariant under permutation of any two 
 \item
 	We have that
 	\[\Tr_N \left(\proj{GHZ_N}\right) = \frac{1}{2}|\underbrace{00\ldots0}_{N-1}\rangle\langle\underbrace{00\ldots0}_{N-1}|+\frac{1}{2}|\underbrace{11\ldots1}_{N-1}\rangle\langle\underbrace{11\ldots1}_{N-1}|\]
-	Using similar reasoning as in the first problem, we find that the overlap is equal to $1/2$.
+	Using similar reasoning as in the first problem, we find that the overlap is equal to $1/2$. Taking the limit we also get $1/2$.
 \item	
 	Measuring the last qubit gives a $0$ with probability $\frac{N-1}{N}$, so that the state on the remaining qubits is equal to $\ketbra{W_{N-1}}{W_{N-1}}$. If a measurement on the last qubit gives a 1 (with probability $\frac{1}{N}$), the corresponding state on the remaining qubits is $|\underbrace{00\ldots0}_{N-1}\rangle \langle\underbrace{00\ldots0}_{N-1} |$. The state on the first $N-1$ qubits after tracing out the last qubit is then $\Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right) = \frac{N-1}{N}\ketbra{W_{N-1}}{W_{N-1}}+\frac{1}{N}|\underbrace{00\ldots0}_{N-1}\rangle \langle \underbrace{00\ldots0}_{N-1}|$.
 	Since $\langle W_{N-1}|\underbrace{00\ldots}_{N-1}\rangle = 0$, we have that $\Tr\Big(\left| W_{N-1} \right\rangle \left\langle W_{N-1} \right| \Tr_N\left(\left| W_N \right\rangle \left\langle W_N \right|\right)\Big) = \frac{N-1}{N}$. Taking the limit we get $\lim_{N\rightarrow\infty}\frac{N-1}{N} = 1$.
+\end{enumerate}
+
+\item {\bf Nonlocal boxes}
+\begin{enumerate}
+\item Using the equality that $\sum_{a}A_x^{(i), a} = \Id$, we can get that for every set of indices $S \subseteq \{1, 2, \cdots, n\}$,
+\begin{align*}
+\sum_{a_i: i \in S}p(a_1, \cdots, a_n | x_1, \cdots, x_n) &= \sum_{a_i: i \in S}	\Tr\big( (A_{x_1}^{(1),a_1} \otimes \cdots\otimes A_{x_n}^{(n),a_n}) \rho_{A_1\cdots A_n}\big)\\
+&= \Tr\big( (\sum_{a_i: i \in S}A_{x_1}^{(1),a_1} \otimes \cdots\otimes A_{x_n}^{(n),a_n}) \rho_{A_1\cdots A_n}\big)\\
+&= \Tr\big( \bigotimes_{i \in S} A_{x_i}^{(i),a_i} \rho_{A_1\cdots A_n} \big)\enspace,
+\end{align*}
+which does not depend on $x_i$ for $i \notin S$. Therefore, the non-local box is non-signaling.
+\item Everyone did this verification correctly.
+\item (U), (PR) and (CH) are non-signaling. (SIG) is signaling.
+\item By the winning condition of CHSH game, 
+\[\Pr\left[\text{Win}\right] = \frac{1}{4}\sum_{a, b, x, y \text{ s.t. }a \oplus b = x \cdot y}p(a, b| x, y)\enspace.\]
+
+Therefore, the success probabilities of (U), (PR), (CH) and (SIG) in the CHSH game are $\frac{1}{2}$, $1$, $\cos^2 \pi / 8 \approx 0.85$, and $1/4$, respectively.
+
+\item (U) can be implemented using $A_x^a = B_y^b = \Id/2$ for every $x, y, a, b$, and a state $\rho_{AB} = \ketbra{00}{00}$.
+
+(PR) wins the CHSH game with certainty, but the optimum success probability in the CHSH game for a quantum strategy is $\cos^2 \pi/8 < 1$. Thus (PR) cannot be implemented using quantum mechanics.
+
+(CH) can be implemented using the optimal quantum strategy for the CHSH game.
+
+(SIG) is signaling, but by part (a), any quantum non-local box is non-signaling. So (SIG) cannot be implemented using quantum mechanics.
+
+\item By the non-signaling property, $\sum_{a, b} q(a, b, c | x, y, z)$ does not depend on $x, y$. So we can set $p'(c|z) = \sum_{a, b} q(a, b, c | x, y, z)$. We set $q(a, b | x, y) = p(a, b | x, y)$. Now let's show that $q(a, b, c|x, y, z) = p(a, b| x, y) p'(c|z)$.
+
+\textbf{Step 1:} when $a \oplus b \ne x \cdot y$, $\sum_c q(a, b, c|x, y, z) = p(a, b | x, y) = 0$. As each $q(a, b, c|x, y, z) \ge 0$, we can get that when $a \oplus b \ne x \cdot y$, $\forall c, z$, $q(a, b, c|x, y, z) = 0$.
+
+\textbf{Step 2:} by the non-signaling property, $\sum_{b} q(a, b, c | x, y, z) = \sum_{b} q(a, b, c | x, 1 - y, z)$ and $\sum_{a} q(a, b, c | x, y, z) = \sum_{a} q(a, b, c | 1- x, y, z)$. 
+
+As $q(a, b, c|x, y, z) = 0$ whenever $a \oplus b \ne x \cdot y$, the above two equations can be simplified into $q(a, a \oplus (x \cdot y), c | x, y, z) = q(a, a \oplus (x \cdot (1 - y)), c | x, 1 - y, z)$ and $q(b \oplus (x \cdot y), b, c | x, y, z) = q(b \oplus ((1 - x) \cdot y), b, c | 1- x, y, z)$.
+
+Enumerate each $a, b, x, y$ and we can get that $q(a, b, c | x, y, z) = q(a', b', c | x', y', z)$ for every $a, b, c, x, y, z, a', b', x', y'$ satisfying $a \oplus b = x \cdot y$ and $a' \oplus b' = x' \cdot y'$.
+
+\textbf{Step 3:} now let's verify that $q(a, b, c|x, y, z) = p(a, b| x, y) p'(c|z)$. For $a \oplus b \ne x \cdot y$, both sides are 0 and thus are equal. For $a \oplus b = x \cdot y$, $q(a, b, c|x, y, z) = \frac{1}{2}(q(a, b, c|x, y, z) + q(1 - a, 1 - b, c|x, y, z))$ (by step 2), which is exactly $p(a, b| x, y) p'(c|z)$.
+
+Hence any non-signaling tripartite extension of (PR) must have a product form.
+
+\item The optimum success probability achieved by any non-signaling tripartite box in the CHSH game is $3/4$. 
+
+On one hand, the non-signaling tripartite box that always outputs 0 ($p(0, 0, 0 | x, y, z) = 1$ for every $x, y, z$) wins the game with probability $3/4$. 
+
+On the other hand, similar as (d), we can write the success probability as
+\begin{align*}
+	\Pr\left[\text{Win}\right] =& \frac{1}{24}\left(\sum_{a, b, c, x, y, z \text{ s.t. }a \oplus b = x \cdot y}p(a, b, c| x, y, z) + \sum_{a, b, c, x, y, z \text{ s.t. }b \oplus c = y \cdot z}p(a, b, c| x, y, z)\right.\\
+	 &\left.+ \sum_{a, b, c, x, y, z \text{ s.t. }c \oplus a = z \cdot x}p(a, b, c| x, y, z)\right)\enspace,
+\end{align*}
+which is linear in each $p(a, b, c| x, y, z)$.
+
+Besides, all the constraints for a family of distributions to be a non-local box are linear in $p(a, b, c| x, y, z)$.
+
+Therefore, we can use the linear programming to solve the problem, and the result is $3/4$.
+
 \end{enumerate}
 
 
