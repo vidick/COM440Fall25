@@ -1,0 +1,43 @@
+\newcommand{\Es}[1]{\ensuremath{\mathop{\textsc{E}}}_{#1}}
+
+
+\chapter{}
+
+\begin{exercises}
+
+\item {\bf Approximate encryption from small-bias spaces}\\
+In this exercise we show a property of a set of keys $\mathcal{K}\subseteq \{0,1\}^n \times \{0,1\}^n$ such that approximate encryption using the one-time pad restricted to keys $k\in\mathcal{K}$ is $\eps$-secure. 
+
+First we need a definition. For a subset $S\subseteq\{0,1\}^n$, we say that $S$ is \emph{$\delta$-biased} if for every $\alpha\in \{0,1\}^n$ such that $\alpha\neq 0^n$,
+\[ \Big|\frac{1}{|S|} \sum_{s\in S} (-1)^{s\cdot \alpha} \Big| \leq \delta\;.\]
+Now let's fix a $\delta$-biased subset $B\subseteq \{0,1\}^{2n}$. We can interpret each string $b\in B$ as a pair $(k_1,k_2)$ of $n$-bit strings and define 
+\[ \mathcal{E}(\rho) = \frac{1}{|B|} \sum_{b=(k_1,k_2)\in B} X^{k_1} Z^{k_2} \rho (X^{k_1} Z^{k_2})^\dagger\;.\]
+Let's see how good an encryption scheme this is. As a warm-up, let's imagine that we try to distinguish $\mathcal{E}(\rho)$ from the totally mixed state $2^{-n}\Id$ by making a Pauli measurement, i.e.\ using an observable of the form $i^{u\cdot v} X^uZ^v$ for $u,v\in \{0,1\}^n$. 
+\begin{enumerate}
+\item Show that the expectation value $\Tr(X^uZ^v \mathcal{E}(\rho)) = \Es{(k_1,k_2)\in B}[(-1)^{k_1\cdot u + k_2\cdot v}]\Tr(X^uZ^v\rho)$.
+\item Using that $B$ is a $\delta$-biased set, deduce that $|\Tr(X^u Z^v \mathcal{E}(\rho))|\leq \delta |\Tr(X^u Z^v \rho)|$. 
+\item Show that for any matrix $A$, $\Tr(AA^\dagger) = \frac{1}{2^n} \sum_{u,v\in \{0,1\}^n} |\Tr(X^uZ^v A)|^2$. \emph{[Hint: Use that the Pauli matrices $\{X^uZ^v\}$ are orthonormal for the inner product $\langle A,B\rangle=\frac{1}{2^n} \Tr(A^\dagger B)$]}
+\item Deduce from the previous two questions that for any $n$-qubit density $\rho$, 
+\[ \Tr(\mathcal{E}(\rho)^2) \leq \frac{1}{2^n} + \delta^2 \Tr(\rho_0^2)\;.\]
+\end{enumerate}
+For an $n$-qubit density matrix $\rho$, show that if $\Tr(\rho^2)\leq \frac{1}{2^n}(1+\eps^2)$ for some $\eps\geq 0$, then $D(\rho,2^{-n}\Id)\leq \eps$. 
+\begin{enumerate}
+\item[5.] Deduce a value of $\delta$, as a function of $\eps$ and $n$, such that our approximate encryption scheme is $\eps$-secure. 
+\item[6.] A $\delta$-biased set of $2n$ bit strings can be constructed using $(2n)^2 \cdot (1/\delta)^2$ strings. How many keys does our $\eps$-approximate encryption scheme use? 
+\end{enumerate}
+
+
+\item {\bf Uncertainty relation}\\
+In this exercise we study some cases of equality in the entropic uncertainty relation~\eqref{eq:min-max-entropy}, which we restate for convenience: for any $\rho_{ABE}$ such that $A$ is a single qubit, 
+\begin{equation*}
+ H_{\rm max}(X_A|B) + \Hmin(Z_A|E) \geq 1\;,
+\end{equation*}
+Let's focus on the case where $B$ is a single classical bit, $E$ is a single qubit, and the quantum state $\rho_{AE} = \proj{\psi}_{AE}$ is pure. 
+\begin{enumerate}
+\item Suppose that we decompose $\ket{\psi}_{AE} = \alpha \ket{0}_A\ket{u_0}_E + \beta \ket{1}_A \ket{u_1}_E$, where $\ket{u_0}_A$ and $\ket{u_1}_A$ are abitrary (normalized)s states of $E$. Show that $\Hmin(Z_A|E)=0$ if and only if $\ket{u_0}$ and $\ket{u_1}$ are orthogonal.
+\item In this case, what is the value of $H_{\rm max}(X_A|B)$?
+\item Show that $\Hmin(Z_A|E)=1$ if and only if $\ket{u_0}$ and $\ket{u_1}$ are parallel.
+\item Give an example of a state of the previous kind, where  $\Hmin(Z_A|E)=1$, such that in addition $H_{\rm max}(X_A|B)=0$. Give another example where now $H_{\rm max}(X_A|B)=1$.
+\end{enumerate}
+
+\end{exercises}

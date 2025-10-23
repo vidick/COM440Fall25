@@ -1,0 +1,262 @@
+\chapter{}
+
+
+\begin{exercises}
+
+%
+%
+\item {\bf Thinking adversarially}\\
+Let's imagine that we are Eve and we observe someone trying to implement a QKD protocol. Because QKD is hard they might try to cut corners in their implementations. In this problem we present three ``candidate'' protocols for key distribution. It is your job to try to break them! For each protocol, choose the step (labeled by numbers) in which there is a mistake which allows you to break security.  \\
+{\bf Protocol 1:}
+\begin{protocolEnumerate}
+\item Alice generates bit strings $x, \theta$.
+\item Alice prepares the bits $x$ encoded in the basis $\theta$, and sends the resulting qubits to Bob. 
+\item Alice announces the basis string $\theta$.
+\item Bob measures in the bases corresponding to $\theta$ and obtains $x$.
+\end{protocolEnumerate}
+{\bf Protocol 2:}
+\begin{protocolEnumerate}
+\item Alice generates bit strings $x, \theta$.
+\item Alice generates $2$-qubit states $\ket{x_i}\ket{\theta_i}$ with the first qubit in the standard basis and the second in the Hadamard basis.
+\item Alice send the $2$-qubit states to Bob.
+\item Bob announces receipt of the states.
+\item Bob generates a string $\hat{\theta}$ and measures the second qubit in either the standard or Hadamard basis depending on $\hat{\theta}$, getting an output string $\chi$.
+\item Alice and Bob announce $\theta$ and $\chi$ over an authenticated channel.
+\item If $\chi_i=\theta_i$ then Bob measures the corresponding first qubit in the standard basis, obtaining a bit $\hat{x}_i$.
+\item Alice and Bob discard all data where $\chi\neq\theta_i$, and now share the string $\hat{x}$.
+\end{protocolEnumerate}
+{\bf Protocol 3:}
+\begin{protocolEnumerate}
+\item Alice creates a string of EPR pairs and sends one half of each to Bob.
+\item Bob generates a string $\theta$ and measures his half of each pair according to the value of $\theta$.
+\item Alice generates a string $\hat{\theta}$ and similarly measures her half of the EPR pairs.
+\item Bob announces over an authenticated channel that he received and measured his qubits
+\item Alice and Bob compare $\theta$ and $\hat{\theta}$ over an authenticated channel
+\item Alice and Bob use the measurement results obtained for each $\theta_i = \hat{\theta}_i $ as their key.
+\end{protocolEnumerate}
+%\solopen{
+%\emph{Protocol 1:} Alice makes a mistake in step 4. Because she announces her basis to Bob (and Eve) before Bob tells her that he received and measured his states, Eve can intercept all Alice's qubits, measure them in the right bases (because she has \(\theta\)) and then re-prepare qubits in the same bases (or even re-use the same qubits, since measurement in the correct basis doesn't change the eigenstate), and send them to Bob.
+%\emph{Protocol 2:} The protocol fails at step 3. Because the bases in which Alice prepares her qubits are known in advance Eve can intercept them upon transmission, measure them (discovering the strings \(x, \theta\)), and then re-prepare the states correctly to pass them to Bob. Once Bob announces \(\chi\) Eve has full information over the system and hence can easily reproduce the key that Alice and Bob make.
+%\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
+%}
+%
+%\newexercise[The matching outcomes test]
+%In this problem we show that the matching-outcomes test gives a lower bound for the overlap of Alice and Bob's shared state $\rho_{AB}$ and the EPR pair, as stated in the chapter:
+%$$\bra{\epr}\rho_{AB}\ket{\epr} \geq 2p-1$$
+%where $p$ is the probability that the test succeeds. Recall our convention for labeling the four Bell states:
+%\begin{itemize}
+%\item $\ket{\Psi_{00}}=\ket{\epr}=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11}) $
+%\item $\ket{\Psi_{01}}=\frac{1}{\sqrt{2}}(\ket{00}-\ket{11}) $
+%\item $\ket{\Psi_{10}}=\frac{1}{\sqrt{2}}(\ket{01}+\ket{10}) $
+%\item $\ket{\Psi_{11}}=\frac{1}{\sqrt{2}}(\ket{01}-\ket{10}) $
+%\end{itemize}
+%In the following questions, we use an essential property of experiments with a binary outcome $\in \{0,1\}$. Namely, we can think of the two outcomes as labeling the results of (1) individual measurements by Alice and Bob followed by selection on some joint outcome, or (2) a single joint measurement of both their qubits at once. Both ways of thinking about it are functionally equivalent.
+%\begin{largeproblem}
+%\subproblem Alice and Bob both measure their qubits in the computational basis $\{\ket{0},\ket{1}\}$ and want to select on obtaining the same outcome. What is the equivalent measurement operator on their joint state $\rho_{AB}$?
+%\solopen{The computational basis vectors corresponding to the same outcome for Alice and Bob are $\ket{00}$ and $\ket{11}$. If we assign the overall outcome $1$ to these and the overall outcome $0$ to the eigenvectors $\ket{01}$ and $\ket{10}$, then the measurement operator is $1\cdot \proj{00}+1\cdot \proj{11}+ 0\cdot \proj{01}+ 0\cdot \proj{10}$}
+%% \begin{enumerate}[a)]
+%% \item $\proj{00}+\ket{00}\bra{11}+\ket{11}\bra{00}+\proj{11}$
+%% \item $\frac{1}{2}\proj{00}+\proj{01}+\proj{10}+\proj{11}$
+%% \item $\proj{00}+\proj{11}$
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & -1 & 0 \\ 0 & -1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \end{enumerate}
+%\subproblem Alice and Bob both measure their qubits in the Hadamard basis $\{\ket{+},\ket{-}\}$ and want to select on obtaining the same outcome. What is the equivalent measurement operator on their joint state $\rho_{AB}$?
+%\solopen{By a similar reasoning as in the previous answer, the eigenvectors corresponding to Alice and Bob obtaining the same outcome are $\ket{++}$ and $\ket{--}$. Hence the measurement operator is $\proj{++}+\proj{--}$, which expressed in the computational basis gives $$\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$$. }
+%%
+%% \begin{enumerate}[a)]
+%% \item $\proj{00}+\ket{00}\bra{11}+\ket{11}\bra{00}+\proj{11}$
+%% \item $\frac{1}{2}\proj{00}+\proj{01}+\proj{10}+\proj{11}$
+%% \item $\proj{00}+\proj{11}$
+%% \item
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & -1 & 0 \\ 0 & -1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \end{enumerate}
+%% %
+%\startproblemtext
+%You should check that the computational basis expression is equal to $\Pi_1=\proj{\phi^+}+\proj{\Psi_{01}}$ and the Hadamard basis expression to $\Pi_2=\proj{\phi^+}+\ket{\Psi_{10}}$ as desired, by expanding these out in the standard basis.
+%
+%Alice and Bob choose one of the two bases uniformly at random and both measure their qubits in that (same) basis.
+%\stopproblemtext
+%\subproblem The probability $p$ that they obtain matching outcomes is given by $p=\Tr(\Pi\rho_{AB})$. What is $\Pi$?
+%\solopen{Let $\Pi_1$ and $\Pi_2$ be defined at the end of the previous question. Then $p = \frac12 \Tr (\Pi_1\rho_{AB}) + \frac12 \Tr(\Pi_2 \rho_{AB}) = \Tr(\Pi \rho_{AB})$
+%where $\Pi = \frac12 \Pi_1 + \frac12 \Pi_2$ by linearity of trace. Hence $\Pi=\proj{\phi^+}+\frac{1}{2}\proj{\Psi_{01}}+\frac{1}{2}\proj{\Psi_{10}}$
+%}
+%% \begin{enumerate}[a)]
+%% \item $\proj{\psi^+}$
+%% \item $\proj{\psi^+}+\proj{\Psi_{01}}+\proj{10}$
+%% \item $\proj{\psi^+}+\frac{1}{2}\proj{\Psi_{01}}+\frac{1}{2}\proj{10}$
+%% \item $\proj{\psi^+}+\frac{1}{2}\proj{\Psi_{01}}-\frac{1}{2}\proj{10}$
+%% \end{enumerate}
+%\subproblem Using the result of the previous question, calculate the desired projector $\proj{\phi^+}$ onto the EPR pair.
+%\solopen{From the previous problem we know that $\Pi = |\phi ^+\rangle \langle \phi ^+|+\frac{1}{2}|\Psi _{01}\rangle \langle \Psi _{01}|+\frac{1}{2}|\Psi _{10}\rangle \langle \Psi _{10}|$. Hence $2\Pi = 2|\phi ^+\rangle \langle \phi ^+|+|\Psi _{01}\rangle \langle \Psi _{01}|+|\Psi _{10}\rangle \langle \Psi _{10}|$. This implies that $2\Pi = |\phi ^+\rangle \langle \phi ^+|+ \mathbb {I} - |\Psi _{11}\rangle \langle \Psi _{11}|$, since $\mathbb {I} = |\phi ^+\rangle \langle \phi ^+|+|\Psi _{01}\rangle \langle \Psi _{01}|+|\Psi _{10}\rangle \langle \Psi _{10}|+|\Psi _{11}\rangle \langle \Psi _{11}|$. Rearranging gives answer (e).}
+%% \begin{enumerate}[a)]
+%% \item $\Pi$
+%% \item $\Pi - \frac{1}{2} \id$
+%% \item $\Pi - \frac{1}{2} \id+\frac{1}{2}\proj{\Psi_{11}}$
+%% \item $2\Pi-\id$
+%% \item $2\Pi-\id+\proj{\Psi_11}$
+%% \end{enumerate}
+%\startproblemtext
+%The result $\bra{\phi^+}\rho_{AB}\ket{\phi^+} \geq 2p-1$ follows immediately. Now let us introduce an eavesdropper Eve. As explained in the notes, a fully general description of her interaction with the intercepted qubit(s) is extremely difficult, so as a worst-case scenario we allow her to prepare arbitrary states $\rho_{ABE}$ whose A and B qubits she sends to Alice and Bob respectively. In the following questions we illustrate the bound using pure tripartite states $\ket{\Psi}_{ABE}$ of GHZ and W form.
+%\stopproblemtext
+%\subproblem Suppose Alice, Bob, and Eve share a GHZ state $\ket{\Psi}_{ABE} = \frac{1}{\sqrt{2}}(\ket{000}+\ket{111})$. What is the lower bound on the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+}$ that Alice and Bob obtain through the matching outcomes test?
+%\solopen{The probability of Alice and Bob getting the same outcome when they measure in the computational basis is $1$, but it's $\frac12$ when they measure in the Hadamard basis. Hence $p = \frac34$, which implies that the bound is $2p-1 = \frac12$. Tracing out Eve's system, the reduced state shared by Alice and Bob is easily seen to be $\rho _{AB} = \frac{1}{2}(\proj{00}+\proj{11})$. Hence the overlap $\bra{\phi^+}\rho _{AB}\ket{\phi^+} = \frac12$.}
+%\subproblem Suppose Alice, Bob, and Eve share the state $\ket{\Psi}_{ABE} = \frac{1}{\sqrt{3}}(\ket{000}+\ket{110}+\ket{011})$, which is related to the canonical W state by a unitary on Bob's qubit and thus has the same entanglement properties. What is the lower bound on the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+}$ that Alice and Bob obtain through the matching outcomes test?
+%\solopen{The probability of matching outcomes when Alice and Bob measure in the computational basis is $$\abs{\left(\bra{00}+\bra{11}\right) \ket{\Psi}_{ABE}}^2 = \frac23$$. The probability of matching in the Hadamard basis is $$\abs{\left((\bra{++}+\bra{--}\right) \ket{\Psi}_{ABE}}^2 = \frac{5}{12}$$.
+%So the winning probability is $p = \frac12 \frac23 + \frac12 \frac{10}{12} = \frac34$. So the lower bound we get for the overlap is $2p-1 = \frac12 = 0.5$. On the other hand, the reduced density matrix $\rho _{AB} = \frac13 (\proj{00} + \ketbra{00}{11} + \ketbra{11}{00} + \proj{11} +\proj{01})$. And we find that the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+} = \frac23$. Hence the bound we obtained via the matching outcomes test is less than the actual overlap.
+%}
+%\end{largeproblem}
+
+\item {\bf Min-entropy from the matching outcomes bound}\label{ex:matching-min}\\
+This problem investigates a direct method to lower bound Alice and Bob's key extraction rate based on the probability that the matching-outcomes test succeeds. If we assume that the adversary Eve prepares $n$ identical and uncorrelated copies of the tripartite state $\ket{\Psi_{ABE}}$ and sends the qubits $A$ to Alice and $B$ to Bob, then as shown in Chapter~\ref{chap:pa} the key extraction rate can be asymptotically lower-bounded by the min-entropy $\Hmin(X|E)$ per round, where $X$ is the outcome of Alice's measurement on her qubit. The goal of this problem is to prove a lower bound on this quantity.
+
+Recall that if Alice measures her qubit in the standard basis, and the resulting post-measurement state on her qubit and Eve's system $E$ is a classical-quantum (cq) state
+$$\rho_{XE} = \frac{1}{2}\ketbra{0}{0} \otimes \rho_E^{Z,0}+\frac{1}{2}\ketbra{1}{1} \otimes \rho_E^{Z,1},$$
+then the optimal guessing probability $P_{guess}(X|E)$ such that
+$$\Hmin(X|E) = - \log P_{guess}(X|E)$$
+is given by the Helstr\"om measurement, for which
+$P_{guess}(X|E) = \frac{1}{2}+\frac{1}{4}\|\rho_E^{Z,0}-\rho_E^{Z,1}\|_1.$
+
+The same reasoning holds for any other choice of Alice's basis, notably the Hadamard basis $\{|+\rangle,|-\rangle\}$. In the BB'84 protocol Alice chooses with probability 1/2 one of the two bases in which to measure her qubit. If we denote by $P_{guess}(X|E,\Theta=X)$ and $P_{guess}(X|E,\Theta=1)$ the optimal guessing probabilities for Alice measuring in the standard ($\Theta=0$) and Hadamard ($\Theta=1$) bases respectively, the desired lower bound is given by
+$$\Hmin(X|E\Theta) = -\log \left[\frac{1}{2}P_{guess}(X|E,\Theta=0)+\frac{1}{2}P_{guess}(X|E,\Theta=1)\right].$$
+\begin{enumerate}
+\item Suppose Alice and Bob share a pure EPR pair $\ket{\epr}$, uncorrelated with Eve's system: $\rho_{ABE} = \proj{\epr}_{AB} \otimes \rho_E$. What is $\Hmin(X|E)$?
+%\solopen{Recall that $X$ is a single bit, the output of Alice's measurement. Therefore its min-entropy is upper-bounded by $1$. Since Eve is totally uncorrelated and Alice's local density matrix is $\frac12\id$, $X$ is a uniform random bit with respect to Eve's point of view. That is, $\Hmin(X\mid E) = 1$. }
+%
+% \begin{enumerate}[a)]
+%     \item $\frac{1}{2}$
+%     \item $\frac{1}{\sqrt{2}}$
+%     \item $1$
+%     \item $2$
+% \end{enumerate}
+%
+\item Now consider the general case, where $\ket{\Psi_{ABE}}$ is an arbitrary state prepared by Eve. Let $p$ be the probability that this state succeeds in the matching outcomes test, when Alice and Bob both measure in the same basis $\Theta$ chosen at random. Give coefficients $a,b,c$ such that
+$$p = a \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \id_E \ket{\Psi_{ABE}} + b\bra{\Psi_{ABE}} Z_A \otimes Z_B \otimes \id_E \ket{\Psi_{ABE}} + c,$$
+where $X,Z$ are the Pauli observables $X = \ketbra{0}{1} + \ketbra{1}{0}$ and $Z = \ketbra{+}{-} + \ketbra{-}{+}$.
+%\solopen{We want to compute the probability that Alice and Bob obtain the same outcome. Suppose $\Theta = 0$, so that Alice and Bob both measure in the standard basis.
+%The expected value of the product of their measurement outcomes is $\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}$. If they make the same measurement, then the product of their measurements is $+1$. If they make different measurements, this product is $-1$.
+%Therefore the expectation is equal to $p_{\text{same}\mid\Theta = 0} - p_{\text{different}\mid\Theta = 0}$. These two probabilities sum to $1$, so we conclude that
+%\[p_{\text{same}\mid\Theta = 0} = \frac12 + \frac 12\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.\]
+%Similarly,
+%\[p_{\text{same}\mid\Theta = 1} = \frac12 + \frac 12\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}.\]
+%Finally,
+%\[
+%p_{\text{same}} = \frac12 p_{\text{same}\mid\Theta = 0} + \frac 12 p_{\text{same}\mid\Theta = 0}
+%= \frac12 + \frac 14\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}+ \frac 14\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.
+%\]}
+\item Let $p_X$ (resp. $p_Z$) be the probability that the state $\ket{\Psi_{ABE}}$ passes the matching outcomes test in the Hadamard (resp. computational) basis, so that $p=\frac{1}{2}(p_X+p_Z)$.
+By expanding the qubit $A$ in the computational basis, the state $\ket{\Psi_{ABE}}$ can be expressed as $\ket{\Psi_{ABE}} = \ket{0}\otimes\ket{u_0}_{BE} + \ket{1}\otimes\ket{u_1}_{BE}$, with $\|\ket{u_0}_{BE}\|^2+\|\ket{u_1}_{BE}\|^2=1$. Give coefficients $a',b'$ such that
+$ \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \id_E \ket{\Psi_{ABE}} = a'\, \Re(\bra{u_0} X_B \otimes \id_E \ket{u_1}) + b'.$
+%\solopen{
+%Applying the standard basis expansion suggested in the problem, along with the identity $X = \ketbra 01 + \ketbra 10$, we can rewrite $\bra{\Psi_{ABE}} X_A\otimes X_B \otimes I_E \ket{\Psi_{ABE}}$ as
+%\[
+%\left(\bra 0_A \otimes \bra{u_0}_{BE} +\bra 1_A \otimes \bra{u_1}_{BE}\right) \left[(\ketbra01 + \ketbra10)_A\otimes X_B\otimes I_E \right]\left(\ket 0_A\otimes \ket{u_0}_{BE} +\ket 1_A \otimes \ket{u_1}_{BE}\right).
+%\]
+%Evaluating inner products simplifies this to
+%\[
+%\bra{u_0}_{BE}X_B\otimes I_E\ket{u_1}_{BE} +
+%\bra{u_1}_{BE}X_B\otimes I_E\ket{u_0}_{BE}.
+%\]
+%Since the two terms in the above some are complex conjugates of each other, their sum is equal to twice their real part. That is,
+%\[
+%\bra{\Psi_{ABE}} X_A\otimes X_B \otimes I_E \ket{\Psi_{ABE}}
+%=2\Re\bra{u_0}_{BE}X_B\otimes I_E\ket{u_1}_{BE}
+%=2\Re\bra{u_1}_{BE}X_B\otimes I_E\ket{u_0}_{BE}.
+%\]
+%}
+\end{enumerate}
+A similar bound can be obtained for $p_Z$.
+
+Suppose Alice measures her qubit in the computational basis: the post-measurement state on $A$ and $E$ (tracing out $B$) can be written as $\rho_{AE}^Z = \ketbra{0}{0}_A\otimes \sigma_E^{Z,0} + \ketbra{1}{1}_A\otimes \sigma_E^{Z,1}$. Similarly, if Alice measures in the Hadamard basis we may write the post-measurement state as $\rho_{AE}^X = \ketbra{+}{+}_A\otimes \sigma_E^{X,+} + \ketbra{-}{-}_A\otimes \sigma_E^{X,-}$.
+\begin{enumerate}
+\item[4.] Use the previous two questions to determine coefficients $\alpha,\beta$ such that
+$$ 2p-1 \leq \alpha F(\sigma_E^{X,0},\sigma_E^{X,1}) + \beta F(\sigma_E^{Z,+},\sigma_E^{Z,-})$$
+where $F$ denotes the fidelity. [Hint: observe that $\ket{u_0}_{BE}$ and $\ket{u_1}_{BE}$ considered in the previous question are purifications of $\sigma_E^{Z,0}$ and $\sigma_E^{Z,1}$ respectively, and use Uhlmann's theorem]
+%\solopen{First, observe that by part b),
+%\[
+% 2p-1
+% = \frac 12\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}+ \frac 12\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.
+% \]
+%By part c),
+%\[
+% 2p-1
+% =\Re\bra{u_0}X_B\otimes I_E\ket{u_1}
+% +\Re\bra{u_0}Z_B\otimes I_E\ket{u_1}.
+% \]
+% By Ulhmann's theorem,
+% \[
+%\abs{\bra{u_0}X_B\otimes I_E\ket{u_1}} \leq F(\sigma_E^{X,0},\sigma_E^{X,1}) \text{ and }
+%\abs{\bra{u_0}Z_B\otimes I_E\ket{u_1}} \leq F(\sigma_E^{Z,+},\sigma_E^{Z,-}).
+% \]
+% Finally, notice that for any complex $z$, $\Re z \leq \abs z$. Chaining and adding inequalities gives the desired inequality with $\alpha = \beta = 1$.
+% \[
+%|2p-1| \leq  F(\sigma_E^{X,0},\sigma_E^{X,1}) +  F(\sigma_E^{Z,+},\sigma_E^{Z,-}).
+% \]
+%}
+\item[5.] Recall the inequality $D(\rho,\sigma) \leq \sqrt{1-F(\rho,\sigma)^2}$. Using also the definition of $\Hmin (X|E)$, what is the best lower bound on $\Hmin(X|E)$ as a function of $p$ that you can get?
+%\solopen{Recall that from part d) we have
+%\begin{equation}
+%2p-1 \leq \alpha F(\sigma_E^{X,0},\sigma_E^{X,1}) + \beta F(\sigma_E^{Z,+},\sigma_E^{Z,-})
+%\end{equation}
+%Now, $D(\rho,\sigma) \leq \sqrt{1-F(\rho,\sigma)^2} \Rightarrow F(\rho,\sigma) \leq \sqrt{1-D(\rho,\sigma)^2}$. Hence, we have
+%\begin{equation}
+%2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}
+%\end{equation}
+%Now, from the discussion at the start of the problem, we have the following lower bound on $\Hmin (X|E)$.
+%\begin{equation}
+%\Hmin (X|E) \geq -\log \big(\frac12(\frac12+\frac12 D(\sigma_E^{X,0},\sigma_E^{X,1}) +\frac12(\frac12+\frac12 D(\sigma_E^{Z,+},\sigma_E^{Z,-}))\big) \\
+%\end{equation}
+%Simplifying the right-hand side results in
+%\begin{equation}
+%\Hmin (X|E) \geq 1 - \log \big(1 + \frac{D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})}{2}\big)
+%\end{equation}
+%We want to find the maximum value of $D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})$ subject to $2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}$.
+%We look at this as an optimization problem. The maximum value of $x+y$ subject to the constraint $\sqrt{1-x^2} + \sqrt{1-y^2} \geq \alpha$ is achieved when $\sqrt{1-x^2} + \sqrt{1-y^2} = \alpha$. Hence, we can use the Lagrange multiplier method to find that the maximum value of $x+y$ is $\sqrt{4-\alpha^2}$. Plugging in $\alpha = 2p-1$ gives that the maximum value of $x+y$ is $2\sqrt{p(1-p)+\frac34}$. Plugging this into the inequality for the min-entropy above gives the desired bound
+%\begin{equation}
+%\Hmin (X|E) \geq 1 - \log\big(1+\sqrt{p(1-p)+ \frac34}\,\,\big)
+%\end{equation}
+%}
+\end{enumerate}
+%
+%\newexercise[Six-state protocol]
+%In this problem we study a protocol that is slightly more complicated than BB'84, but sometimes has advantages. While in BB'84 Alice encodes each randomly chosen bit $x \in \{0,1\}$ in \emph{two} bases, we will use \emph{three} bases instead. In addition to the standard basis $\{\ket{0},\ket{1}\}$ (labeled $\theta = 0$) and the Hadamard basis $\{\ket{+},\ket{-}\}$ ($\theta = 1$) we will also use the basis $\{\ket{0_Y},\ket{1_Y}\}$ ($\theta = 2$), where $\ket{0_Y}$ and $\ket{1_Y}$ are the eigenstates of $Y = i XZ$ with eigenvalue $+1$ and $-1$ respectively..
+%\begin{largeproblem}
+%\subproblem What are $\ket{0_Y}$ and $\ket{1_Y}$ of $Y$ in terms of $\{\ket{0},\ket{1}\}$?
+%\solopen{$\ket{0_Y} = \frac{1}{\sqrt{2}}(\ket{0}+ i \ket{1})$ and $\ket{1_Y} = \frac{1}{\sqrt{2}}(\ket{0}- i \ket{1})$}
+%% \begin{enumerate}[a)]
+%% \item $\ket{0_Y} = \frac{1}{\sqrt{2}}(\ket{0}+ \ket{1})$ and $\ket{1_Y} = \frac{1}{\sqrt{2}}(\ket{0}+ i \ket{1})$
+%% \item
+%% \item $\ket{0_Y} = \frac{1}{\sqrt{2}}(\ket{+}+ i\ket{-})$ and $\ket{1_Y} = \frac{1}{\sqrt{2}}(\ket{+}-i \ket{-})$
+%% \end{enumerate}
+%\startproblemtext
+%Let us prove security of the six state protocol, with the limitation that Eve is classical. That is, while she may make arbitrary measurements and intercept messages, she cannot store any quantum information. We will achieve this by studying the following guessing game. The game consists of Eve preparing a state $\phi_A$ and sending it to Alice who generates a trit $\theta \in \{0,1,2\}$ and measures in the corresponding standard, Hadamard or Y basis. She then announces $\theta$ to Eve who has the goal of guessing Alice's measurement result.
+%\stopproblemtext
+%\subproblem Determine the optimal guessing probability of Eve, and an optimal choice of state $\phi_A$? \emph{[Hint: use symmetry]} 
+%\solopen{The optimal state is $\phi_A=\frac{1}{2\sqrt{1+\frac{1}{\sqrt{2}}}}$}
+%\subproblem Following the analysis of BB'84 given in the chapter, explain why this shows security against a classical Eve.
+%% \begin{enumerate}[a)]
+%% \item $\phi_A = \ket{0}+ \ket{+}$
+%% \item $\phi_A = \frac{1}{3}\ket{0} + \frac{2}{3}\ket{+}$
+%% \item $\phi_A = \ket{0}+ \ket{+}+ \ket{0_Y}$
+%% \item $\phi_A = \ket{0}+ \ket{+}+ \ket{0_Y}$
+%% \item $\phi_A = \frac{1}{2}(\ket{0}+ \ket{+})+ \ket{0_Y}$
+%% \end{enumerate}
+%% (need to fill in proper normalisation)
+%\end{largeproblem}
+
+\item {\bf Trusted Nodes}\\
+In this exercise, we explore the idea of ``trusted nodes`` or ``trusted repeaters`` \index{trusted node}\index{trusted repeater}. Let us imagine that Alice and Bob wish to generate a key between them, but are not able to send qubits to each other.
+However, Alice is capable of using QKD to generate a key with her friend Charlie, and similarly Charlie and Bob are able to produce a key between them. Such a situation could, for example, arise in a situation in which Alice and Bob are themselves too far apart to perform quantum communication according to the current state of the art in quantum technologies, however, Charlie is located in between them and close enough to use QKD to make a key with both of them individually. In this context, Charlie is known as a trusted node. 
+\begin{enumerate}
+\item Explain how Alice and Bob can generate a secure shared key $k_{AB}$ with the help of Charlie. 
+%\solopen{Alice and Charlie use QKD to generate a key $k_{AC}$. Charlie and Bob use QKD to generate a key $k_{CB}$. Charlie uses $k_{CB}$ to transmit $k_{AC}$ (or a fresh key) to Bob, for example using a one-time pad.}
+\item Discuss whether your solution guarantees that Alice and Bob end up with the same key.
+% \solopen{If Eve has access to the channel used to transmit the key, and merely a one-time pad is used, then Eve could flip bits of the key. This is analogous to using the one-time pad to encrypt other classical messages, where the one-time pad ensures security but not integrity of the message. As with standard message transmission one may thus wish to use additional authentication tag to verify integrity of the message.}
+\item Explain how Eve can intercept the communication between Alice and Bob, when Charlie collaborates with Eve. 
+%\solopen{Charlie provides all keys to Eve.}
+\end{enumerate}
+
+
+
+
+\end{exercises}

@@ -1,0 +1,191 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise \# 8}
+
+This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
+
+\begin{enumerate}
+
+
+\item {\bf Generating key using using an anonymous message board}\\
+Imagine that Alice and Bob have discovered an anonymous message board in the hallway. It allows both Alice and Bob to post messages in such a way that no one can ever find out who the message came from. In particular, any eavesdropper Eve cannot learn whether the message came from Alice or from Bob. The message board simply creates a list of messages posted to it, without indicating a sender. Alice and Bob come up with three candidate protocols.
+\begin{itemize}
+\item Protocol I
+\begin{itemize}
+\item Alice and Bob write a random bit on the board.
+\item If the bit of Alice is the same as the bit of Bob then they erase and start from step 1.
+\item If the bit of Alice is different than Bob's bit then the next bit of their key is Alice's bit.
+\item Alice or Bob erase the bits and repeat from step 1 until they have $n$ bits of key.
+\end{itemize}
+\item Protocol II
+\begin{itemize}
+\item Alice starts by writing two bits on the board.
+\item If the second bit is $0$ they take the first bit as a key bit and they repeat step 1.
+\item If the second bit is $1$ they take the XOR of the two bits as a key bit and start from step 1 but now Bob writes instead of Alice.
+\item Alice or Bob execute this alternating protocol until they have $n$ bits of key.
+\end{itemize}
+\item Protocol III
+\begin{itemize}
+\item Alice and Bob each write $k<n$ random strings of $n$ bits on the board in a \emph{random} order.
+\item If Alice sees one of her strings followed by a Bob string she XOR's the two strings.
+\item If Bob sees one of his strings preceded by an Alice string he XOR's the two strings.
+\item Alice and Bob toss all strings that were never XOR'ed.
+\item Alice and Bob XOR all remaining strings together thus obtaining $n$ bits of key.
+\end{itemize}
+\end{itemize}
+\begin{enumerate}
+\item At the end of the day, we want that Alice and Bob both share an $n$-bit key, but Eve is ignorant about the key. Which of the above protocols generates such a key? (There is only one correct one!)
+%\solopen{The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence the will end up with an identical key. That the protocol is also secure is covered in the next question.}
+\item Can you argue why your chosen protocol is secure?
+%\solopen{If the two bits on the board are different, Eve does not know which one is Alice's and hence her best possible stratergy is to just pick one of the two bits as a potential key bit, on average she guesses the correct bit \(50\%\) of the time. This makes the protocol secure.}
+\item Can you come up with a different protocol that generates key?
+\end{enumerate}
+%
+\item {\bf Thinking adversarially}\\
+Let's imagine that we are Eve and we observe someone trying to implement a QKD protocol. Because QKD is hard they might try to cut corners in their implementations. In this problem we present three ``candidate'' protocols for key distribution. It is your job to try to break them! For each protocol, choose the step (labeled by numbers) in which there is a mistake which allows you to break security.  \\
+{\bf Protocol 1:}
+\begin{itemize}
+\item Alice generates bit strings $x, \theta$.
+\item Alice prepares the bits $x$ encoded in the basis $\theta$, and sends the resulting qubits to Bob. 
+\item Alice announces the basis string $\theta$.
+\item Bob measures in the bases corresponding to $\theta$ and obtains $x$.
+\end{itemize}
+{\bf Protocol 2:}
+\begin{itemize}
+\item Alice generates bit strings $x, \theta$.
+\item Alice generates $2$-qubit states $\ket{x_i}\ket{\theta_i}$ with the first qubit in the standard basis and the second in the Hadamard basis.
+\item Alice send the $2$-qubit states to Bob.
+\item Bob announces receipt of the states.
+\item Bob generates a string $\hat{\theta}$ and measures the second qubit in either the standard or Hadamard basis depending on $\hat{\theta}$, getting an output string $\chi$.
+\item Alice and Bob announce $\theta$ and $\chi$ over an authenticated channel.
+\item If $\chi_i=\theta_i$ then Bob measures the corresponding first qubit in the standard basis, obtaining a bit $\hat{x}_i$.
+\item Alice and Bob discard all data where $\chi\neq\theta_i$, and now share the string $\hat{x}$.
+\end{itemize}
+{\bf Protocol 3:}
+\begin{itemize}
+\item Alice creates a string of EPR pairs and sends one half of each to Bob.
+\item Bob generates a string $\theta$ and measures his half of each pair according to the value of $\theta$.
+\item Alice generates a string $\hat{\theta}$ and similarly measures her half of the EPR pairs.
+\item Bob announces over an authenticated channel that he received and measured his qubits
+\item Alice and Bob compare $\theta$ and $\hat{\theta}$ over an authenticated channel
+\item Alice and Bob use the measurement results obtained for each $\theta_i = \hat{\theta}_i $ as their key.
+\end{itemize}
+%\solopen{
+%\emph{Protocol 1:} Alice makes a mistake in step 4. Because she announces her basis to Bob (and Eve) before Bob tells her that he received and measured his states, Eve can intercept all Alice's qubits, measure them in the right bases (because she has \(\theta\)) and then re-prepare qubits in the same bases (or even re-use the same qubits, since measurement in the correct basis doesn't change the eigenstate), and send them to Bob.
+%\emph{Protocol 2:} The protocol fails at step 3. Because the bases in which Alice prepares her qubits are known in advance Eve can intercept them upon transmission, measure them (discovering the strings \(x, \theta\)), and then re-prepare the states correctly to pass them to Bob. Once Bob announces \(\chi\) Eve has full information over the system and hence can easily reproduce the key that Alice and Bob make.
+%\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
+%}
+%
+%\newexercise[The matching outcomes test]
+%In this problem we show that the matching-outcomes test gives a lower bound for the overlap of Alice and Bob's shared state $\rho_{AB}$ and the EPR pair, as stated in the chapter:
+%$$\bra{\epr}\rho_{AB}\ket{\epr} \geq 2p-1$$
+%where $p$ is the probability that the test succeeds. Recall our convention for labeling the four Bell states:
+%\begin{itemize}
+%\item $\ket{\Psi_{00}}=\ket{\epr}=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11}) $
+%\item $\ket{\Psi_{01}}=\frac{1}{\sqrt{2}}(\ket{00}-\ket{11}) $
+%\item $\ket{\Psi_{10}}=\frac{1}{\sqrt{2}}(\ket{01}+\ket{10}) $
+%\item $\ket{\Psi_{11}}=\frac{1}{\sqrt{2}}(\ket{01}-\ket{10}) $
+%\end{itemize}
+%In the following questions, we use an essential property of experiments with a binary outcome $\in \{0,1\}$. Namely, we can think of the two outcomes as labeling the results of (1) individual measurements by Alice and Bob followed by selection on some joint outcome, or (2) a single joint measurement of both their qubits at once. Both ways of thinking about it are functionally equivalent.
+%\begin{largeproblem}
+%\subproblem Alice and Bob both measure their qubits in the computational basis $\{\ket{0},\ket{1}\}$ and want to select on obtaining the same outcome. What is the equivalent measurement operator on their joint state $\rho_{AB}$?
+%\solopen{The computational basis vectors corresponding to the same outcome for Alice and Bob are $\ket{00}$ and $\ket{11}$. If we assign the overall outcome $1$ to these and the overall outcome $0$ to the eigenvectors $\ket{01}$ and $\ket{10}$, then the measurement operator is $1\cdot \proj{00}+1\cdot \proj{11}+ 0\cdot \proj{01}+ 0\cdot \proj{10}$}
+%% \begin{enumerate}[a)]
+%% \item $\proj{00}+\ket{00}\bra{11}+\ket{11}\bra{00}+\proj{11}$
+%% \item $\frac{1}{2}\proj{00}+\proj{01}+\proj{10}+\proj{11}$
+%% \item $\proj{00}+\proj{11}$
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & -1 & 0 \\ 0 & -1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \end{enumerate}
+%\subproblem Alice and Bob both measure their qubits in the Hadamard basis $\{\ket{+},\ket{-}\}$ and want to select on obtaining the same outcome. What is the equivalent measurement operator on their joint state $\rho_{AB}$?
+%\solopen{By a similar reasoning as in the previous answer, the eigenvectors corresponding to Alice and Bob obtaining the same outcome are $\ket{++}$ and $\ket{--}$. Hence the measurement operator is $\proj{++}+\proj{--}$, which expressed in the computational basis gives $$\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$$. }
+%%
+%% \begin{enumerate}[a)]
+%% \item $\proj{00}+\ket{00}\bra{11}+\ket{11}\bra{00}+\proj{11}$
+%% \item $\frac{1}{2}\proj{00}+\proj{01}+\proj{10}+\proj{11}$
+%% \item $\proj{00}+\proj{11}$
+%% \item
+%% \item $\frac{1}{2} \begin{bmatrix} 1 & 0 & 0 & 1\\ 0 & 1 & -1 & 0 \\ 0 & -1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+%% \end{enumerate}
+%% %
+%\startproblemtext
+%You should check that the computational basis expression is equal to $\Pi_1=\proj{\phi^+}+\proj{\Psi_{01}}$ and the Hadamard basis expression to $\Pi_2=\proj{\phi^+}+\ket{\Psi_{10}}$ as desired, by expanding these out in the standard basis.
+%
+%Alice and Bob choose one of the two bases uniformly at random and both measure their qubits in that (same) basis.
+%\stopproblemtext
+%\subproblem The probability $p$ that they obtain matching outcomes is given by $p=\Tr(\Pi\rho_{AB})$. What is $\Pi$?
+%\solopen{Let $\Pi_1$ and $\Pi_2$ be defined at the end of the previous question. Then $p = \frac12 \Tr (\Pi_1\rho_{AB}) + \frac12 \Tr(\Pi_2 \rho_{AB}) = \Tr(\Pi \rho_{AB})$
+%where $\Pi = \frac12 \Pi_1 + \frac12 \Pi_2$ by linearity of trace. Hence $\Pi=\proj{\phi^+}+\frac{1}{2}\proj{\Psi_{01}}+\frac{1}{2}\proj{\Psi_{10}}$
+%}
+%% \begin{enumerate}[a)]
+%% \item $\proj{\psi^+}$
+%% \item $\proj{\psi^+}+\proj{\Psi_{01}}+\proj{10}$
+%% \item $\proj{\psi^+}+\frac{1}{2}\proj{\Psi_{01}}+\frac{1}{2}\proj{10}$
+%% \item $\proj{\psi^+}+\frac{1}{2}\proj{\Psi_{01}}-\frac{1}{2}\proj{10}$
+%% \end{enumerate}
+%\subproblem Using the result of the previous question, calculate the desired projector $\proj{\phi^+}$ onto the EPR pair.
+%\solopen{From the previous problem we know that $\Pi = |\phi ^+\rangle \langle \phi ^+|+\frac{1}{2}|\Psi _{01}\rangle \langle \Psi _{01}|+\frac{1}{2}|\Psi _{10}\rangle \langle \Psi _{10}|$. Hence $2\Pi = 2|\phi ^+\rangle \langle \phi ^+|+|\Psi _{01}\rangle \langle \Psi _{01}|+|\Psi _{10}\rangle \langle \Psi _{10}|$. This implies that $2\Pi = |\phi ^+\rangle \langle \phi ^+|+ \mathbb {I} - |\Psi _{11}\rangle \langle \Psi _{11}|$, since $\mathbb {I} = |\phi ^+\rangle \langle \phi ^+|+|\Psi _{01}\rangle \langle \Psi _{01}|+|\Psi _{10}\rangle \langle \Psi _{10}|+|\Psi _{11}\rangle \langle \Psi _{11}|$. Rearranging gives answer (e).}
+%% \begin{enumerate}[a)]
+%% \item $\Pi$
+%% \item $\Pi - \frac{1}{2} \id$
+%% \item $\Pi - \frac{1}{2} \id+\frac{1}{2}\proj{\Psi_{11}}$
+%% \item $2\Pi-\id$
+%% \item $2\Pi-\id+\proj{\Psi_11}$
+%% \end{enumerate}
+%\startproblemtext
+%The result $\bra{\phi^+}\rho_{AB}\ket{\phi^+} \geq 2p-1$ follows immediately. Now let us introduce an eavesdropper Eve. As explained in the notes, a fully general description of her interaction with the intercepted qubit(s) is extremely difficult, so as a worst-case scenario we allow her to prepare arbitrary states $\rho_{ABE}$ whose A and B qubits she sends to Alice and Bob respectively. In the following questions we illustrate the bound using pure tripartite states $\ket{\Psi}_{ABE}$ of GHZ and W form.
+%\stopproblemtext
+%\subproblem Suppose Alice, Bob, and Eve share a GHZ state $\ket{\Psi}_{ABE} = \frac{1}{\sqrt{2}}(\ket{000}+\ket{111})$. What is the lower bound on the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+}$ that Alice and Bob obtain through the matching outcomes test?
+%\solopen{The probability of Alice and Bob getting the same outcome when they measure in the computational basis is $1$, but it's $\frac12$ when they measure in the Hadamard basis. Hence $p = \frac34$, which implies that the bound is $2p-1 = \frac12$. Tracing out Eve's system, the reduced state shared by Alice and Bob is easily seen to be $\rho _{AB} = \frac{1}{2}(\proj{00}+\proj{11})$. Hence the overlap $\bra{\phi^+}\rho _{AB}\ket{\phi^+} = \frac12$.}
+%\subproblem Suppose Alice, Bob, and Eve share the state $\ket{\Psi}_{ABE} = \frac{1}{\sqrt{3}}(\ket{000}+\ket{110}+\ket{011})$, which is related to the canonical W state by a unitary on Bob's qubit and thus has the same entanglement properties. What is the lower bound on the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+}$ that Alice and Bob obtain through the matching outcomes test?
+%\solopen{The probability of matching outcomes when Alice and Bob measure in the computational basis is $$\abs{\left(\bra{00}+\bra{11}\right) \ket{\Psi}_{ABE}}^2 = \frac23$$. The probability of matching in the Hadamard basis is $$\abs{\left((\bra{++}+\bra{--}\right) \ket{\Psi}_{ABE}}^2 = \frac{5}{12}$$.
+%So the winning probability is $p = \frac12 \frac23 + \frac12 \frac{10}{12} = \frac34$. So the lower bound we get for the overlap is $2p-1 = \frac12 = 0.5$. On the other hand, the reduced density matrix $\rho _{AB} = \frac13 (\proj{00} + \ketbra{00}{11} + \ketbra{11}{00} + \proj{11} +\proj{01})$. And we find that the overlap $\bra{\phi^+}\rho_{AB}\ket{\phi^+} = \frac23$. Hence the bound we obtained via the matching outcomes test is less than the actual overlap.
+%}
+%\end{largeproblem}
+
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,109 @@
+\chapter{}
+
+\begin{exercises}
+
+\item {\bf Security from special resources: the PR Box}\\
+In this exercise we will investigate side-stepping the impossibility of perfectly secure 1-2 OT in some   fun ways! To do this we'll imagine that Alice and Bob are given some special resources that they can use during their protocol. We start our investigations with Alice and Bob having access to a very special box - also known as a PR-box or non-local box - used in the study of quantum non-locality.
+
+Imagine thus that Alice and Bob get access to the following shared box. This box takes two inputs: one input bit \(x\) from Alice, and one input bit \(y\) from Bob. Once both inputs have been given, the box generates a random bit \(r\) with \(p(r=0)=p(r=1)=1/2\). The box then outputs \( b = r+ x\cdot y \mod 2\) to Bob and \( a = r\) to Alice.
+
+Alice and Bob want to find a protocol to solve the following task: Alice holds a database of two bits \(x_0\) and \(x_1\) and Bob holds some bit \(y\). Bob would like to retrieve the bit \(x_y\) from Alice's database. To achieve this, they can use the box above and in addition Alice is allowed to send one bit to Bob. Bob is not allowed to send anything to Alice.
+
+Given these constraints, Alice and Bob have come up with three different protocols:
+\begin{itemize}
+\item \textit{Protocol 1}:
+\begin{protocolEnumerate}
+\item Alice inputs the sum \(x = x_0+x_1 \mod 2\) into the box.
+\item Alice sends the message \(m=x_1\) to Bob through her one-bit classical channel.
+\item Bob inputs \(y\) into the box and obtains \(b\).
+\item Bob can now recover \(x_y = b + m\mod 2\).
+\end{protocolEnumerate}
+\item \textit{Protocol 2}:
+\begin{protocolEnumerate}
+\item Alice inputs the sum \(x = x_0+x_1 \mod 2\) into the box.
+\item Alice sends the message \(m=r\) to Bob through her one-bit classical channel.
+\item Bob inputs \(y\) into the box and obtains \(b\).
+\item Bob can now recover \(x_y = b + m \mod  2 \).
+\end{protocolEnumerate}
+\item \textit{Protocol 3}:
+\begin{protocolEnumerate}
+\item Alice inputs the sum \(x = x_0+x_1 \mod 2\) into the box.
+\item Alice sends \(m=x_0 + r\) to Bob through her one-bit classical channel.
+\item Bob inputs \(y\) into the box and obtains \(b\).
+\item Bob can now recover \(x_y = b + m \mod  2 \)
+\end{protocolEnumerate}
+\end{itemize}
+\begin{enumerate}
+\item Which of these protocols allows Bob to obtain the bit \(x_y\) for any value of the bit \(y\)?
+%\solopen{Protocol 3 is the correct protocol. Note that the inputs and outputs of the box satisfy \((x_0+x_1)\cdot y = r+b \mod 2\). Bob thus computes \( m+b = x_0 + r + b = x_0 + (x_0+x_1) \cdot y\mod 2\). Hence if \(y=0\) this becomes \(x_0\) and if \(y=1\) we have \(x_0 + x_0 + x_1 = x_1\mod 2\) since all additions are taken modulo 2.}
+\end{enumerate}
+A box of this type is called a PR-box, named after Popescu and Rohrlich, who invented it in 1993 to investigate non-locality. It has some very interesting properties! Consider for example a situation where Alice and Bob are in possession of a PR-box and they decide to play the CHSH game using this box. That is, as a reminder, Alice receives a question bit \(x\) at random such that \(p(x=0) =p(x=1) = \frac{1}{2}\) and Bob receives a question bit \(y\) at random such that \(p(y=0) =p(y=1) = \frac{1}{2}\). Alice and Bob then come up with answer bits \(a\) and \(b\) respectively (without communicating) and they win the game if \(a+b = x\cdot y\) (where addition and multiplication are modulo 2). They will follow any one of the following strategies.
+\begin{itemize}
+\item \textit{Protocol 1}: \begin{protocolEnumerate}
+\item Alice puts her bit \(x\) in the box and receives a random bit \(r\).
+\item Bob puts a bit \(c=1\) in the box and hence receives \(x+r\).
+\item Alice sets her answer bit \(a\) to \(x+r\).
+\item Bob sets his answer bit \(b\) to \(b= y\cdot(x+r)\)
+\end{protocolEnumerate}
+\item \textit{Protocol 2}: \begin{protocolEnumerate}
+\item Alice puts a bit \(c=1\) in the box and receives a random bit \(r\).
+\item Bob puts a bit \(y\) in the box and hence receives \(y+r\).
+\item Alice sets her answer bit \(a\) to \(x+r\).
+\item Bob sets his answer bit to \(b= y\cdot r\).
+\end{protocolEnumerate}
+\item \textit{Protocol 3}: \begin{protocolEnumerate}
+\item Alice puts her bit \(x\) in the box and receives a random bit \(r\).
+\item Bob puts his bit \(y\) in the box and hence receives \(x\cdot y+r\).
+\item Alice sets her answer bit \(a\) to \(r\).
+\item Bob sets his answer bit to \(b= x\cdot y+r\)
+\end{protocolEnumerate}
+\end{itemize}
+Their winning probability \(p_{\rm win}\) is given by
+\[p_{\rm win} = \frac{1}{4}\sum_{x, y \in \{0,1\}}\sum_{\substack{a, b \in \{0,1\} \\ a+ b = x\cdot y}}p(a,b|y,x).\]
+\begin{enumerate}
+\item[2.] For each of the three protocols, calculate $p_{\rm win}$ and conclude which protocol has the highest winning probability.
+%\solopen{Protocol 3 gives the highest winning probability. The easiest way to see this is by checking the winning condition \(a + b = x\cdot y\). In protocol 3 Alice sets her answer bit \(a =r\) and Bob sets his answer bit to \( b= x\cdot y + r\). This makes the winning condition \( a+b = r + x\cdot y + r = x\cdot y\). This means that that, using this strategy, Alice and Bob can win with probability one (which is of course the maximal possible probability).}
+\end{enumerate}
+Slightly shocked by this outcome, Alice and Bob begin to suspect that their box is cheating. Namely they suspect their box of actually communicating between themselves. Therefore they resolve to test what are called the \emph{non-signalling conditions}. The non-signalling conditions intuitively say that if Alice and Bob input something into the box and receive an output, Alice's output should not depend on Bob's input and Bob's output should not depend on Alice's input. Formally what they will do is the following: Alice generates a bit \(x\) at random such that \(p(x=0) =p(x=1) = \frac{1}{2}\) and inputs it in the box on her side. Similarly, Bob generates a bit \(y\) at random such that \(p(y=0) =p(y=1) = \frac{1}{2}\) and inputs it on his side. They receive output bits \(a\) and \(b\) from the box, which they will use to check the following conditions:
+\[\sum_{b\in \{0,1\}} p(a,b|x, y) = \sum_{b\in \{0,1\}} p(a,b|x, \hat{y}), \hspace{5mm} \forall a,x, y, \hat{y}\in\{0,1\}\]
+\[\sum_{a\in \{0,1\}} p(a,b|x, y) = \sum_{a\in \{0,1\}} p(a,b|\hat{x},y), \hspace{5mm} \forall a, y, x,\hat{x}\in\{0,1\}\]
+where \(p(a,b|x,y)\) is the probability that the box, given input bits \(x,y\), will produce output bits \(a,b\).
+\begin{enumerate}
+\item[3.] Does the box violate the non-signalling conditions?
+%\solopen{
+%It is fairly straightforward to check that the box does not violate the non-signalling condition. The easiest way to see this is by noting that
+%    \[p(a,b|x,y) = \begin{cases} \frac{1}{2} \hspace{5mm} \text{if}\hspace{5mm} a+ b = x\cdot y \\
+%    0\hspace{5mm} \hspace{5mm}\text{otherwise}\end{cases}
+%    \] and then working out the condition. This is interesting in the sense that it is possible to create thought experiments that involve machines that generate CHSH winning probabilities that are strictly larger than those achievable using only quantum mechanics, but that do respect the non-signaling condition! So quantum is more limited than no-signalling alone - much work has gone into understanding both why as well as the consequences of this. Of course in our Bell experiment in Delft we saw CHSH behaviour that is strictly below the quantum bound, but also quantum would not tell us how to design an experiment to achieve a higher winning probability: after all quantum is limited to ~ 0.85! Do we simply not know how to design such an experimental apparatus? Or is there really some fundamental limit that nature imposes to restrict us to the quantum bound? It turns out that Nature would behave very differently if one could go beyond the quantum bound. You can find pointers in this article \cite{brunner2013connection}.
+%}
+\end{enumerate}
+Now imagine that we get an upgraded version of the same box. This box takes a bit string \(x\) of length \(n\) as input on Alice's side and a single bit \(y\) on Bob's side. It outputs a string \(a = r\) to Alice such that \(p(r_i=0)= p(r=1) = \frac{1}{2}\) for all \(i\in \{1,\ldots,n\}\) and outputs the string \(b\) such that \(b_i = r_i + x_i\cdot y\mod 2 \) for all \(i\in\{1,\ldots,n\}\). You can think of this as the 'string' version of the PR-box from before.
+\begin{enumerate}
+\item[4.] Alice and Bob would like to use this box, and classical communication from Alice to Bob, to design a protocol for some form of 1-2 oblivious transfer. That is, Alice has two strings \(s_0,s_1\), Bob has a bit \(b\) and at the end of the protocol we would like Bob to hold the string \(s_b\) while having no knowledge of the other string. Below you see a list of possible steps in the protocol. Your job is to pick the right steps and put them in the correct order.
+
+For consistency, assume that if Alice and Bob input something in the box Alice always does so first. Note also that we are looking for a protocol different from the one given in the first part of this problem.
+\begin{enumerate}[label=(\alph{*})]
+\item Alice creates two keys \(k_0 = r\) and \(k_1 =x+r \)
+\item Alice encodes the strings \(s_0, s_1\) as \(e_0 = s_0+k_0\) and \(e_1 = s_1+k_1\)
+\item Alice generates a random \(n\)-bit string \(x\), enters it into the box and receives an output string \(a\)
+\item Bob uses his output string to decode the encoded message \(e_y\)
+\item Alice sends the encoded strings to Bob
+\item Alice inputs the string \(s_0+s_1\) into the box
+\item Alice generates a random bit string \(x\) and encodes the messages as \(e_0 = s_0 + x\) and \(e_1 = s_1 + r\)
+\item Alice sends \(s_0+ s_1\) to Bob
+\item Bob inputs his bit \(y\) into the box and receives an output bit \(b\)
+\item Alice sends \(s_0+ s_1 + r\) to Bob
+\item Alice sends the random string \(x\) to Bob
+\end{enumerate}
+%\solopen{The correct answer string would be "ciabed" corresponding to the protocol:
+%\begin{protocolEnumerate}
+%    \item Alice generates a random \(n\) bit string \(x\), enters it into the box and receives an output string \(a\).
+%    \item  Bob inputs his bit \(y\) into the box and receives an output bit \(b\).
+%    \item  Alice creates two keys \(k_0 = r\) and \(k_1 =x+r \).
+%    \item  Alice encodes the strings \(s_0, s_1\) as \(e_0 = s_0+k_0\) and \(e_1 = s_1+k_1\).
+%	\item  Alice sends the encoded strings to Bob.
+%    \item  Bob uses his output string to decode the encoded message \(e_y\).
+%\end{protocolEnumerate}}
+\item[5.] Is this really 1-2 oblivious transfer? \emph{[Hint: can we build bit commitment out of this form of 1-2 oblivious transfer? Why, or why not?]}
+\end{enumerate}
+\end{exercises}

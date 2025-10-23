@@ -57,26 +57,6 @@ Late homework will not be accepted or graded. Extensions will not be granted, ex
 		
 \item {\bf An optimal attack}\label{ex:opt-wiesner}
  
-%\[ N_1 = \frac{1}{\sqrt{12}} \begin{pmatrix} 3 & 0 \\ 0 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix} \quad \text{and}\quad N_2 = \frac{1}{\sqrt{12}} \begin{pmatrix} 0 & 1 \\ 1 & 0 \\ 1 & 0 \\ 0 & 3\end{pmatrix}\;.\]
-\begin{enumerate}
-\item We check that 
-\begin{align*}
-N_1^\dagger N_1 + N_2^\dagger N_2  &= \frac{1}{12}\begin{pmatrix} 10 & 0 \\ 0 & 2 \end{pmatrix}+\frac{1}{12} \begin{pmatrix} 2 & 0 \\ 0 & 10 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1\end{pmatrix}\;,
-\end{align*}
-as should be the case. 
-\item For example, we can compute the image of $\ket{+}$ as 
-\begin{align*} 
-\mathcal{N}(\proj{+}) &= N_1 \proj{+} N_1^\dagger + N_2 \proj{+}N_2^\dagger \\
-&= \frac{1}{12} \frac{1}{2}\big( 3\ket{00} + \ket{01} + \ket{10} + \ket{11} \big)\big( 3\bra{00} + \bra{01} + \bra{10} + \bra{11} \big)\\
-&\qquad +\frac{1}{12} \frac{1}{2}\big( \ket{00} + \ket{01} + \ket{10} + 3\ket{11} \big)\big( \bra{00} + \bra{01} + \bra{10} + 3\ket{11} \big)\;.
-\end{align*}
-We can then verify that 
-\begin{align*}
-\bra{+}\bra{+}\mathcal{N}(\proj{+})\ket{+}\ket{+} &= \frac{1}{4}\frac{1}{24}\big( (3+1+1+1)^2 + (1+1+1+3)^2 \big)\\
-&= \frac{1}{96}( 36+36) = \frac{3}{4}\;.
-\end{align*}
-A similar calculation gives the same for the three other BB'84 states!
-\end{enumerate}
 
 
 
@@ -96,58 +76,6 @@ A similar calculation gives the same for the three other BB'84 states!
 
 
 
-
-
-\item \textbf{A Guessing Game.}
-\begin{enumerate}[(a)]
-\item If we assume $U_A(\ket{0}) = \alpha_0\ket{0}+\beta_0\ket{1}$ and $U_A(\ket{1}) = \alpha_1\ket{0}+\beta_1\ket{1}$we can note that $$\begin{aligned}(U_A\otimes \mathbb{I}_B)\frac{1}{\sqrt{2}}(\ket{00}+\ket{11}) & = \frac{1}{\sqrt{2}}(U_A(\ket{0})\otimes \ket{0} + U_A(\ket{1})\otimes \ket{1}) \\ & = \frac{1}{\sqrt{2}}(\alpha_0\ket{00}+\beta_0\ket{10} + \alpha_1\ket{01}+\beta_1\ket{11}) \\ & = \frac{1}{\sqrt{2}} (\ket{0}\otimes (\alpha_0\ket{0}+\alpha_1\ket{1}) + \ket{1}\otimes (\beta_0\ket{0} + \beta_1\ket{1})) \\ & = \frac{1}{\sqrt{2}}(\ket{0}\otimes U_B^T(\ket{0}) + \ket{1}\otimes U_B^T(\ket{1})) \\ & = (\mathbb{I}_A\otimes U_B^T)\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})\end{aligned}$$ Hence, if Eve applies the unitary transformation $(U^T)^{-1} = (U^\dagger)^T = \conj{U}$, we will have undone this unitary transformation. Then we can replicate the argument given in the problem statement, and so using $\theta$, can measure in the same basis that Alice did and perfectly recover Alice's bit with probability 1. \\
-
-\item We claim that by using only two matrices unitary matrices we can get a success probability of 1/2, which is equivalent to simply guessing. Simply have Alice choose one of $\mathbb{I}$ or $H$ uniformly at random irregardless of $\theta$. Then for either value of $\theta$, the density matrix for $\rho_E$ would be the mixture $$ \rho_E = \frac{1}4 (\ketbra{0}0 + \ketbra{1}1 + \ketbra{+}+ +\ketbra{-}-) = \frac{\mathbb{I}}2$$ which is independent of $\theta$. Hence Eve's best bet is just guessing independently at random.
-
-\item See part (b)
-\end{enumerate}
-
-\item {\bf Robustness of GHZ and W States, Part 2}
-
-\begin{enumerate}
-	\item By direct calculation we have $$\Tr_N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}$$ and $$\Tr_ N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}\;.$$ Both of these are diagonal (in some basis) and have rank 2. Note that this is also the \emph{highest} rank one can get when tracing out a single qubit, as $\rho_A=\rho_B$.
-	
-	\item For $\rho =\proj{0}$ we have $\rho^2=\rho$ and thus $\Tr(\rho^2)=1$. On the other hand, for $\rho =\frac{1}{d} \id_d$ we have $\rho^2=\frac{1}{d^2} \id_ d$ from which it follows that $\Tr(\rho^2)=\frac{1}{d}$
-	
-	\item The extremes (pure and maximally mixed) that you considered in Problem 2.2 certainly suggest this. Informally, the more entangled $A$ and $B$ are, the more classical uncertainty you have --- the more information you lose --- in the state $\rho _ A$ of $A$ alone after tracing out $B$. This expresses itself as a lower purity as defined above.
-	
-	\item Again we have by direct calculation $$\rho = \Tr_ N \proj{GHZ_N} = \frac{1}{2}\proj{0}^{\otimes {N-1}}+\frac{1}{2}\proj{1}^{\otimes {N-1}}\;,$$ from which it follows that $$\rho^2 = \frac{1}{4}\proj{0}^{\otimes {N-1}}+\frac{1}{4}\proj{1}^{\otimes {N-1}}$$ and $\Tr(\rho^2)=\frac{1}{2}$ for all $N$.
-	
-	\item We have again by direct calculation
-	$$\rho = \Tr_N \proj{W_N} = \frac{N-1}{N}\proj{W_{N-1}}+\frac{1}{N}\proj{0}^{\otimes {N-1}}\;,$$ from which it follows that $$\rho ^2 = \frac{(N-1)^2}{N^2}\proj{W_{N-1}}+\frac{1}{N^2}\proj{0}^{\otimes {N-1}}$$ and $\Tr( \rho ^2) = \frac{N^2-2N+2}{N^2} \rightarrow 1$ as $N \rightarrow \infty$.
-	
-	As $N$ grows, the $\ket{GHZ_N}$ states to which one qubit has been discarded have a lower purity than the $\ket{W_N}$ states. According to the preceding discussion, this means that there is more entanglement between $(N-1)$ and $1$ qubits of a $\ket{GHZ_N}$ state, than there is in a $\ket{W_N}$ state. Conversely, if we consider the qubit to be ``lost'' then there is less entanglement remaining in the $\ket{GHZ_N}$ state. If we remove two qubits, then continuing the calculations made in 4. and 5. we see that the result is essentially unchanged.
-\end{enumerate}
-
-\item {\bf Using the Pretty-Good Measurement}
-
-\begin{enumerate}
-\item The overall success probability is $\frac13 \bra{+} \rho _0 \ket{+}  + \frac13 \bra{-} \rho _2 \ket{-}  = \frac13$.
-
-\item Bob's overall success probability is $\frac13\bra{0} \rho _0 \ket{0}  + \frac13\bra{1} \rho_2 \ket{1}  = \frac23$.
-
-\item Let $\rho=\frac{1}{3}(\rho_0+\rho_1+\rho_2) = \frac{1}{2}\Id$. The elements of the pretty-good measurement are $M_ i = \frac13\rho ^{-1/2}\rho_i\rho ^{-1/2}$. Since $\rho = \frac{1}{2}\id$, we have that $\rho ^{-1/2} = \sqrt{2}\id$. The overall success probability is 
-\[ \frac{1}{3}\sum_i \Tr(M_i\rho_i) = \frac{2}{9} \sum_i \Tr(\rho _ i^2) = \frac{2}{9}\left(1 + \frac{1}{2} + 1\right) = \frac{5}{9}\;.\]
-
-\item We check that for each $i$, $\frac13 \rho _ i \leq \sigma = \frac13\id$. Indeed,
-\[\frac13\rho _0 = \frac13\left( \begin{array}{cc}1&  0 \\ 0 & 0 \end{array} \right) \leq \frac13\id\;,\qquad \frac13\rho _1 =\frac16\id\leq \frac13\id\;,\qquad
-\frac13\rho _2 = \frac13\left( \begin{array}{cc}0&  0 \\ 0 & 1 \end{array} \right) \leq \frac13\id\;.\]
-Thus the upper bound on the guessing probability is thus $\operatorname {Tr}\sigma = \frac23$.
-
-\item If the optimal measurement has POVM elements $\{M_i\}$, then we observe that 
-\begin{align*}
-\sum_i p_i  \Tr(M_i \sigma_i) &= \sum_i  \Tr( M_i \cdot (p_i\sigma_i))\\
-&\leq \sum_i \Tr(M_i\sigma)\\
-&= \Tr\Big(\Big(\sum_i M_i\Big)\sigma\Big)\\
-&= \Tr(\sigma)\;.
-\end{align*}
-Here, for the second line we used that if $\rho\leq \sigma$ then for any positive semidefinite $M$, $\Tr(M(\sigma-\rho))\geq 0$, i.e.\ $\Tr(M\rho)\leq \Tr(M\sigma)$. 
-\end{enumerate}
 
 
 \end{enumerate}

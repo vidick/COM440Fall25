@@ -1,0 +1,94 @@
+\chapter{}
+
+%\subsection{Larger problems}
+% \begin{enumerate}[1.]
+
+\begin{exercises}
+
+\item {\bf Generating key using using an anonymous message board}\\
+Imagine that Alice and Bob have discovered an anonymous message board in the hallway. It allows both Alice and Bob to post messages in such a way that no one can ever find out who the message came from. In particular, any eavesdropper Eve cannot learn whether the message came from Alice or from Bob. The message board simply creates a list of messages posted to it, without indicating a sender. Alice and Bob come up with three candidate protocols.
+\begin{itemize}
+\item Protocol I
+\begin{protocolEnumerate}
+\item Alice and Bob write a random bit on the board.
+\item If the bit of Alice is the same as the bit of Bob then they erase and start from step 1.
+\item If the bit of Alice is different than Bob's bit then the next bit of their key is Alice's bit.
+\item Alice or Bob erase the bits and repeat from step 1 until they have $n$ bits of key.
+\end{protocolEnumerate}
+\item Protocol II
+\begin{protocolEnumerate}
+\item Alice starts by writing two bits on the board.
+\item If the second bit is $0$ they take the first bit as a key bit and they repeat step 1.
+\item If the second bit is $1$ they take the XOR of the two bits as a key bit and start from step 1 but now Bob writes instead of Alice.
+\item Alice or Bob execute this alternating protocol until they have $n$ bits of key.
+\end{protocolEnumerate}
+\item Protocol III
+\begin{protocolEnumerate}
+\item Alice and Bob each write $k<n$ random strings of $n$ bits on the board in a \emph{random} order.
+\item If Alice sees one of her strings followed by a Bob string she XOR's the two strings.
+\item If Bob sees one of his strings preceded by an Alice string he XOR's the two strings.
+\item Alice and Bob toss all strings that were never XOR'ed.
+\item Alice and Bob XOR all remaining strings together thus obtaining $n$ bits of key.
+\end{protocolEnumerate}
+\end{itemize}
+\begin{enumerate}
+\item At the end of the day, we want that Alice and Bob both share an $n$-bit key, but Eve is ignorant about the key. Which of the above protocols generates such a key? (There is only one correct one!)
+%\solopen{The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence the will end up with an identical key. That the protocol is also secure is covered in the next question.}
+\item Can you argue why your chosen protocol is secure?
+%\solopen{If the two bits on the board are different, Eve does not know which one is Alice's and hence her best possible stratergy is to just pick one of the two bits as a potential key bit, on average she guesses the correct bit \(50\%\) of the time. This makes the protocol secure.}
+\item Can you come up with a different protocol that generates key?
+\end{enumerate}
+
+\item {Key rate with special channels}\\
+In the chapter you saw how Alice and Bob could establish key in the presence of a limited Eve. In particular you saw a situation where Alice and Bob possessed a channel which allowed them to send classical bits such that Eve would obtain the bit with probability \(q\) (which is known to Eve!) and would obtain the flipped bit with probability \(1-q\).
+\begin{enumerate}
+\item As a refresher, please calculate the amount of min entropy Eve would have about a bit that Alice sent to Eve for the following values of \(q\):
+\begin{statements}
+    \item $q = 0$
+    \item $q = 1/4$
+    \item $q= 1/2$
+    \item $q = 3/5$
+    \item $q = 1$
+\end{statements}
+%\solopen{If \(q\geq1/2\) the best strategy for Eve is to just always believe the value of the bit she intercepts. This means her probability of guessing the bit is just \(p_{guess} = q\). However if \(q\leq 1/2\), Eve's best strategy is to flip the value of the bit she receives (as it would be more likely for the bit to be flipped in the channel than not). In this case the guessing probability would be \(p_{guess} = 1-q\). The min entropy now follows from the usual definition.}
+\item For which values of \(q\) would we be able to use this channel to create keys?
+%\solopen{In the last question we saw that Eve could perfectly recover all bits when \(q=0\) <b>and</b> \(q=1\). For all other values of \(q\) she has a non-zero min entropy and hence we can distill key using this channel.}
+\end{enumerate}
+Now imagine we are in the situation where Eve has a limited classical memory of size \(k\) bits. Imagine Alice sends Bob \(n\) bits through a public channel (of which Eve can copy and store \(k\)). Let's take for example \(k=1000\).
+\begin{enumerate}
+\item[3.] What would Eve's min entropy be (about the string of \(n\) bits) in the following situations?
+\begin{statements}
+\item $n<k$
+\item $n=k$
+\item $n=10k$
+\end{statements}
+%\solopen{If \(k\geq n\) Eve can store all the bits that Alice sends to Bob. Hence her min-entropy is zero in this case. If \(k\) is smaller than \(n\) there are \(n-k\) bits that she is perfectly uninformed about. Hence her min-entropy is \(n-k\).}
+%\mynoteC{I have sticked with the version on edX here. There exists a different version of these questions in /MOOC/Week5/PP Homework/Draft}
+\end{enumerate}
+
+\item {\bf Information reconciliation}\\
+In the chapter we describe an information reconciliation protocol based on the parity check matrix\[H = \begin{pmatrix} 1 & 1 & 0\\ 0 & 1 & 1 \end{pmatrix}\] This protocol can reliably correct a single bit flip error on blocks of three bits. If we assume that every key bit distributed is flipped with probability \(p\) and remains unchanged with probability \(1-p\) we could derive that the probability of correctly distributing a three bit string without error correction was
+\[p_{succ} = (1-p)^3\]
+while using the error correction scheme based on \(H\) we had   \[p_{succ} = 1-3p^2 + 2p^3\]
+which is of course quite a bit better for small \(p\). Now the question is, can we do even better? Here we will look at a simple expansion of the three bit linear code from the chapter and look at the seven bit code generated by the parity check matrix
+\[ H = \begin{pmatrix} 0 & 0 & 0 & 1 & 1 & 1 & 1 \\ 0 & 1 & 1 & 0 & 0 & 1 & 1\\ 1 & 0 & 1 & 0 & 1 & 0 & 1 \end{pmatrix}. \] Here we will investigate the robustness of this code to errors. Let's set a baseline by looking at the probability of sucessfully distributing a seven-bit string using no error correction when all bits in the string are affected by a binary symmetric channel which flips bits with probability \(p\).
+\begin{enumerate}
+\item What is the probability of successfully distributing an error-free string?
+%\solopen{The only way we can have successful distribution of a 7 bit string is if no errors happen on any of the bits. This happens with probability \((1-p)^7\).}
+\end{enumerate}
+Of course this code is not magical, i.e. we will never be able to reliaby correct all errors. To see why this is the case let is look at the error strings \(S = 1000000\) and \(S' = 0110000\).
+\begin{enumerate}
+\item[2.] Which of the following statements is true?
+\begin{statements}
+\item We can never correct both \(S\) and \(S'\) since their syndromes are the same. Hence the decoder will not be ably to reliably distinguish these two errors from their syndromes.
+\item The error \(S\) is never correctible since its syndrome is the zero string which means the decoder can't decect if this error has happened.
+\item The error \(S'\) is never correctible since its syndrome is the zero string which means the decoder can't decect if this error has happened.
+\end{statements}
+%\solopen{The string \(S\) has error syndrome \(001\) and the string \(S'\) has error syndrome \(001\). This means that if the decoder receives the string \(001\) as error it can never tell whether \(S\) or \(S'\) happened.}
+\item[3.] Now, assuming we use the information reconciliation scheme from the videos with the matrix \(H\) and a string of seven bits. Assuming the probability of flipping a bit is again given by \(p\), and we can reliably correct single bit errors, what is the probability that we can successfully distribute an error free key (up to third order in \(p\))?
+%\solopen{If we can correct for single qubit errors the probability of successful distribution becomes the complement of the probability of either zero or one error happening. This is given by \[p_{succ} = (1-p)^7 + 7p(1-p)^6 = 1 - 21p^2 + 70p^3 + O(p^4)\]}
+\item[4.] In the parameter regime \(p\in [0,1/2]\) is this protocol more resistant to noise (as in higher \(p_{succ}\) for a given value of \(p\)) than the three bit protocol given in the chapter?
+%\solopen{For the three bit protocol the probability of succes was \(p_{succ,3} = (1-p)^3 + 3p(1-p)^2\) while the probability of succes for the seven bit protocol is \(p_{succ,7} = (1-p)^7 + 7p(1-p)^6\). It is easy to check that \(p_{succ,7} - p_{succ,3} <0\) for all \(p\in [0,1]\) and hence the three bit protocol is more resistant to noise.}
+\end{enumerate}
+
+\end{exercises}

@@ -1,0 +1,46 @@
+\chapter{}
+\begin{exercises}
+
+\item {\bf Concentration bounds}\\
+Consider the following toy setup. Alice and Bob perform a certain physical experiment with their quantum devices. They repeat the same experiment $N$ times in a row, and each time they observe an outcome $Z_i\in\{0,1\}$. Think of $Z_i$ as representing ``success'' of the experiment. For example, they play the CHSH game with their devices and note $Z_i=1$ whenever the CHSH test is passed, $Z_i=0$ when it fails.
+
+Let $\omega^*$ be the maximum probability with which any two quantum devices may produce results that result in a setting $Z_i=1$. For example, in the case of CHSH $\omega^*=\cos^2\frac{\pi}{8}$.
+
+Suppose that Alice and Bob perform the experiment $N$ times, but only check the result for half of the experiments they performed, chosen at random. That is, they choose a random $S\subseteq \{1,\ldots,N\}$ uniformly at random such that $|S|=N/2$, and evaluate $\omega_{est} = \frac{2}{N}\sum_{i\in S} Z_i$. The goal of this problem is to determine when useful consequences of this estimate can be derived on the outcome of rounds that were not explicitly tested, $i\notin S$.
+
+Our main tool is the following concentration inequality, that we already introduced in Chapter~\ref{chap:bb84}.
+Let $N=n+k$ and consider binary random variables $Z_1,\ldots,Z_N$ (The $Z_i$ may be arbitrarily correlated.). Let $S$ be a uniformly random subset of $\{1,\ldots,N\}$ of size $k$. Then for any $\delta ,\nu>0$,
+$$ \Pr \Big( \sum_{j\in S} Z_j \geq \delta k \,\wedge\, \sum_{j\in\{1,\ldots,N\}\backslash S} Z_j \leq (\delta - \nu)n \Big) \leq e^{-2\nu^2 \frac{nk^2}{(n+k)(k+1)}}.$$
+
+\begin{enumerate}
+\item Suppose Alice and Bob observe that $\omega_{est} = \omega^* - \epsilon$, for some quantity $\epsilon>0$ (which may depend on $n$). Suppose they would like to conclude that, if they randomly choose an $i\in\{1,\ldots,N\}\backslash S$, then the probability that the corresponding $Z_i$ is such that $\Pr(Z_i=1)\leq \omega^*-2\epsilon$ is very small --- at most $2^{-N/100}$ (as long as $N$ is large enough). Among the following possibilities, which ones let them reach this conclusion, based on the above concentration inequality?
+\begin{multiplechoice}
+    \item $\epsilon = 2^{-N}$
+    \item $\epsilon = \frac{1}{\sqrt{N}}$
+    \item $\epsilon = 0.01$
+\end{multiplechoice}
+%\solopen{None of those values of $\epsilon$ would allow them to reach the desired conclusion. This is because it could well be the case, for instance, that there is an $i\in\{1,\ldots,N\}\backslash S$ such that $Z_i = 0$ with certainty, while for all other $j$ $\Pr(Z_j=1) = \omega^*$. Then $i$ still has a $1/N$ chance of being picked.
+%}
+\item Let $\mathcal{E}$ be the event that Alice and Bob observe $\omega_{est} = \omega^* - \epsilon$. Suppose they would like to conclude that, whenever this event happens, then also $\frac{2}{N}\sum_{i\notin S} Z_i \geq \omega^*-2\epsilon$, at least with probability $1-e^{-N/200}$. Among the following possibilities, select those that will let them reach this conclusion, based on the above concentration inequality.
+\begin{multiplechoice}
+    \item $\epsilon = 2^{-N}$
+    \item $\epsilon = \frac{1}{\sqrt{N}}$
+    \item $\epsilon = 0.01$
+\end{multiplechoice}
+%\solopen{Again, none of the values of $\epsilon$ listed above allows Alice and Bob to reach the desired conclusion. This is because nothing is said about the probability of the event of observing such an $\omega_{est}$. In fact, it could be the case that the event $\mathcal{E}$ is really unlikely: an example scenario would be that of having all of the $Z_i's$ independent and identically distributed with mean $\omega^*-3\epsilon$. Then it is still possible, although very unlikely, that event $\mathcal{E}$ happens. When it happens, it is still the case that the remaining $Z_i$'s are independent and with mean $\omega^*-3\epsilon$. And hence the desired conclusion does not hold.
+%}
+\item Now assume also that $\Pr(\mathcal{E})\geq e^{-N/500}$. In the same scenario as described in the previous question, but under this additional assumption, select the valid value(s) for $\epsilon$. Recall that the size of the set $S$ that Alice inspect is $\frac{N}{2}$.
+\begin{multiplechoice}
+    \item $\epsilon = 2^{-N}$
+    \item $\epsilon = \frac{1}{\sqrt{N}}$
+    \item $\epsilon = 0.02$
+\end{multiplechoice}
+%\solopen{We have $\Pr(\sum_{i \in \{1,..,N\}\setminus S} Z_i \leq \omega^*-2\epsilon | \mathcal{E})$
+%\begin{equation}
+%= \frac{\Pr(\sum_{i \in S} Z_i \geq \omega^*-\epsilon \land \sum_{i \in \{1,..,N\}\setminus S)} Z_i \leq \omega^*-2\epsilon)}{\Pr(\mathcal{E})} \leq e^{-2\epsilon^2 \frac{\frac{N}{2} N^2}{N (\frac{N}{2}+1)}} \cdot e^{\frac{N}{500}}
+%\end{equation}
+%using the concentration bound. \\
+%The RHS is $\leq e^{-\frac{N}{200}}$ when $\epsilon = 0.1$, but not for the other two options.}
+\end{enumerate}
+
+\end{exercises}
