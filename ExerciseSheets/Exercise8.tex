@@ -26,6 +26,41 @@ This exercise sheet is designed to help you review the concepts discussed in the
 
 \begin{enumerate}
 
+%
+\item {\bf Thinking adversarially}\\
+Let's imagine that we are Eve and we observe someone trying to implement a QKD protocol. Because QKD is hard they might try to cut corners in their implementations. In this problem we present three ``candidate'' protocols for key distribution. It is your job to try to break them! For each protocol, choose the step in which there is a mistake which allows you to break security.  \\
+{\bf Protocol 1:}
+\begin{enumerate}
+\item Alice generates bit strings $x, \theta$.
+\item Alice prepares the bits $x$ encoded in the basis $\theta$, and sends the resulting qubits to Bob. 
+\item Alice announces the basis string $\theta$.
+\item Bob measures in the bases corresponding to $\theta$ and obtains $x$.
+\end{enumerate}
+{\bf Protocol 2:}
+\begin{enumerate}
+\item Alice generates bit strings $x, \theta$.
+\item Alice generates $2$-qubit states $\ket{x_i}\ket{\theta_i}$ with the first qubit in the standard basis and the second in the Hadamard basis.
+\item Alice send the $2$-qubit states to Bob.
+\item Bob announces receipt of the states.
+\item Bob generates a string $\hat{\theta}$ and measures the second qubit in either the standard or Hadamard basis depending on $\hat{\theta}$, getting an output string $\chi$.
+\item Alice and Bob announce $\theta$ and $\chi$ over an authenticated channel.
+\item If $\chi_i=\theta_i$ then Bob measures the corresponding first qubit in the standard basis, obtaining a bit $\hat{x}_i$.
+\item Alice and Bob discard all data where $\chi\neq\theta_i$, and now share the string $\hat{x}$.
+\end{enumerate}
+{\bf Protocol 3:}
+\begin{enumerate}
+\item Alice creates a string of EPR pairs and sends one half of each to Bob.
+\item Bob generates a string $\theta$ and measures his half of each pair according to the value of $\theta$.
+\item Alice generates a string $\hat{\theta}$ and similarly measures her half of the EPR pairs.
+\item Bob announces over an authenticated channel that he received and measured his qubits
+\item Alice and Bob compare $\theta$ and $\hat{\theta}$ over an authenticated channel
+\item Alice and Bob use the measurement results obtained for each $\theta_i = \hat{\theta}_i $ as their key.
+\end{enumerate}
+%\solopen{
+%\emph{Protocol 1:} Alice makes a mistake in step 4. Because she announces her basis to Bob (and Eve) before Bob tells her that he received and measured his states, Eve can intercept all Alice's qubits, measure them in the right bases (because she has \(\theta\)) and then re-prepare qubits in the same bases (or even re-use the same qubits, since measurement in the correct basis doesn't change the eigenstate), and send them to Bob.
+%\emph{Protocol 2:} The protocol fails at step 3. Because the bases in which Alice prepares her qubits are known in advance Eve can intercept them upon transmission, measure them (discovering the strings \(x, \theta\)), and then re-prepare the states correctly to pass them to Bob. Once Bob announces \(\chi\) Eve has full information over the system and hence can easily reproduce the key that Alice and Bob make.
+%\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
+%}
 
 \item {\bf Generating key using using an anonymous message board}\\
 Imagine that Alice and Bob have discovered an anonymous message board in the hallway. It allows both Alice and Bob to post messages in such a way that no one can ever find out who the message came from. In particular, any eavesdropper Eve cannot learn whether the message came from Alice or from Bob. The message board simply creates a list of messages posted to it, without indicating a sender. Alice and Bob come up with three candidate protocols.
@@ -53,48 +88,15 @@ Imagine that Alice and Bob have discovered an anonymous message board in the hal
 \item Alice and Bob XOR all remaining strings together thus obtaining $n$ bits of key.
 \end{itemize}
 \end{itemize}
+At the end of the day, we want that Alice and Bob both share an $n$-bit key (correctness), but Eve is ignorant about the key (security). 
 \begin{enumerate}
-\item At the end of the day, we want that Alice and Bob both share an $n$-bit key, but Eve is ignorant about the key. Which of the above protocols generates such a key? (There is only one correct one!)
+\item Which of the above protocols is perfectly correct? (There is only one one!)
 %\solopen{The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence the will end up with an identical key. That the protocol is also secure is covered in the next question.}
-\item Can you argue why your chosen protocol is secure?
+\item Which of the protocols is secure?
 %\solopen{If the two bits on the board are different, Eve does not know which one is Alice's and hence her best possible stratergy is to just pick one of the two bits as a potential key bit, on average she guesses the correct bit \(50\%\) of the time. This makes the protocol secure.}
 \item Can you come up with a different protocol that generates key?
 \end{enumerate}
-%
-\item {\bf Thinking adversarially}\\
-Let's imagine that we are Eve and we observe someone trying to implement a QKD protocol. Because QKD is hard they might try to cut corners in their implementations. In this problem we present three ``candidate'' protocols for key distribution. It is your job to try to break them! For each protocol, choose the step (labeled by numbers) in which there is a mistake which allows you to break security.  \\
-{\bf Protocol 1:}
-\begin{itemize}
-\item Alice generates bit strings $x, \theta$.
-\item Alice prepares the bits $x$ encoded in the basis $\theta$, and sends the resulting qubits to Bob. 
-\item Alice announces the basis string $\theta$.
-\item Bob measures in the bases corresponding to $\theta$ and obtains $x$.
-\end{itemize}
-{\bf Protocol 2:}
-\begin{itemize}
-\item Alice generates bit strings $x, \theta$.
-\item Alice generates $2$-qubit states $\ket{x_i}\ket{\theta_i}$ with the first qubit in the standard basis and the second in the Hadamard basis.
-\item Alice send the $2$-qubit states to Bob.
-\item Bob announces receipt of the states.
-\item Bob generates a string $\hat{\theta}$ and measures the second qubit in either the standard or Hadamard basis depending on $\hat{\theta}$, getting an output string $\chi$.
-\item Alice and Bob announce $\theta$ and $\chi$ over an authenticated channel.
-\item If $\chi_i=\theta_i$ then Bob measures the corresponding first qubit in the standard basis, obtaining a bit $\hat{x}_i$.
-\item Alice and Bob discard all data where $\chi\neq\theta_i$, and now share the string $\hat{x}$.
-\end{itemize}
-{\bf Protocol 3:}
-\begin{itemize}
-\item Alice creates a string of EPR pairs and sends one half of each to Bob.
-\item Bob generates a string $\theta$ and measures his half of each pair according to the value of $\theta$.
-\item Alice generates a string $\hat{\theta}$ and similarly measures her half of the EPR pairs.
-\item Bob announces over an authenticated channel that he received and measured his qubits
-\item Alice and Bob compare $\theta$ and $\hat{\theta}$ over an authenticated channel
-\item Alice and Bob use the measurement results obtained for each $\theta_i = \hat{\theta}_i $ as their key.
-\end{itemize}
-%\solopen{
-%\emph{Protocol 1:} Alice makes a mistake in step 4. Because she announces her basis to Bob (and Eve) before Bob tells her that he received and measured his states, Eve can intercept all Alice's qubits, measure them in the right bases (because she has \(\theta\)) and then re-prepare qubits in the same bases (or even re-use the same qubits, since measurement in the correct basis doesn't change the eigenstate), and send them to Bob.
-%\emph{Protocol 2:} The protocol fails at step 3. Because the bases in which Alice prepares her qubits are known in advance Eve can intercept them upon transmission, measure them (discovering the strings \(x, \theta\)), and then re-prepare the states correctly to pass them to Bob. Once Bob announces \(\chi\) Eve has full information over the system and hence can easily reproduce the key that Alice and Bob make.
-%\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
-%}
+
 %
 %\newexercise[The matching outcomes test]
 %In this problem we show that the matching-outcomes test gives a lower bound for the overlap of Alice and Bob's shared state $\rho_{AB}$ and the EPR pair, as stated in the chapter:
