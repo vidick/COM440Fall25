@@ -99,13 +99,13 @@ Explain why your protocol is secure.
 
 
 \item \emph{(8 points)} {\bf Min-entropy from the matching outcomes bound}\label{ex:matching-min}\\
-This problem investigates a direct method to lower bound Alice and Bob's key extraction rate based on the probability that the matching-outcomes test succeeds. If we assume that the adversary Eve prepares $n$ identical and uncorrelated copies of the tripartite state $\ket{\Psi_{ABE}}$ and sends the qubits $A$ to Alice and $B$ to Bob, then as shown in Chapter~\ref{chap:pa} the key extraction rate can be asymptotically lower-bounded by the min-entropy $\Hmin(X|E)$ per round, where $X$ is the outcome of Alice's measurement on her qubit. The goal of this problem is to prove a lower bound on this quantity.
+This problem investigates a direct method to lower bound Alice and Bob's key extraction rate based on the probability that the matching-outcomes test succeeds. If we assume that the adversary Eve prepares $n$ identical and uncorrelated copies of the tripartite state $\ket{\Psi_{ABE}}$ and sends the qubits $A$ to Alice and $B$ to Bob, then as shown in Chapter 4 the key extraction rate can be asymptotically lower-bounded by the min-entropy $\Hmin(X|E)$ per round, where $X$ is the outcome of Alice's measurement on her qubit. The goal of this problem is to prove a lower bound on this quantity.
 
 Recall that if Alice measures her qubit in the standard basis, and the resulting post-measurement state on her qubit and Eve's system $E$ is a classical-quantum (cq) state
 $$\rho_{XE} = \frac{1}{2}\ketbra{0}{0} \otimes \rho_E^{Z,0}+\frac{1}{2}\ketbra{1}{1} \otimes \rho_E^{Z,1},$$
-then the optimal guessing probability $P_{guess}(X|E)$ such that
+then since $X$ consists of a single bit as we saw in class the optimal guessing probability $P_{guess}(X|E)$ such that
 $$\Hmin(X|E) = - \log P_{guess}(X|E)$$
-is given by the Helstr\"om measurement, for which
+is given by the optimal distinguishing measurement, for which
 $P_{guess}(X|E) = \frac{1}{2}+\frac{1}{4}\|\rho_E^{Z,0}-\rho_E^{Z,1}\|_1.$
 
 The same reasoning holds for any other choice of Alice's basis, notably the Hadamard basis $\{|+\rangle,|-\rangle\}$. In the BB'84 protocol Alice chooses with probability 1/2 one of the two bases in which to measure her qubit. If we denote by $P_{guess}(X|E,\Theta=X)$ and $P_{guess}(X|E,\Theta=1)$ the optimal guessing probabilities for Alice measuring in the standard ($\Theta=0$) and Hadamard ($\Theta=1$) bases respectively, the desired lower bound is given by
