@@ -128,6 +128,33 @@ Let
 \item Show that $(N_1,N_2)$ are valid Kraus operators in the definition of a quantum channel $\mathcal{N}(\rho)=N_1\rho N_1^\dagger + N_2 \rho N_2^\dagger$ mapping one qubit to two qubits. 
 \item Show that using $\mathcal{N}$, a quantum adversary succeeds in the CLONE security game for Wiesner's quantum money scheme with probability $\frac{3}{4}$. 
 \end{enumerate}
+
+
+
+\item \emph{(8 points)} {\bf Cloning attacks NEED TO EDIT BASED ON PDF}\\ 
+In this problem we study the effectiveness of a simple cloning attack for the eavesdropper in the BB84 key distribution protocol. Recall that in the protocol Alice prepares $N$ single-qubit states $\ket{x_j}_{\theta_j}$, for $j\in\{1,\ldots,N\}$ and random $x_j,\theta_j\in\{0,1\}$, and sends each of these states to Bob. 
+
+Now suppose the eavesdropper Eve intercepts each of the states sent by Alice, and does the following: 
+\begin{enumerate}
+\item[(i)] With probability $1-p$, she applies the cloning map $T_1$ from Problem 6(a) in HW2. She keeps the second qubit and forwards the first qubit to Bob. 
+\item[(ii)] With probability $p$, she applies the cloning map $T_2$ from Problem 6(b) in HW2. She keeps the second qubit, traces out (i.e. ignores) the third qubit, and forwards the first to Bob. 
+\end{enumerate}
+For simplicity, first assume $N=1$. Based on the results of HW2 Problem 6 (you may consult the solution available online), evaluate the following:
+\begin{enumerate}
+\item[(a)] Suppose both Alice and Bob measure their qubit in the correct basis $\theta=\theta_1$. If $p=0$, what is the probability that they get the same outcome (recall $\theta\in\{0,1\}$ is chosen uniformly at random). Same question if $p=1$. Same question for a general $0<p<1$. \tnote{For this first question it may be helpful to give them the answer and ask them to prove it; to build confidence and avoid silly mistakes that would make them get all the questions wrong}
+\item[(b)] Answer the same questions, where now Alice and Eve measure their qubit. What is the probability that they get the same outcome? 
+\item[(c)] What is the probability that all of Alice, Bob and Eve all obtain the same outcome, if they each measure their respective qubit in basis $\theta$? (Answer for a general $p$.)
+\end{enumerate}
+\tnote{answers to the questions will be important for the rest. Are they in the HW2 solutions? If not, maybe we should give them away, or find a way to replace whatever answer they got by a parameter, so they don't lose points later if they get it wrong here.}
+Let's continue with the BB84 protocol. We now consider a number of rounds $N=4n$. Suppose that in $2n$ of the rounds (exactly), Alice and Bob happen to make the same basis choice; call these the agreement rounds, $R\subseteq\{1,\ldots,N\}$. They select exactly $n$ of these rounds for testing; call these rounds the testing rounds, $T \subseteq R$. You may assume all rounds behave the same. 
+\begin{enumerate}
+\item[(d)] What is the expected number of errors (non-agreement of their measurement outcomes) that Alice and Bob will notice in the testing rounds $T$, as a function of $p$?
+\item[(e)] Invert the previous bound: as a function of the fraction $\delta$ of errors detected in the testing rounds, what is a reasonable estimate $\hat{p}$ for $p$ that Alice and Bob could come up with? 
+\item[(f)] Suppose Alice and Bob make a guess $\hat{p}$ for $p$ based on the method from the previous question. Using question (b), deduce a bound on the min-entropy $\Hmin(A|E)$ per round that they could estimate for the rounds in $K = R\backslash T$. 
+\item[(g)] Conclude: how many bits of key, as a function of $p$ and $N$, can Alice and Bob reasonably hope to generate from the protocol? \emph{[Hint: This is a subtle calculation. Alice and Bob will have to perform both information reconciliation and privacy amplification on the rounds in $K$. First, estimate the number of bits they will need to exchange to perform information reconciliation. Second, deduce a bound on the min-entropy of the resulting agreed-on string. Third, use the best privacy amplification method you know of to maximize the length of extracted key]}
+\tnote{I am not sure if this is too much. Maybe the question should be split in two. In any case I wouldn't want to put too many points on it: what's important is they get the idea, not necessarily every single number}
+\end{enumerate}
+
 \end{enumerate}
 \end{document}
 
