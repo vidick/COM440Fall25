@@ -27,7 +27,7 @@ This exercise sheet is designed to help you review the concepts discussed in the
 \begin{enumerate}
 
 %
-\item {\bf Thinking adversarially}\\
+\item {($\blacklozenge, *$) \bf Thinking adversarially}\\
 Let's imagine that we are Eve and we observe someone trying to implement a QKD protocol. Because QKD is hard they might try to cut corners in their implementations. In this problem we present three ``candidate'' protocols for key distribution. It is your job to try to break them! For each protocol, choose the step in which there is a mistake which allows you to break security.  \\
 {\bf Protocol 1:}
 \begin{enumerate}
@@ -45,7 +45,7 @@ Let's imagine that we are Eve and we observe someone trying to implement a QKD p
 \item Bob generates a string $\hat{\theta}$ and measures the second qubit in either the standard or Hadamard basis depending on $\hat{\theta}$, getting an output string $\chi$.
 \item Alice and Bob announce $\theta$ and $\chi$ over an authenticated channel.
 \item If $\chi_i=\theta_i$ then Bob measures the corresponding first qubit in the standard basis, obtaining a bit $\hat{x}_i$.
-\item Alice and Bob discard all data where $\chi\neq\theta_i$, and now share the string $\hat{x}$.
+\item Alice and Bob discard all data where $\chi_i\neq\theta_i$, and now share the string $\hat{x}$.
 \end{enumerate}
 {\bf Protocol 3:}
 \begin{enumerate}
@@ -62,36 +62,36 @@ Let's imagine that we are Eve and we observe someone trying to implement a QKD p
 %\emph{Protocol 3:} This protocol is not secure. It fails in step 6 because Alice and Bob do not check what fraction of their measurement results coincide. This allows Eve to perform the following attack: She intercepts Alice's qubits, and then creates another string of EPR pairs of which she sends one half of each to Bob. Alice and Bob measure in bases \(\theta, \hat{\theta}\) and announce these bases. Eve will measure her halves of the pairs she shares with Alice in \(\theta\) and the halves of the pairs she shares with Bob in \(\hat{\theta}\). Because she also knows when \(\theta_i = \hat{\theta}_i\) she now shares a key with Bob and a key with Alice, both of whom think they share a key with each other. Note that the protocol is also not correct since Alice and Bob both hold completely uncorrelated bit strings.
 %}
 
-\item {\bf Generating key using using an anonymous message board}\\
-Imagine that Alice and Bob have discovered an anonymous message board in the hallway. It allows both Alice and Bob to post messages in such a way that no one can ever find out who the message came from. In particular, any eavesdropper Eve cannot learn whether the message came from Alice or from Bob. The message board simply creates a list of messages posted to it, without indicating a sender. Alice and Bob come up with three candidate protocols.
+\item {(*) \bf Generating key using using an anonymous message board}\\
+Imagine that Alice and Bob have discovered an anonymous message board in the hallway. It allows both Alice and Bob to post messages in such a way that no adversary can ever find out who the message came from. In particular, Alice and Bob each have a one-way secret channel for transmitting messages to the board. They can ask the board to erase all messages, or to publish in a random order the messages it has received that have not been erased. In other words, when asked to publish the messages, the board simply creates in a random order a list of messages that has sent to it and has not been erased, without indicating a sender, and announces it publicly (so that any eavesdropper Eve can also see the announcement). Alice and Bob come up with the following candidate protocols.
 \begin{itemize}
 \item Protocol I
 \begin{itemize}
-\item Alice and Bob write a random bit on the board.
-\item If the bit of Alice is the same as the bit of Bob then they erase and start from step 1.
-\item If the bit of Alice is different than Bob's bit then the next bit of their key is Alice's bit.
-\item Alice or Bob erase the bits and repeat from step 1 until they have $n$ bits of key.
+\item Both Alice and Bob send a random bit to the board, and Alice tells Bob that she has done the first step in a classical authenticated channel (CAC).
+\item After receiving Alice's confirmation that the first step is done, Bob asks the board to publish the messages.
+\item If Alice's bit is the same as Bob's bit, then Bob asks the board to erase the messages and then tells Alice to restart from the first step in a CAC.
+\item If Alice's bit is different than Bob's bit then both Alice and Bob set Alice's bit as the next bit of their key. Alice asks the board to erase the bits and tells Bob to repeat from the first step until they have $n$ bits of key in a CAC.
 \end{itemize}
 \item Protocol II
 \begin{itemize}
-\item Alice starts by writing two bits on the board.
-\item If the second bit is $0$ they take the first bit as a key bit and they repeat step 1.
-\item If the second bit is $1$ they take the XOR of the two bits as a key bit and start from step 1 but now Bob writes instead of Alice.
+\item Alice starts by asking the board to erase the messages and then sending two fresh random bits on the board, and asks the board to publish the messages.
+\item If the second bit on the board is $0$ they take the first bit as a key bit and they repeat step 1.
+\item If the second bit on the board is $1$ they take the XOR of the two bits as a key bit and start from step 1 but now Bob writes instead of Alice.
 \item Alice or Bob execute this alternating protocol until they have $n$ bits of key.
 \end{itemize}
-\item Protocol III
-\begin{itemize}
-\item Alice and Bob each write $k<n$ random strings of $n$ bits on the board in a \emph{random} order.
-\item If Alice sees one of her strings followed by a Bob string she XOR's the two strings.
-\item If Bob sees one of his strings preceded by an Alice string he XOR's the two strings.
-\item Alice and Bob toss all strings that were never XOR'ed.
-\item Alice and Bob XOR all remaining strings together thus obtaining $n$ bits of key.
-\end{itemize}
+% \item Protocol III
+% \begin{itemize}
+% \item Alice and Bob each write $k<n$ random strings of $n$ bits on the board in a \emph{random} order.
+% \item If Alice sees one of her strings followed by a Bob string she XOR's the two strings.
+% \item If Bob sees one of his strings preceded by an Alice string he XOR's the two strings.
+% \item Alice and Bob toss all strings that were never XOR'ed.
+% \item Alice and Bob XOR all remaining strings together thus obtaining $n$ bits of key.
+% \end{itemize}
 \end{itemize}
 At the end of the day, we want that Alice and Bob both share an $n$-bit key (correctness), but Eve is ignorant about the key (security). 
 \begin{enumerate}
-\item Which of the above protocols is perfectly correct? (There is only one one!)
-%\solopen{The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence the will end up with an identical key. That the protocol is also secure is covered in the next question.}
+\item Is Protocol I is perfectly correct? Is Protocol II is perfectly correct?
+%\solopen{The correct protocol is protocol 1. Both Alice and Bob know which bit is Alice's (since they each know the bit they wrote down), and hence they will end up with an identical key. That the protocol is also secure is covered in the next question.}
 \item Which of the protocols is secure?
 %\solopen{If the two bits on the board are different, Eve does not know which one is Alice's and hence her best possible stratergy is to just pick one of the two bits as a potential key bit, on average she guesses the correct bit \(50\%\) of the time. This makes the protocol secure.}
 \item Can you come up with a different protocol that generates key?
