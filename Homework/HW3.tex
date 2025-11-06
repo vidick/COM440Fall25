@@ -87,28 +87,29 @@ behavior? For $p\in \big(0,\frac{1}{2}\big)$, which scheme is best?
 
 \item \emph{(6 points)} {\bf Establishing keys in the presence of a limited eavesdropper.}
 In all settings below, we assume that Alice and Bob are connected by a classical authenticated channel. 
-Your goal is to devise ways in which Alice and Bob can obtain a key in any of the situations below. \emph{[Hint: In both cases, start by evaluating $\Hmin(X|E)$ where $X$ is the string shared by Alice and Bob after transmission and $E$ is Eve's (classical) information about it.]}
+Your goal is to devise ways in which Alice and Bob can obtain a key in any of the situations below. \emph{[Hint: In both cases, start by evaluating $\Hmin(X|E)$ where $X$ is the string shared by Alice and Bob after transmission and $E$ is Eve's (classical) information about it. ]}
 \begin{enumerate}
-\item[(a)] Suppose that Alice and Bob are connected by a classical channel such that Eve learns each bit with probability exactly $q$, where we only know that
+\item[(a)] Suppose that Alice and Bob are connected by a classical channel such that with probability exactly $q$, Eve learns each bit, where we only know that
 $1/3 \leq q \leq 1/2$. (Bob always receives the correct bit.)
 Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key, where $\epsilon = 10^{-5}$. Explain why your protocol is secure. How many uses of the channel are required per bit of key produced? 
+\emph{[Hint: Ensure that you account for the number of channel uses required to transmit the seed for the strong seeded randomness extractor. Think about what is the seed length of the 2-universal hash function you use.]}
 \item[(b)] Suppose now that Alice and Bob are connected by a classical channel on which Eve can intercept bits arbitrarily. However, Eve's memory 
-is limited to $k = 1024$ bits. (Bob always receives the correct bit.) Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key where $\epsilon = 10^{-10}$. 
+is limited to $b = 1024$ bits. (Bob always receives the correct bit.) Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key where $\epsilon = 10^{-10}$. 
 Explain why your protocol is secure.
 \end{enumerate}
 
 
 \item \emph{(8 points)} {\bf Min-entropy from the matching outcomes bound}\label{ex:matching-min}\\
-This problem investigates a direct method to lower bound Alice and Bob's key extraction rate based on the probability that the matching-outcomes test succeeds. If we assume that the adversary Eve prepares $n$ identical and uncorrelated copies of the tripartite state $\ket{\Psi_{ABE}}$ and sends the qubits $A$ to Alice and $B$ to Bob, then as shown in Chapter 4 the key extraction rate can be asymptotically lower-bounded by the min-entropy $\Hmin(X|E)$ per round, where $X$ is the outcome of Alice's measurement on her qubit. The goal of this problem is to prove a lower bound on this quantity.
+This problem investigates a direct method to lower bound Alice and Bob's key extraction rate based on the probability that the matching-outcomes test succeeds. If we assume that the adversary Eve prepares $n$ identical and uncorrelated copies of the tripartite state $\ket{\Psi_{ABE}}$ and sends the qubits $A$ to Alice and $B$ to Bob, then as shown in notes the key extraction rate can be asymptotically lower-bounded by the min-entropy $\Hmin(X|E)$ per round, where $X$ is the outcome of Alice's measurement on her qubit. The goal of this problem is to prove a lower bound on this quantity.
 
 Recall that if Alice measures her qubit in the standard basis, and the resulting post-measurement state on her qubit and Eve's system $E$ is a classical-quantum (cq) state
 $$\rho_{XE} = \frac{1}{2}\ketbra{0}{0} \otimes \rho_E^{Z,0}+\frac{1}{2}\ketbra{1}{1} \otimes \rho_E^{Z,1},$$
 then since $X$ consists of a single bit as we saw in class the optimal guessing probability $P_{guess}(X|E)$ such that
 $$\Hmin(X|E) = - \log P_{guess}(X|E)$$
 is given by the optimal distinguishing measurement, for which
-$P_{guess}(X|E) = \frac{1}{2}+\frac{1}{4}\|\rho_E^{Z,0}-\rho_E^{Z,1}\|_1.$
+$P_{guess}(X|E) = \frac{1}{2}+\frac{1}{2}\|\rho_E^{Z,0}-\rho_E^{Z,1}\|_{tr}.$
 
-The same reasoning holds for any other choice of Alice's basis, notably the Hadamard basis $\{|+\rangle,|-\rangle\}$. In the BB'84 protocol Alice chooses with probability 1/2 one of the two bases in which to measure her qubit. If we denote by $P_{guess}(X|E,\Theta=X)$ and $P_{guess}(X|E,\Theta=1)$ the optimal guessing probabilities for Alice measuring in the standard ($\Theta=0$) and Hadamard ($\Theta=1$) bases respectively, the desired lower bound is given by
+The same reasoning holds for any other choice of Alice's basis, notably the Hadamard basis $\{|+\rangle,|-\rangle\}$. In the BB'84 protocol Alice chooses with probability 1/2 one of the two bases in which to measure her qubit. If we denote by $P_{guess}(X|E,\Theta=0)$ and $P_{guess}(X|E,\Theta=1)$ the optimal guessing probabilities for Alice measuring in the standard ($\Theta=0$) and Hadamard ($\Theta=1$) bases respectively, the desired lower bound is given by
 $$\Hmin(X|E\Theta) = -\log \left[\frac{1}{2}P_{guess}(X|E,\Theta=0)+\frac{1}{2}P_{guess}(X|E,\Theta=1)\right].$$
 \begin{enumerate}
 \item Suppose Alice and Bob share a pure EPR pair $\ket{\epr}$, uncorrelated with Eve's system: $\rho_{ABE} = \proj{\epr}_{AB} \otimes \rho_E$. What is $\Hmin(X|E)$?
@@ -122,7 +123,7 @@ $$\Hmin(X|E\Theta) = -\log \left[\frac{1}{2}P_{guess}(X|E,\Theta=0)+\frac{1}{2}P
 % \end{enumerate}
 %
 \item Now consider the general case, where $\ket{\Psi_{ABE}}$ is an arbitrary state prepared by Eve. Let $p$ be the probability that this state succeeds in the matching outcomes test, when Alice and Bob both measure in the same basis $\Theta$ chosen at random. Give coefficients $a,b,c$ such that
-$$p = a \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \id_E \ket{\Psi_{ABE}} + b\bra{\Psi_{ABE}} Z_A \otimes Z_B \otimes \id_E \ket{\Psi_{ABE}} + c,$$
+$$p = a \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \Id_E \ket{\Psi_{ABE}} + b\bra{\Psi_{ABE}} Z_A \otimes Z_B \otimes \Id_E \ket{\Psi_{ABE}} + c,$$
 where $X,Z$ are the Pauli observables $X = \ketbra{0}{1} + \ketbra{1}{0}$ and $Z = \ketbra{+}{-} + \ketbra{-}{+}$.
 %\solopen{We want to compute the probability that Alice and Bob obtain the same outcome. Suppose $\Theta = 0$, so that Alice and Bob both measure in the standard basis.
 %The expected value of the product of their measurement outcomes is $\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}$. If they make the same measurement, then the product of their measurements is $+1$. If they make different measurements, this product is $-1$.
@@ -135,9 +136,9 @@ where $X,Z$ are the Pauli observables $X = \ketbra{0}{1} + \ketbra{1}{0}$ and $Z
 %p_{\text{same}} = \frac12 p_{\text{same}\mid\Theta = 0} + \frac 12 p_{\text{same}\mid\Theta = 0}
 %= \frac12 + \frac 14\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}+ \frac 14\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.
 %\]}
-\item Let $p_X$ (resp. $p_Z$) be the probability that the state $\ket{\Psi_{ABE}}$ passes the matching outcomes test in the Hadamard (resp. computational) basis, so that $p=\frac{1}{2}(p_X+p_Z)$.
+\item 
 By expanding the qubit $A$ in the computational basis, the state $\ket{\Psi_{ABE}}$ can be expressed as $\ket{\Psi_{ABE}} = \ket{0}\otimes\ket{u_0}_{BE} + \ket{1}\otimes\ket{u_1}_{BE}$, with $\|\ket{u_0}_{BE}\|^2+\|\ket{u_1}_{BE}\|^2=1$. Give coefficients $a',b'$ such that
-$ \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \id_E \ket{\Psi_{ABE}} = a'\, \Re(\bra{u_0} X_B \otimes \id_E \ket{u_1}) + b'.$
+$ \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \Id_E \ket{\Psi_{ABE}} = a'\, \Re(\bra{u_0} X_B \otimes \Id_E \ket{u_1}) + b'.$
 %\solopen{
 %Applying the standard basis expansion suggested in the problem, along with the identity $X = \ketbra 01 + \ketbra 10$, we can rewrite $\bra{\Psi_{ABE}} X_A\otimes X_B \otimes I_E \ket{\Psi_{ABE}}$ as
 %\[
@@ -156,13 +157,16 @@ $ \bra{\Psi_{ABE}} X_A \otimes X_B \otimes \id_E \ket{\Psi_{ABE}} = a'\, \Re(\br
 %\]
 %}
 \end{enumerate}
-A similar bound can be obtained for $p_Z$.
+A similar equality can be obtained for $\bra{\Psi_{ABE}} Z_A \otimes Z_B \otimes \Id_E \ket{\Psi_{ABE}}$.
+
+%A similar bound can be obtained for $p_Z$.
+%Let $p_X$ (resp. $p_Z$) be the probability that the state $\ket{\Psi_{ABE}}$ passes the matching outcomes test in the Hadamard (resp. computational) basis, so that $p=\frac{1}{2}(p_X+p_Z)$.
 
 Suppose Alice measures her qubit in the computational basis: the post-measurement state on $A$ and $E$ (tracing out $B$) can be written as $\rho_{AE}^Z = \ketbra{0}{0}_A\otimes \sigma_E^{Z,0} + \ketbra{1}{1}_A\otimes \sigma_E^{Z,1}$. Similarly, if Alice measures in the Hadamard basis we may write the post-measurement state as $\rho_{AE}^X = \ketbra{+}{+}_A\otimes \sigma_E^{X,+} + \ketbra{-}{-}_A\otimes \sigma_E^{X,-}$.
 \begin{enumerate}
 \item[(d)] Use the previous two questions to determine coefficients $\alpha,\beta$ such that
 $$ 2p-1 \leq \alpha F(\sigma_E^{X,0},\sigma_E^{X,1}) + \beta F(\sigma_E^{Z,+},\sigma_E^{Z,-})$$
-where $F$ denotes the fidelity. [Hint: observe that $\ket{u_0}_{BE}$ and $\ket{u_1}_{BE}$ considered in the previous question are purifications of $\sigma_E^{Z,0}$ and $\sigma_E^{Z,1}$ respectively, and use Uhlmann's theorem]
+where $F$ denotes the fidelity. \emph{[Hint: observe that $\ket{u_0}_{BE}$ and $\ket{u_1}_{BE}$ considered in the previous question are purifications of $\sigma_E^{Z,0}$ and $\sigma_E^{Z,1}$ respectively, and use Uhlmann's theorem]}
 %\solopen{First, observe that by part b),
 %\[
 % 2p-1
