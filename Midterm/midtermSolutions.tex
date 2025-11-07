@@ -20,62 +20,62 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 1} \hfill {\bf due: 12:59PM, October 8th, 2019}
+{\bf Partial Midterm Solutions} \hfill %{\bf due: 12:59PM, October 8th, 2019}
 
 
 \medskip
 
 \hrule
 
-\medskip 
-
-Ground rules: 
-
-{\bf Please
-  format your solutions so that each problem begins on a new page, and
-  so that your name appears at the top of each page.}
-
-You are encouraged to collaborate with your classmates on
-homework problems, but each person must write up the final solutions
-individually. You should note on your homework specifically which
-problems were a collaborative effort and with whom. You may not search
-online for solutions, but if you do use research papers or other
-sources in your solutions, you must cite them.
-
-Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of a dean. We will grade as many problems as possible, but sometimes one or two problems will not be graded. Your lowest homework grade of the semester will be dropped from your final grade.
-
-
-\medskip
-
-\hrule
 
  
 \medskip
-{\bf Problems:}
 
 \begin{enumerate}
 		
-\item {\bf An optimal attack}\label{ex:opt-wiesner}
- 
-
-
-
-
+\item \textbf{Superdense Coding.}
+\begin{enumerate}
+\item Here one has to be careful about the task. Clearly you are being asked to evaluate a guessing probability. On what state? If we label Alice's two bits as $x,\theta\in\{0,1\}$ then we can write the qubit that encodes them as $\ket{x}_\theta$. The joint state of Alice's bits and the encoded qubit is a cq state $\rho_{X\Theta E} = \frac{1}{4} \sum_{x,\theta} \proj{x}\otimes\proj{\theta} \otimes \proj{x}_\theta$. We know that $P_{guess}(X\Theta|E)=2^{-H_{min}(X\Theta|E)}$. To evaluate this last term, we note that by the chain rule $H_{min}(X\Theta|E)\geq H_{min}(X\Theta)-\log|E|$. The first term is the min-entropy of two uniformly random bits, so it equals $2$; and the second term is the size of $E$ in qubits, which is $1$. Therefore, we have established $P_{guess}(X\Theta|E)\leq \frac{1}{2}$. To show that there is equality we design a guessing strategy: Eve measures $E$ in the standard basis, obtains an outcome $y\in\{0,1\}$ and returns $(y,0)$ as her two bits. This is correct with probability $1$ in case the basis was indeed the standard basis, i.e.\ $\theta=0$, and it is correct with probability $0$ in case $\theta=1$. Overall, the success probability is $\frac{1}{2}$.  
+ \end{enumerate}
+The other questions were solved well and we do not detail the solution. 
 
 
 \item  \textbf{Secret sharing among three people.}
-\begin{enumerate}[(a)]
-\item We directly calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{A} & = \text{Tr}_{BC}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\text{tr}(\ketbra{0}0_B)\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\text{tr}(\ketbra{1}1_B)\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A + \ketbra{1}1_A) \\ & = \frac{\mathbb{I}}2\end{aligned}$$ We similarly have $\rho_B =\frac{1}2(\ketbra{0}0_B + \ketbra{1}1_B) = \frac{\mathbb{I}}2$ and $\rho_C = \frac{1}2(\ketbra{0}0_C + \ketbra{1}1_C) = \frac{\mathbb{I}}2$. Notice that this state is independent of $b$ and so any measurement these people take alone will be independent of $b$, and the secret cannot be retrieved on their own. \\ 
+\begin{enumerate}
+\item We directly calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{A} & = \text{Tr}_{BC}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\text{tr}(\ketbra{0}0_B)\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\text{tr}(\ketbra{1}1_B)\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A + \ketbra{1}1_A) \\ & = \frac{\mathbb{I}}2\end{aligned}$$ We similarly have $\rho_B =\frac{1}2(\ketbra{0}0_B + \ketbra{1}1_B) = \frac{\mathbb{I}}2$ and $\rho_C = \frac{1}2(\ketbra{0}0_C + \ketbra{1}1_C) = \frac{\mathbb{I}}2$. This state is independent of $b$ and so any measurement on a single system will lead to an outcome distribution that is independent of $b$: the secret cannot be retrieved by one party only. \\ 
 
-\item Again calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{AB} & = \text{Tr}_{C}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\ketbra{0}0_B\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\ketbra{1}1_B\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A\otimes \ketbra{0}0_B + \ketbra{1}1_A\otimes \ketbra{1}1_B) \\ & = \frac{1}2(\ketbra{00}{00}_{AB} + \ketbra{11}{11}_{AB})\end{aligned}$$ and similarly $\rho_{BC} = \frac{1}2(\ketbra{00}{00}_{BC} + \ketbra{11}{11}_{BC})$ and $\rho_{AC} = \frac{1}2(\ketbra{00}{00}_{AC} + \ketbra{11}{11}_{AC})$. Again, we see that these densities are independent of $B$, so any measurement made by any pair of people will not give information about $b$.
+\item Again calculate one matrix and use the symmetry among $A,B,C$ to extrapolate the others. $$\begin{aligned}\rho_{AB} & = \text{Tr}_{C}(\ketbra{\Psi}\Psi) \\  & = \frac{1}2(\ketbra{0}0_A\otimes\ketbra{0}0_B\otimes \text{tr}(\ketbra{0}0_C) + (-1)^{2b} \ketbra{1}1_A\otimes\ketbra{1}1_B\otimes \text{tr}(\ketbra{1}1_C)) \\ & = \frac{1}2(\ketbra{0}0_A\otimes \ketbra{0}0_B + \ketbra{1}1_A\otimes \ketbra{1}1_B) \\ & = \frac{1}2(\ketbra{00}{00}_{AB} + \ketbra{11}{11}_{AB})\end{aligned}$$ and similarly $\rho_{BC} = \frac{1}2(\ketbra{00}{00}_{BC} + \ketbra{11}{11}_{BC})$ and $\rho_{AC} = \frac{1}2(\ketbra{00}{00}_{AC} + \ketbra{11}{11}_{AC})$.  These densities are independent of $b$, so any measurement made by any pair will not give information about $b$.
 
 \item Have Alice, Bob, and Charlie apply the Hadamard operation on their qubit to get the new state $$\ket{\Psi_0} = \frac{1}4((\ket{0}+\ket{1})^3 + (\ket{0}-\ket{1})^3) = \frac{1}4((\ket{000}+\ket{011}+\ket{110}+\ket{101})$$ if $b=0$ and the new state $$ \ket{\Psi_1} = \frac{1}4((\ket{0}+\ket{1})^3 - (\ket{0} - \ket{1})^3) = \frac{1}4 (\ket{001}+\ket{010}+\ket{100}+\ket{111})$$ if $b=1$. Next, we have Alice, Bob, and Charlie measure their qubits. Note by inspection, the tensor product of all three observations must either be in the set $$S_0 = \{\ket{0}_A\ket{0}_B\ket{0}_C, \ket{0}_A\ket{1}_B\ket{1}_C,  \ket{1}_A\ket{1}_B\ket{0}_C,\ket{1}_A\ket{0}_B\ket{1}_C\}$$ if $b=0$, and must be in the set $$S_1 = \{\ket{0}_A\ket{0}_B\ket{1}_C, \ket{0}_A\ket{1}_B\ket{0}_C,  \ket{1}_A\ket{0}_B\ket{0}_C,\ket{1}_A\ket{1}_B\ket{1}_C\}$$ if $b=1$. \\ 
 
  Hence we can have Alice and Bob send their measurement to Charlie, and Charlie will see whether their collective measurements are in $S_0$ or $S_1$ to recover $b$.
 \end{enumerate} 
 
+\item {\bf Quantum money security variant.}
+The scheme is \emph{not} secure under the new security definition. Consider the following adversary, which runs in exponential time. The adversary ignores the quantum bill sent by the challenger. Instead, for every possible pair $x,\theta\in \{0,1\}^n$ the adversary does the following: prepare the $n$-qubit state $\ket{x}_\theta$ and send it for verification. If verification fails, proceed to the next pair $x,\theta$. If it succeeds, then prepare two fresh copies of $\ket{x}_\theta$ (which is possible since $x,\theta$ are known) and submit them as response to the challenger. This adversary succeeds with probability $1$, after at most $2^n\times 2^n$ attempts at verification. 
 
 
+\item {\bf Inner product extractor.}
+\begin{enumerate}
+\item The family is not $2$-universal (in fact, it is not even $1$-universal) because for the case where $x=0^n$, $x'\neq x$, $z=1$ and $z'$ arbitrary we calculate $\Pr_y[f_y(x)=z \wedge f_y(x')=z')=0$ (because $f_y(0^n)=0$ for all $y$), and not $\frac{1}{4}$ as would be required for a $2$-universal family (note that here the parameter $m=1$).
+\begin{enumerate}
+\item This question could be approached in different ways. One possibility is to use the characterization of the trace norm as $\|\sigma_{0,y}-\sigma_{1,y}\|_{tr}=\sup_{0\leq M \leq \Id} \Tr(M(\sigma_{0,y}-\sigma_{1,y}))$. Because $0\leq M\leq \Id$ the right-hand side is always at most $1$. For there to be equality, for the optimal $M$ we must have $\Tr(M\sigma_{0,y})=1$ and $\Tr(M\sigma_{0,y})=0$. Now we can see that if we replace $M$ by the projection $P$ on its support (i.e.\ round the singular values to $1$, unless they are $0$) the condition $\Tr(P\sigma_{0,y})=0$ still holds but $\Tr(P\sigma_{1,y})\geq \Tr(M\sigma_{1,y})=1$. Since of course $\Tr(P\sigma_{1,y})\leq \Tr(\sigma_{1,y})=1$, we are done. 
+\item Let $P_y$ be the projection obtained in the previous question. We verify that the map 
+\[ U:\ket{\psi}_E\ket{y}_Y\ket{0}_A \mapsto P_y\ket{\psi}_E\ket{y}_Y\ket{0}_A +(\Id-P_y)\ket{\psi}_E\ket{y}_Y\ket{1}_A \;,\]
+defined as such on every state $\ket{\psi}_E$ and $\ket{y}$, can be extended into a valid unitary. This is verified by checking that inner products are preserved, i.e. for any $\ket{\psi}_E$, $\ket{\psi'}_E$ and $y,y'$, 
+\begin{align*}
+\big(P_y\ket{\psi}_E\ket{y}_Y\ket{0}_A &+(\Id-P_y)\ket{\psi}_E\ket{y}_Y\ket{1}_A\big)^\dagger\cdot\big(P_{y'}\ket{\psi'}_E\ket{y'}_Y\ket{0}_A \\
+&\qquad\qquad+(\Id-P_{y'})\ket{\psi'}_E\ket{y'}_Y\ket{1}_A\big)\\
+&= \delta_{yy'} \bra{\psi}_E P_y \ket{\psi'}_E + \bra{\psi}_E (\Id-P_y) \ket{\psi'}_E \\
+&= \delta_{yy'} \langle \psi \ket{\psi'}_E\;,
+\end{align*}
+where for the last two lines we used that $P_y$ is an orthogonal projection (and in particular $P_y(\Id-P_y)=0$). 
+\item This is a direct calculation and we find 
+\[U'\ket{\psi_x}_E\ket{y}_Y\ket{0}_A\ket{-}_B=(-1)^{x\cdot y}\ket{\psi_x}_E\ket{y}_Y\ket{0}_A\ket{-}_B\;.\]
+\item Given $\ket{\psi_x}$, $V$ first applies some Hadamards on the $Y$ register to create $\frac{1}{\sqrt{2^n}}\sum_y \ket{y}$. It also applies an $X$ followed by a Hadamard on $B$ to create a $\ket{-}$. It then applies $U'$ from the previous question, and undoes all the Hadamards and the $X$. This amounts to performing a QFT and the result is exactly the one desired. 
+\item We see that assumption (2) implies that it is possible to exactly recover $X$ from $E$, and thus this is only possible in case $H_{min}(X|E)=0$.
+\end{enumerate}
+\end{enumerate}
 
 
 \end{enumerate}
