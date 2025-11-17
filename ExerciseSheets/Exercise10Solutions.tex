@@ -1,0 +1,164 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 10}
+
+
+\begin{enumerate}
+
+
+
+\item {\bf A Weak Coin Flipping Protocol}
+\begin{enumerate}
+\item We see from the description of steps 3 and 4 that when Alice and Bob are honest, they always both return the same outcome $c=a\oplus b$. Since $a$ and $b$ are both chosen uniformly at random, $c$ is also uniformly random. Therefore, the protocol is correct. 
+
+\item Bob's reduced density matrix after step 1 is 
+\begin{align*}
+\rho_a &= \Tr_A(\ket{\psi_{a}}\bra{\psi_a}) = \frac12 \Tr_A \big((\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )(\bra{0}\bra{\psi_{a,0}}+\bra{1}\bra{\psi_{a,1}})\big) \\
+&= \frac12 (\ket{\psi_{a,0}}\bra{\psi_{a,0}} + \ket{\psi_{a,1}}\bra{\psi_{a,1}})\;.
+\end{align*}
+Simplifying the latter gives
+\begin{equation*}
+\rho_a = \cos^2(\frac{\alpha}{2}) \proj{0}  +\sin^2(\frac{\alpha}{2}) \proj{a+1}\;.
+\end{equation*}
+
+\item Recalling the interpretation of the fidelity as the square root of the probability that Alice can convince Bob that a state is another. Hence the probability that Alice wins given that Bob sent $b$ is precisely $F^2(\sigma_b, \ket{\psi_b}\bra{\psi_b})$, and this can be upper bounded (tracing out the qubit system) by $F^2(\sigma, \rho_b)$.
+
+\item
+\begin{align*}
+	\Pr(\mbox{Alice wins}) &= \frac12 \big(\Pr(\mbox{Alice wins} | b = 0)+ \Pr(\mbox{Alice wins} | b = 1) \big) \\
+	&\leq \frac12 \big(F^2(\sigma, \rho_0)+F^2(\sigma, \rho_1)\big)\;.
+\end{align*}
+Using the fact from the hint we get
+\begin{equation*}
+\Pr\big(\mbox{Alice wins}\big) \leq \frac12\big(1+F(\rho_0, \rho_1)\big)\;.
+\end{equation*}
+Finally, we can calculate $F(\rho_0, \rho_1) = \|\sqrt{\rho_0}\sqrt{\rho_1} \|_{tr} = \cos^2(\frac{\alpha}{2})$, which gives us the desired bound.
+
+\item The state possessed by Alice after Bob has applied $U$ and returned his qutrit to Alice is
+\begin{equation*}
+\id\otimes U \ket{\psi_a} = \id\otimes U \frac{1}{\sqrt{2}}(\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )\;,
+\end{equation*}
+which is
+\begin{equation*}
+\frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) + \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big)\;.
+\end{equation*}
+The probability of Bob winning, given that Alice has picked $a$, is the modulus squared of the overlap between the honest state $\ket{\psi_a}$ expected by Alice and the state after Bob's unitary, that is
+\begin{align*}
+\Big|\bra{\psi_a} \otimes \id  &\cdot \frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\\
+& \qquad\qquad+ \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big) \Big|^2 \\
+&= \frac14 \Big|\bra{\psi_{a,0}}\otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \\
+&\qquad\qquad+ \bra{\psi_{a,1}} \otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \Big|^2\;.
+\end{align*}
+Substituting the definitions of $\ket{\psi_{a,0}}$ and $\ket{\psi_{a,1}}$ gives, after simplification,
+\begin{equation*}
+\Pr(\mbox{Bob wins $|$ Alice sent $a$} ) =| \cos^2\frac{\alpha}{2} \bra{0}\otimes I \ket{\xi_{0,\bar{a}}} + \sin^2\frac{\alpha}{2} \bra{a+1} \otimes I \ket{\xi_{a+1,\bar{a}}}|^2\;.
+\end{equation*}
+
+\item Yes, it should be!
+
+\item You are told that 
+\[\Pr(\mbox{Bob wins} | \mbox{Alice picked $a$}) \leq \Big(\cos^2(\frac{\alpha}{2}) \|\ket{\xi_{0,\bar{a}}}\| + \sin^2(\frac{\alpha}{2})\Big)^2\;.\]
+You can bound $\Pr(\mbox{Bob wins})$ by averaging the latter bound over $a \in \{0,1\}$. This is maximized when $\|\ket{\xi_{0,0}}\| = \|\ket{\xi_{0,1}}\| = \frac{1}{\sqrt{2}}$ (recall that $\|\ket{\xi_{0,0}}\|^2 + \|\ket{\xi_{0,1}}\|^2 = 1$). \\
+Thus, $\Pr(\mbox{Bob wins})$ is bounded by $\Big( \frac{1}{\sqrt{2}}\cos^2(\frac{\alpha}{2}) +\sin^2(\frac{\alpha}{2})\Big)^2$.
+
+\item The bias is minimized by choosing $\alpha$ that makes Alice and Bob's probabilities of dishonestly winning equal. That is, from the tight bounds found earlier, $\alpha$ such that
+\begin{equation*}
+\frac12(1+\cos^2\frac{\alpha}{2}) = \Big(\frac{1}{\sqrt{2}}\cos^2\frac{\alpha}{2} + \sin^2\frac{\alpha}{2}\Big)^2\;.
+\end{equation*}
+Solving for $\alpha$ makes the two sides equal to $0.739$, i.e. no player can win with probability greater than $0.739$. Thus the bias is $0.239$.
+\end{enumerate}
+
+\item {\bf A Simple Quantum Bit Commitment Protocol}
+\begin{enumerate}
+\item $\rho_b = \Tr_1(\ket{\psi_b}\bra{\psi_b}) = \alpha \proj{b} + (1-\alpha) \proj{2}$.
+
+\item Recall that the optimal probability with which Bob can distinguish between two states $\rho$ and $\sigma$ is $\frac12 + \frac14 \|\rho-\sigma\|_{tr}$.
+In our protocol, Bob's cheating probability is the optimal probability with which he can distinguish between Alice commiting to $0$ or to $1$, i.e. between $\rho_0$ and $\rho_1$. 
+So 
+\[ P_B^{*} = \frac12 + \frac14 \|\rho_0 - \rho_1\| = \frac12 + \frac{\alpha}{4} \| \ket{0}\bra{0}- \ket{1}\bra{1}\|_{tr} = \frac12 + \frac{\alpha}{2}\;.\]
+
+\item The probability that Alice successfully opens bit $b$ equals the probability that she passes Bob's check for $b$ at the end of the protocol, i.e. that Bob measures his part of the joint state and gets the honest $\ket{\psi_b}$ as the outcome:
+\begin{align*}
+\Pr(\mbox{Alice successfully opens $b$}) &= \sum_{i} p_i |\braket{\psi_b}{\tilde{\psi_{i,b}}}|^2 \\
+&= F^2(\sigma_b, \ket{\psi_b}\bra{\psi_b})\;.
+\end{align*}
+Now, tracing out the system $\mathcal{H}_s$, and using the fact that the fidelity is non-decreasing under taking partial trace, we have
+\begin{align*}
+\Pr(\mbox{Alice successfully opens $b$}) &\leq F^2\Big(Tr_{\mathcal{H}_s}(\sigma_b), \Tr_{\mathcal{H}_s}(\ket{\psi_b}\bra{\psi_b})\Big)\\
+& = F^2(\sigma, \rho_b)\;.
+\end{align*}
+Hence
+\begin{equation*}
+P_A^* \leq \frac{1}{2} \big( F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1) \big)\;.
+\end{equation*}
+
+\item From the previous problem we have that $P_A^* \leq \frac12 \Big(F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1)\Big)$.\\
+Applying the bound in the hint, we have $P_A^* \leq \frac12 \Big(1 + F(\rho_0, \rho_1)\Big)$. \\
+Now, one can compute $F(\rho_0, \rho_1) = 1-\alpha$. So, substituting gives $P_A^* \leq 1-\frac{\alpha}{2}$.
+
+\item When solving question 3, you found that 
+\[\Pr(\mbox{Alice successfully opens b}) = F^2(\sigma_b, \proj{\psi_b})\;.\]
+Now, when Alice dishonestly prepares the state $\ket{\psi_0} + \ket{\psi_1}$ normalized, the fidelity is between two pure states. Thus,
+\begin{equation*}
+\Pr(\mbox{Alice successfully opens b}) = \Big|(\bra{\psi_0}+\bra{\psi_1}) \ket{\psi_b}\Big|^2/\Big\|\ket{\psi_0}+\ket{\psi_1} \Big\|^2\;.
+\end{equation*}
+Now, one can easily compute $\|\ket{\psi_0}+\ket{\psi_1} \|^2 = 2(2-\alpha)$, and $|\bra{\psi_0}+\bra{\psi_1} \ket{\psi_b}|^2 = (2-\alpha)^2$.
+Clearly, by symmetry 
+\[\Pr(\mbox{Alice successfully opens 0}) = \Pr(\mbox{Alice successfully opens 1})\;.\] Hence,
+\begin{equation}
+P_A^* = \frac{(2-\alpha)^2}{2(2-\alpha)} = 1-\frac{\alpha}{2}\;,
+\end{equation}
+which achieves the upper bound.
+With similar calculations, one can check that options II and III do not achieve the upper bound.
+
+\item To minimize the cheating probability, one just needs to pick $\alpha$ such that $P_A^* = P_B^*$, i.e. $\frac12(1+\alpha) = 1-\frac{\alpha}{2}$.\\
+Solving for $\alpha$ gives $\alpha = \frac12$, which implies $P_A^* = P_B^* = \frac34$. And the latter is the cheating probability.
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
