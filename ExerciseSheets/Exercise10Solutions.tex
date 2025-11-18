@@ -88,53 +88,6 @@ Thus, $\Pr(\mbox{Bob wins})$ is bounded by $\Big( \frac{1}{\sqrt{2}}\cos^2(\frac
 Solving for $\alpha$ makes the two sides equal to $0.739$, i.e. no player can win with probability greater than $0.739$. Thus the bias is $0.239$.
 \end{enumerate}
 
-\item {\bf A Simple Quantum Bit Commitment Protocol}
-\begin{enumerate}
-\item $\rho_b = \Tr_1(\ket{\psi_b}\bra{\psi_b}) = \alpha \proj{b} + (1-\alpha) \proj{2}$.
-
-\item Recall that the optimal probability with which Bob can distinguish between two states $\rho$ and $\sigma$ is $\frac12 + \frac14 \|\rho-\sigma\|_{tr}$.
-In our protocol, Bob's cheating probability is the optimal probability with which he can distinguish between Alice commiting to $0$ or to $1$, i.e. between $\rho_0$ and $\rho_1$. 
-So 
-\[ P_B^{*} = \frac12 + \frac14 \|\rho_0 - \rho_1\| = \frac12 + \frac{\alpha}{4} \| \ket{0}\bra{0}- \ket{1}\bra{1}\|_{tr} = \frac12 + \frac{\alpha}{2}\;.\]
-
-\item The probability that Alice successfully opens bit $b$ equals the probability that she passes Bob's check for $b$ at the end of the protocol, i.e. that Bob measures his part of the joint state and gets the honest $\ket{\psi_b}$ as the outcome:
-\begin{align*}
-\Pr(\mbox{Alice successfully opens $b$}) &= \sum_{i} p_i |\braket{\psi_b}{\tilde{\psi_{i,b}}}|^2 \\
-&= F^2(\sigma_b, \ket{\psi_b}\bra{\psi_b})\;.
-\end{align*}
-Now, tracing out the system $\mathcal{H}_s$, and using the fact that the fidelity is non-decreasing under taking partial trace, we have
-\begin{align*}
-\Pr(\mbox{Alice successfully opens $b$}) &\leq F^2\Big(Tr_{\mathcal{H}_s}(\sigma_b), \Tr_{\mathcal{H}_s}(\ket{\psi_b}\bra{\psi_b})\Big)\\
-& = F^2(\sigma, \rho_b)\;.
-\end{align*}
-Hence
-\begin{equation*}
-P_A^* \leq \frac{1}{2} \big( F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1) \big)\;.
-\end{equation*}
-
-\item From the previous problem we have that $P_A^* \leq \frac12 \Big(F^2(\sigma, \rho_0) + F^2(\sigma, \rho_1)\Big)$.\\
-Applying the bound in the hint, we have $P_A^* \leq \frac12 \Big(1 + F(\rho_0, \rho_1)\Big)$. \\
-Now, one can compute $F(\rho_0, \rho_1) = 1-\alpha$. So, substituting gives $P_A^* \leq 1-\frac{\alpha}{2}$.
-
-\item When solving question 3, you found that 
-\[\Pr(\mbox{Alice successfully opens b}) = F^2(\sigma_b, \proj{\psi_b})\;.\]
-Now, when Alice dishonestly prepares the state $\ket{\psi_0} + \ket{\psi_1}$ normalized, the fidelity is between two pure states. Thus,
-\begin{equation*}
-\Pr(\mbox{Alice successfully opens b}) = \Big|(\bra{\psi_0}+\bra{\psi_1}) \ket{\psi_b}\Big|^2/\Big\|\ket{\psi_0}+\ket{\psi_1} \Big\|^2\;.
-\end{equation*}
-Now, one can easily compute $\|\ket{\psi_0}+\ket{\psi_1} \|^2 = 2(2-\alpha)$, and $|\bra{\psi_0}+\bra{\psi_1} \ket{\psi_b}|^2 = (2-\alpha)^2$.
-Clearly, by symmetry 
-\[\Pr(\mbox{Alice successfully opens 0}) = \Pr(\mbox{Alice successfully opens 1})\;.\] Hence,
-\begin{equation}
-P_A^* = \frac{(2-\alpha)^2}{2(2-\alpha)} = 1-\frac{\alpha}{2}\;,
-\end{equation}
-which achieves the upper bound.
-With similar calculations, one can check that options II and III do not achieve the upper bound.
-
-\item To minimize the cheating probability, one just needs to pick $\alpha$ such that $P_A^* = P_B^*$, i.e. $\frac12(1+\alpha) = 1-\frac{\alpha}{2}$.\\
-Solving for $\alpha$ gives $\alpha = \frac12$, which implies $P_A^* = P_B^* = \frac34$. And the latter is the cheating probability.
-\end{enumerate}
-
 
 \end{enumerate}
 
