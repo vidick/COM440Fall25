@@ -56,25 +56,32 @@ Finally, we can calculate $F(\rho_0, \rho_1) = \|\sqrt{\rho_0}\sqrt{\rho_1} \|_{
 
 \item The state possessed by Alice after Bob has applied $U$ and returned his qutrit to Alice is
 \begin{equation*}
-\id\otimes U \ket{\psi_a} = \id\otimes U \frac{1}{\sqrt{2}}(\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )\;,
+\Id\otimes U \ket{\psi_a} = \Id\otimes U \frac{1}{\sqrt{2}}(\ket{0} \ket{\psi_{a,0}} + \ket{1} \ket{\psi_{a,1}} )\;,
 \end{equation*}
 which is
-\begin{equation*}
-\frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) + \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big)\;.
-\end{equation*}
-The probability of Bob winning, given that Alice has picked $a$, is the modulus squared of the overlap between the honest state $\ket{\psi_a}$ expected by Alice and the state after Bob's unitary, that is
 \begin{align*}
-\Big|\bra{\psi_a} \otimes \id  &\cdot \frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\\
+&\frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) + \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big)\ket{\bar{a}}\\
+&+\frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, a}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, a}}\Big) + \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, a}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, a}}\Big)\Big)\ket{a}\;.
+\end{align*}
+
+The probability of Bob winning, given that Alice has picked $a$, is the modulus squared of the overlap between the honest state $\ket{\psi_a}$ expected by Alice and the state after Bob's unitary conditioned on that Bob sends back $\bar{a}$, that is
+\begin{align*}
+\Big|\bra{\psi_a} \otimes \Id  &\cdot \frac{1}{\sqrt{2}} \Big( \ket{0}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\\
 & \qquad\qquad+ \ket{1}\Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big)\Big) \Big|^2 \\
-&= \frac14 \Big|\bra{\psi_{a,0}}\otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \\
-&\qquad\qquad+ \bra{\psi_{a,1}} \otimes I \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \Big|^2\;.
+&= \frac14 \Big|\bra{\psi_{a,0}}\otimes \Id \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} + \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \\
+&\qquad\qquad+ \bra{\psi_{a,1}} \otimes \Id \Big(\cos\frac{\alpha}{2} \ket{\xi_{0, \bar{a}}} - \sin\frac{\alpha}{2} \ket{\xi_{a+1, \bar{a}}}\Big) \Big|^2\;.
 \end{align*}
 Substituting the definitions of $\ket{\psi_{a,0}}$ and $\ket{\psi_{a,1}}$ gives, after simplification,
 \begin{equation*}
-\Pr(\mbox{Bob wins $|$ Alice sent $a$} ) =| \cos^2\frac{\alpha}{2} \bra{0}\otimes I \ket{\xi_{0,\bar{a}}} + \sin^2\frac{\alpha}{2} \bra{a+1} \otimes I \ket{\xi_{a+1,\bar{a}}}|^2\;.
+\Pr(\mbox{Bob wins $|$ Alice sent $a$} ) =| \cos^2\frac{\alpha}{2} \bra{0}\otimes \Id \ket{\xi_{0,\bar{a}}} + \sin^2\frac{\alpha}{2} \bra{a+1} \otimes \Id \ket{\xi_{a+1,\bar{a}}}|^2\;.
 \end{equation*}
 
 \item Yes, it should be!
+\begin{align*}
+&|\cos^2\frac{\alpha}{2} \bra{0}\otimes \Id \ket{\xi_{0,\bar{a}}} + \sin^2\frac{\alpha}{2} \bra{a+1} \otimes \Id \ket{\xi_{a+1,\bar{a}}}|^2\\
+\leq & \left(\cos^2\frac{\alpha}{2} |\bra{0}\otimes \Id \ket{\xi_{0,\bar{a}}}| + \sin^2\frac{\alpha}{2} |\bra{a+1} \otimes \Id \ket{\xi_{a+1,\bar{a}}}|\right)^2\\
+\leq & \left(\cos^2\frac{\alpha}{2} \|\ket{\xi_{0,\bar{a}}}\| + \sin^2\frac{\alpha}{2} \right)^2\;.
+\end{align*}
 
 \item You are told that 
 \[\Pr(\mbox{Bob wins} | \mbox{Alice picked $a$}) \leq \Big(\cos^2(\frac{\alpha}{2}) \|\ket{\xi_{0,\bar{a}}}\| + \sin^2(\frac{\alpha}{2})\Big)^2\;.\]
