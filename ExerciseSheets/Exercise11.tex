@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise \# 11}
+
+This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
+
+\begin{enumerate}
+
+\item {(*, $\blacklozenge$)\bf Coin flipping from bit commitment} \\
+Suppose given a scheme for bit commitment that is $\eps_h$-hiding (i.e. Bob can guess Alice's commited bit with probabilitiy at most $\frac12+\eps_h$) and $\eps_b$ binding (i.e. the maximum probabilities with which Alice can force a $0$ or a $1$ outcome, for a given commitment phase, satisfy $p_0+p_1\leq 1+\eps_b$). 
+\begin{enumerate}
+\item Design a simple protocol for coin-flipping, using the bit commitment scheme. 
+\item Determine the maximum bias of the coin flipping protocol, for both cheating Alice and cheating Bob, as a function of $\eps_h$ and $\eps_b$. 
+\end{enumerate}
+
+\item {(*)\bf Different flavors of oblivious transfer} \\
+The variant of oblivious transfer that we saw in class is called $1$-out-of-$2$ OT, because Bob obtains one out of two possible Alice inputs. (For this problem, we consider only the case $\ell=1$, i.e. Alice has two bits as inputs.) We can consider a couple other variants: 
+\begin{itemize}
+\item Rabin OT: Alice transmits a bit $b$ to Bob, who receives $b$ with probability $1/2$ while
+Alice does not know which is the case. That is, the output of Bob is either $b$ or $\bot$
+(indicating that the bit was not received).
+\item $1$-out-of-$k$ OT for $k > 2$: Alice holds $k$ bits $b_1,\ldots,b_k$. For $c\in\{1,\ldots, k\}$ of Bob’s
+choice, he can learn $b_c$ but none of the others, and Alice does not learn $c$.
+\end{itemize}
+Prove the equivalence of these three variants, by providing the following reductions:
+\begin{enumerate}
+\item $1$-out-of-$k$ OT $\implies$ $1$-out-of-$2$ OT
+\item $1$-out-of-$2$ OT $\implies$ $1$-out-of-$k$ OT \emph{[Hint: In your protocol, the sender should choose $k$ random bits and invoke the $1$-out-of-$2$ OT protocol $k$ times.]}
+\item $1$-out-of-$2$ OT $\implies$ Rabin OT
+\item Rabin OT $\implies$ $1$-out-of-$2$ OT \emph{[Hint: Use Rabin OT to send sufficiently many random bits. In your protocol, the
+receiver might learn both bits, but with negligible probability only.]}
+\end{enumerate}
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

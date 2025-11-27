@@ -1,0 +1,228 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+\usepackage{tikz}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise Solution \# 11}
+
+
+\begin{enumerate}
+
+
+
+\item {\bf Coin flipping from bit commitment}
+\begin{enumerate}
+\item  Alice and Bob use the following protocol:
+
+\begin{tikzpicture}[>=stealth]
+
+% Titles
+\node at (-1,0)  {\bf Alice};
+\node at (12,0)  {\bf Bob};
+% --------- Row 1 ----------
+\node[anchor=west]  at (-2,-1)
+  {$a \in_R \{0, 1\}$};
+
+\draw[->] (2,-1) -- (10.5,-1)
+  node[midway, above] {Commit to $a$ with the bit commitment scheme};
+
+% --------- Row 2 ----------
+\node[anchor=east] at (13,-2)
+  {$b \in_R \{0, 1\}$};
+\draw[<-] (2,-2) -- (10.5,-2)
+  node[midway, above] {$b$};
+\node[anchor=west]  at (-2,-2)
+  {$c := a \oplus b$};
+  
+% --------- Row 3 ----------
+\draw[->] (2,-3) -- (10.5,-3)
+  node[midway, above] {Open to $a$ with the bit commitment scheme};
+\node[anchor=east] at (12.9,-3)
+  {$c := a \oplus b$};
+\end{tikzpicture}
+\item We first consider a cheating Bob.
+
+If a cheating Bob can make $c = 0$ with probability $p > 1/2$ in the above coin flipping protocol, he can guess $a$ with probability $p$ after Alice commits, by setting $a$ equal to the message he is going to send in the second phase. By $\eps_h$-hiding of bit commitment, $p \leq \frac{1}{2} + \eps_h$. 
+
+Similarly, if a cheating Bob can make $c+0$ with probability $p < 1/2$ in the above coin flipping protocol, he can guess $a$ with probability $p$ after Alice commits, by setting $a = 1 - b$ (the opposite of the message he is going to send in the second phase). By $\eps_h$-hiding of bit commitment, $1 - p \leq \frac{1}{2} + \eps_h$. 
+
+Therefore, for a dishonest Bob, $\frac{1}{2} - \eps_h \leq \Pr[c = 0] \leq \frac{1}{2} + \eps_h$.
+
+Now let's consider a cheating Alice.
+
+If a cheating Alice can make $c = 0$ with probability $p > 1/2$ in the above coin flipping protocol, she can run the first phase of the protocol to send a (potentially dishonest) commitment. Then the probability that she can open it to 0 is at least $\Pr[c = 0\,|\,b = 0]$, and the probability that she can open it to 1 is at least $\Pr[c = 0\,|\,b = 1]$. By the $\eps_b$-binding of the bit commitment, $\Pr[c = 0\,|\,b = 0] + \Pr[c = 0\,|\,b = 1] \leq 1 + \eps_b$, which means $2p \leq 1 + \eps_b$ since honest Bob chooses $b$ uniformly at random. 
+
+Similarly, if a cheating Alice can make $c = 0$ with probability $p < 1/2$ in the above coin flipping protocol, it means she can make $c = 1$ with probability $1 - p$ in the above coin flipping protocol. Using the same argument, we can show that $2(1 - p) \leq 1 + \eps_b$. 
+
+Therefore, for a dishonest Bob, $\frac{1}{2} - \frac{1}{2}\eps_b \leq \Pr[c = 0] \leq \frac{1}{2} + \frac{1}{2}\eps_b$.
+
+So the maximum bias of the coin flipping protocol is $\max(\eps_h, \frac{1}{2}\eps_b)$.
+\end{enumerate}
+
+\item {\bf Different flavors of oblivious transfer}
+Below we provide constructions and intuitions on why the constructions are secure. For a formal proof, you need the ideal functionality in the secure function evaluation.
+\begin{enumerate}
+\item The reduction is straight-forward: the sender sends $(b_0,b_1,0,...,0)$ via 1-out-of-$k$ OT, and the receiver picks $c \in \{0, 1\}$. 
+\item Alice and Bob use the following protocol:
+
+\begin{tikzpicture}[>=stealth]
+
+% Titles
+\node at (0,0)  {\bf Alice};
+\node at (10,0)  {\bf Bob};
+% --------- Row 1 ----------
+\node[anchor=west]  at (-2,-1)
+  {$r_1 \in_R \{0,1\},\ e_1 := b_1$};
+\node[anchor=east] at (13,-1)
+  {$\text{if } c = 1,\ \text{pick } e_1,\ \text{else } r_1$};
+
+\draw[->] (4,-1) -- (7.6,-1)
+  node[midway, above] {$[e_1 \mid r_1]_{1\text{-}2\text{-OT}}$};
+
+% --------- Row 2 ----------
+\node[anchor=west]  at (-2,-2)
+  {$r_2 \in_R \{0,1\},\ e_2 := b_2 \oplus r_1$};
+\node[anchor=east] at (13,-2)
+  {$\text{if } c = 2,\ \text{pick } e_2,\ \text{else } r_2$};
+\draw[->] (4,-2) -- (7.6,-2)
+  node[midway, above] {$[e_2 \mid r_2]_{1\text{-}2\text{-OT}}$};
+
+% --------- Row 3 ----------
+\node[anchor=west]  at (-2,-3)
+  {$r_3 \in_R \{0,1\},\ e_3 := b_3 \oplus r_1 \oplus r_2$};
+\node[anchor=east] at (13,-3)
+  {$\text{if } c = 3,\ \text{pick } e_3,\ \text{else } r_3$};
+\draw[->] (4,-3) -- (7.6,-3)
+  node[midway, above] {$[e_3 \mid r_3]_{1\text{-}2\text{-OT}}$};
+
+% --------- Vertical dots ----------
+\node at (0,-4)  {$\vdots$};
+\node at (9,-4)  {$\vdots$};
+\node at (6,-4)  {$\vdots$};
+
+% --------- Bottom row ----------
+\node[anchor=west]  at (-2,-5)
+  {$e_k := b_k \oplus r_1 \oplus \dots \oplus r_{k-1}$};
+\node[anchor=east] at (13,-5)
+  {$b := e_c \oplus r_1 \oplus \dots \oplus r_{c-1}$};
+\draw[->] (4,-5) -- (7.6,-5)
+  node[midway, above] {$e_k$};
+\end{tikzpicture}
+
+Alice trivially does not learn any information about Bob's choice $c \in \{1,...,k\}$ because of the guarantee of each 1-out-of-2 OT. If Bob wishes to learn bit $b_c$, he needs to know all preceding one-time pads $r_1, \ldots ,r_{c-1}$ as well as the value $e_c$. Hence, he cannot choose any of the values $e_1, \ldots, e_{c - 1}$, and he has to choose the bit $e_c$. However, in that case he does not learn $e_i$ for $i < c$, and thus learns no information about $b_i$ for $i<c$, and moreover he does not learn $r_c$, and thus learns no information about $b_i$ for $i > c$. Hence, even when Bob does not follow the protocol, he learns at most one of the $k$ bits.
+\item Alice and Bob use the following protocol:
+
+\begin{tikzpicture}[>=stealth]
+
+% Titles
+\node at (0,0)  {\bf Alice};
+\node at (8,0)  {\bf Bob};
+
+% --------- Row 1 ----------
+\node[anchor=west]  at (-2,-1)
+  {$i \in_R \{0,1\}$};
+ \node[anchor=east]  at (9,-1)
+  {$j \in_R \{0,1\}$};
+  
+% --------- Row 2 ----------
+\node[anchor=west]  at (-2,-2)
+  {$b_i := b, \ b_{1 - i} = 0$};
+\node[anchor=east] at (8.2,-2)
+  {pick $b_j$};
+\draw[->] (2.5,-2) -- (5.5,-2)
+  node[midway, above] {$[b_0 \mid b_1]_{1\text{-}2\text{-OT}}$};
+
+% --------- Row 3 ----------
+\draw[->] (2.5,-3) -- (5.5,-3)
+  node[midway, above] {$i$};
+\node[anchor=east] at (13.2,-3)
+  {if $i= j$, set $b:= b_j$, else set $b := \bot$};
+\end{tikzpicture}
+
+Alice does not learn any information about whether Bob receives the bit or
+not because Alice does not learn anything during the first phase by the guarantee of 1-out-of-2 OT, and Bob does not send anything to Alice in the second phase. Moreover, Bob receives the bit with probability $1/2$ otherwise has no information about it because by the guarantee of 1-out-of-2 OT, Bob can learn only one of $b_0, b_1$.
+\item Let $\kappa$ be a security parameter. Alice and Bob use the following protocol:
+
+\begin{tikzpicture}[>=stealth]
+
+% Titles
+\node at (0,0)  {\bf Alice};
+\node at (10,0)  {\bf Bob};
+
+% --------- Row 1 ----------
+\node[anchor=west]  at (-2,-1)
+  {$r_1,\ldots,r_\kappa \in_R \{0,1\}$};
+\node[anchor=east] at (13,-1)
+  {$\forall\, i$: receive $r_i' \in \{r_i, \bot\}$};
+\draw[->] (4,-1) -- (7,-1)
+  node[midway, above] {$\forall i : [r_i]_{\text{Rabin-OT}}$};
+  
+% --------- Row 2 ----------
+\node[anchor=west]  at (-2,-2)
+  {$t_0 := \bigoplus_{i\in T_0} r_i,\,
+    t_1 := \bigoplus_{i\in T_1} r_i$};
+\node[anchor=east] at (12.2,-1.8)
+  {$T_c := \{\, i \mid r'_i \neq \bot \,\}$};
+\node[anchor=east] at (12.5,-2.4)
+  {$T_{1-c} := \{\, i \mid r'_i = \bot \,\}$};
+\draw[<-] (4,-2) -- (7,-2)
+  node[midway, above] {$T_0, T_1$};
+  
+% --------- Row 3 ----------
+\node[anchor=west]  at (-2,-3.5)
+  {$e_0 := t_0 \oplus b_0,\,
+    e_1 := t_1 \oplus b_1$};
+\node[anchor=east] at (13.6,-3.5)
+  {$t_c := \bigoplus_{i\in T_c} r_i'$, $b_c := e_c \oplus t_c$};
+\draw[->] (4,-3.5) -- (7,-3.5)
+  node[midway, above] {$e_0,e_1$};
+\end{tikzpicture}
+
+Alice does not learn any information about Bob's choice $c \in \{1,\ldots,k\}$ since the sets $T_0$ and $T_1$ do not reveal which instances of the underlying Rabin OT were successful. Furthermore, with probability $1-2^{-\kappa}$ there is at least one bit $r_i$ the receiver does not learn, and, therefore, at least one of the one-time pads $t_0$ and $t_1$ is uniformly random. Therefore, except with probability $2^{-\kappa}$, the receiver learns at most one of the bits $b_0$ and $b_1$.
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
