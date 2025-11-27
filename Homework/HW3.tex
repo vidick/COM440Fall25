@@ -20,7 +20,7 @@
 
 \begin{document}
 \header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
-{\bf Homework \# 3} \hfill {\bf due: 12:59PM, {November 18th}, 2025}
+{\bf Homework \# 3} \hfill {\bf due: 11:59PM, {November 18th}, 2025}
 
 
 \medskip
@@ -89,12 +89,12 @@ behavior? For $p\in \big(0,\frac{1}{2}\big)$, which scheme is best?
 In all settings below, we assume that Alice and Bob are connected by a classical authenticated channel. 
 Your goal is to devise ways in which Alice and Bob can obtain a key in any of the situations below. \emph{[Hint: In both cases, start by evaluating $\Hmin(X|E)$ where $X$ is the string shared by Alice and Bob after transmission and $E$ is Eve's (classical) information about it. ]}
 \begin{enumerate}
-\item[(a)] Suppose that Alice and Bob are connected by a classical channel such that with probability exactly $q$, Eve learns each bit, where we only know that
+\item[(a)] Suppose that Alice and Bob are connected by a classical channel such that {\color{blue}for each bit sent on the channel, Eve learns it with probability exactly $q$, and with probability (1-q) Eve receives a uniformly random bit.\footnote{This sentence clarifies the original wording. If you took another interpretation of what the channel does, it is ok, as long as you are clear what interpretation you use for the entropy calculation.}} Furthermore, we only know that
 $1/3 \leq q \leq 1/2$. (Bob always receives the correct bit.)
-Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key, where $\epsilon = 10^{-5}$. Explain why your protocol is secure. How many uses of the channel are required per bit of key produced? 
-\emph{[Hint: Ensure that you account for the number of channel uses required to transmit the seed for the strong seeded randomness extractor. Think about what is the seed length of the 2-universal hash function you use.]}
+Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key, where $\epsilon = 2^{-128}$. Explain why your protocol is secure. How many uses of the channel are required per bit of key produced? 
+\emph{[Hint: You may assume that the seed for the strong seeded randomness extractor is sent over a perfect authenticated channel. However, don't forget to account for the information that this leaks to Eve: think about what is the seed length of the 2-universal hash function you use.]}
 \item[(b)] Suppose now that Alice and Bob are connected by a classical channel on which Eve can intercept bits arbitrarily. However, Eve's memory 
-is limited to $b = 1024$ bits. (Bob always receives the correct bit.) Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key where $\epsilon = 10^{-10}$. 
+is limited to $b = 1024$ bits. (Bob always receives the correct bit.) Give a protocol that allows Alice and Bob to create an $\epsilon$-secure key where $\epsilon = 2^{-256}$. 
 Explain why your protocol is secure.
 \end{enumerate}
 
@@ -167,7 +167,7 @@ A similar equality can be obtained for $\bra{\Psi_{ABE}} Z_A \otimes Z_B \otimes
 Suppose Alice measures her qubit in the computational basis: the post-measurement state on $A$ and $E$ (tracing out $B$) can be written as $\rho_{AE}^Z = \ketbra{0}{0}_A\otimes \sigma_E^{Z,0} + \ketbra{1}{1}_A\otimes \sigma_E^{Z,1}$. Similarly, if Alice measures in the Hadamard basis we may write the post-measurement state as $\rho_{AE}^X = \ketbra{+}{+}_A\otimes \sigma_E^{X,+} + \ketbra{-}{-}_A\otimes \sigma_E^{X,-}$.
 \begin{enumerate}
 \item[(d)] Use the previous two questions to determine coefficients $\alpha,\beta$ such that
-$$ 2p-1 \leq \alpha F(\sigma_E^{X,0},\sigma_E^{X,1}) + \beta F(\sigma_E^{Z,+},\sigma_E^{Z,-})$$
+$$ 2p-1 \leq \alpha F(\sigma_E^{X,+},\sigma_E^{X,-}) + \beta F(\sigma_E^{Z,0},\sigma_E^{Z,1})$$
 where $F$ denotes the fidelity. \emph{[Hint: observe that $\ket{u_0}_{BE}$ and $\ket{u_1}_{BE}$ considered in the previous question are purifications of $\sigma_E^{Z,0}$ and $\sigma_E^{Z,1}$ respectively, and use Uhlmann's theorem]}
 %\solopen{First, observe that by part b),
 %\[
