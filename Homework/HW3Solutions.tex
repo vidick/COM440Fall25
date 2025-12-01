@@ -47,13 +47,90 @@ Plotting these polynomials on a graphing calculator, we see that this order is p
 
 \item {\bf Establishing keys in the presence of a limited eavesdropper.}
 \begin{enumerate}
-    \item Have Alice send an $n$-bit weak key $X$ through these special classic channels to Bob. Then for each bit, Eve will obtain the bit with probability $q$, and will not with probability $1-q$ and just guess. Hence the probability Eve gets the correct bit is $q + \frac{1-q}2 = \frac{1+q}2$, and the probability Eve guesses all of the message is $P_{\text{guess}}(X|E) = \left(\frac{1+q}2\right)^n$. Consequently $$H_{\text{min}}(X|E) = -\log\left(\left(\frac{1+q}2\right)^n\right) = n(1-\log(1+q))\ge 2-\log 3$$ Now from our work done in class (Theorem 5.3.1 in notes), for $\eps = 10^{-5}$ and $k = n(2-\log 3)$ Alice and Bob can construct a $(k,\eps)$-weak seeded 2-universal extractor $\text{Ext}$ that takes $X$ and a random string $r\gets\{0,1\}_u^{2n}$, and outputs an $\eps$-secure key of size $$m := n(2-\log 3) + 2\log\eps = n(2-\log3) -10\log 10$$ Hence all Alice needs to do is create a length $2n$ random string $R$, find $\text{Ext}(X,R)$, send $R$ to Bob, and have Bob calculate $\text{Ext}(X,R)$.   
+    \item Have Alice send an $n$-bit weak key $X$ through these special classic channels to Bob. Then for each bit, Eve will obtain the bit with probability $q$, and will not with probability $1-q$ and just guess. Hence the probability Eve gets the correct bit is $q + \frac{1-q}2 = \frac{1+q}2$, and the probability Eve guesses all of the message is $P_{\text{guess}}(X|E) = \left(\frac{1+q}2\right)^n$. Consequently $$H_{\text{min}}(X|E) = -\log\left(\left(\frac{1+q}2\right)^n\right) = n(1-\log(1+q))\ge (2-\log 3)n$$ Now from our work done in class (Theorem 5.3.1 in notes), for $\eps = 10^{-5}$ and $k = n(2-\log 3)$ Alice and Bob can construct a $(k,\eps)$-weak seeded 2-universal extractor $\text{Ext}$ that takes $X$ and a random string $r\gets\{0,1\}^{2n}$, and outputs an $\eps$-secure key of size $$m := n(2-\log 3) + 2\log\eps = n(2-\log3) -10\log 10$$ Hence all Alice needs to do is create a length $2n$ random string $R$, find $\text{Ext}(X,R)$, send $R$ to Bob, and have Bob calculate $\text{Ext}(X,R)$.   
     
     
     Overall, we use the channel to first send the $n$-bit message $X$, and then the $2n$-bit random seed $R$. Hence the number of channel uses per bit of $\eps$-secure key is $$ \frac{3n}{m} = \frac{3n}{n(2-\log3) - 10\log10} = \frac{3}{2-\log 3 - 10\log10/n}$$ If we assume that Eve is the most powerful with $q = 1/2$ and if we make $n$ to be quite large for practical security purposes, we will have $$\frac{3n}m\to \frac{3}{2-\log 3}\approx 7.23$$ channel uses per bit of $10^{-5}$-strong key. 
     
     \item %We will rename $b=1024$ to save $k$ for entropy. 
     Let Alice send an $n$-bit weak key $X$ through the classical channel to Bob ($n\gg b$). We can then see that Eve can intercept any $b$ of them, and hence $P_{\text{guess}}(X|E) = 2^{b-n}$, and so $$k := H_{\text{min}}(X|E) = -\log P_{\text{guess}}(X|E) = n-b$$ Now again from class or Theorem 5.3.1, for $\eps = 10^{-10}$, Alice and Bob can construct a $(k,\eps)$-weak seeded 2-universal extractor Ext that takes $X$ and a random string $r\gets\{0,1\}_u^{2n}$ and outputs an $\eps$-secure key of size $$m = k + 2\log \eps = n - b - 20\log 10 = n-2014-20\log 10$$ Hence we can have Alice generate $R\gets \{0,1\}^{2n}$, calculate Ext$(X,R)$, send $R$ to Bob, and then have Bob also calculate Ext$(X,R)$. As a result, both Alice and Bob will have $\eps$-secure keys.
+\end{enumerate}
+
+\item {\bf Min-entropy from the matching outcomes bound}
+\begin{enumerate}
+\item Recall that $X$ is a single bit, the output of Alice's measurement. Therefore its min-entropy is upper-bounded by $1$. Since Eve is totally uncorrelated and Alice's local density matrix is $\frac12\Id$, $X$ is a uniform random bit with respect to Eve's point of view. That is, $\Hmin(X\mid E\Theta) = 1$.
+\item We want to compute the probability that Alice and Bob obtain the same outcome. Suppose $\Theta = 0$, so that Alice and Bob both measure in the standard basis.
+The expected value of the product of their measurement outcomes is $\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}$. If they make the same measurement, then the product of their measurements is $+1$. If they make different measurements, this product is $-1$.
+Therefore the expectation is equal to $p_{\text{same}\mid\Theta = 0} - p_{\text{different}\mid\Theta = 0}$. These two probabilities sum to $1$, so we conclude that
+\[p_{\text{same}\mid\Theta = 0} = \frac12 + \frac 12\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.\]
+Similarly,
+\[p_{\text{same}\mid\Theta = 1} = \frac12 + \frac 12\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}.\]
+Finally,
+\[
+p_{\text{same}} = \frac12 p_{\text{same}\mid\Theta = 0} + \frac 12 p_{\text{same}\mid\Theta = 0}
+= \frac12 + \frac 14\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}+ \frac 14\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.\]
+
+Therefore, $a = b = 1/4, c = 1/2$.
+\item Applying the standard basis expansion suggested in the problem, along with the identity $X = \ketbra 01 + \ketbra 10$, we can rewrite $\bra{\Psi_{ABE}} X_A\otimes X_B \otimes I_E \ket{\Psi_{ABE}}$ as
+\[
+\left(\bra 0_A \otimes \bra{u_0}_{BE} +\bra 1_A \otimes \bra{u_1}_{BE}\right) \left[(\ketbra01 + \ketbra10)_A\otimes X_B\otimes I_E \right]\left(\ket 0_A\otimes \ket{u_0}_{BE} +\ket 1_A \otimes \ket{u_1}_{BE}\right).
+\]
+Evaluating inner products simplifies this to
+\[
+\bra{u_0}_{BE}X_B\otimes I_E\ket{u_1}_{BE} +
+\bra{u_1}_{BE}X_B\otimes I_E\ket{u_0}_{BE}.
+\]
+Since the two terms in the above some are complex conjugates of each other, their sum is equal to twice their real part. That is,
+\[
+\bra{\Psi_{ABE}} X_A\otimes X_B \otimes I_E \ket{\Psi_{ABE}}
+=2\Re\bra{u_0}_{BE}X_B\otimes I_E\ket{u_1}_{BE}
+=2\Re\bra{u_1}_{BE}X_B\otimes I_E\ket{u_0}_{BE}.
+\]
+
+Thus $a' = 2, b' = 0$.
+\item First, observe that by part (b),
+\[
+ 2p-1
+ = \frac 12\bra{\Psi_{ABE}} X\otimes X \otimes I \ket{\Psi_{ABE}}+ \frac 12\bra{\Psi_{ABE}} Z\otimes Z \otimes I \ket{\Psi_{ABE}}.
+ \]
+By part (c),
+\[
+ 2p-1
+ =\Re\bra{u_0}X_B\otimes I_E\ket{u_1}
+ +\Re\bra{u_0}Z_B\otimes I_E\ket{u_1}.
+ \]
+ By Ulhmann's theorem,
+ \[
+|\bra{u_0}X_B\otimes I_E\ket{u_1}| \leq F(\sigma_E^{X,0},\sigma_E^{X,1}) \text{ and }
+|\bra{u_0}Z_B\otimes I_E\ket{u_1}| \leq F(\sigma_E^{Z,+},\sigma_E^{Z,-})
+ \]
+ Finally, notice that for any complex $z$, $\Re z \leq |z|$. Chaining and adding inequalities gives the desired inequality with $\alpha = \beta = 1$.
+ \[
+|2p-1| \leq  F(\sigma_E^{X,0},\sigma_E^{X,1}) +  F(\sigma_E^{Z,+},\sigma_E^{Z,-}).
+ \]
+ 
+ So $\alpha = 1, \beta = 1$.
+\item Recall that from part (d) we have
+\begin{equation}
+2p-1 \leq F(\sigma_E^{X,0},\sigma_E^{X,1}) + F(\sigma_E^{Z,+},\sigma_E^{Z,-})
+\end{equation}
+Now, $D(\rho,\sigma) \leq \sqrt{1-F(\rho,\sigma)^2} \Rightarrow F(\rho,\sigma) \leq \sqrt{1-D(\rho,\sigma)^2}$. Hence, we have
+\begin{equation}
+2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}
+\end{equation}
+Now, from the discussion at the start of the problem, we have the following lower bound on $\Hmin (X|E)$.
+\begin{equation}
+\Hmin (X|E) \geq -\log \big(\frac12(\frac12+\frac12 D(\sigma_E^{X,0},\sigma_E^{X,1}) +\frac12(\frac12+\frac12 D(\sigma_E^{Z,+},\sigma_E^{Z,-}))\big) \\
+\end{equation}
+Simplifying the right-hand side results in
+\begin{equation}
+\Hmin (X|E) \geq 1 - \log \big(1 + \frac{D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})}{2}\big)
+\end{equation}
+We want to find the maximum value of $D(\sigma_E^{X,0},\sigma_E^{X,1}) + D(\sigma_E^{Z,+},\sigma_E^{Z,-})$ subject to $2p-1 \leq \sqrt{1-D(\sigma_E^{X,0},\sigma_E^{X,1})^2} + \sqrt{1-D(\sigma_E^{Z,+},\sigma_E^{Z,-})^2}$.
+We look at this as an optimization problem. The maximum value of $x+y$ subject to the constraint $\sqrt{1-x^2} + \sqrt{1-y^2} \geq \alpha$ is achieved when $\sqrt{1-x^2} = \sqrt{1-y^2} = \alpha/2$. Hence, we get the desired bound
+\begin{equation}
+\Hmin (X|E) \geq 1 - \log\big(1+\sqrt{p(1-p)+ \frac34}\,\,\big).
+\end{equation}
 \end{enumerate}
 
 \end{enumerate}
