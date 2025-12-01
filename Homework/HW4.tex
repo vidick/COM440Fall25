@@ -1,0 +1,173 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 4} \hfill {\bf due: 11:59PM, {December 16th}, 2025}
+
+
+\medskip
+
+\hrule
+
+\medskip 
+
+Ground rules: 
+
+{\bf Please
+  format your solutions so that each problem begins on a new page, and
+  so that your name appears at the top of each page.}
+
+You are encouraged to collaborate with your classmates on
+homework problems, but each person must write up the final solutions
+individually. You should note on your homework specifically which
+problems were a collaborative effort and with whom. You may not search
+online for solutions, but if you do use research papers or other
+sources in your solutions, you must cite them. If you use an AI tool to 
+partially solve a question, or improve your write-up of a solution, then 
+you should also mention it. All questions on the homework, including requests for clarifications or typos, should be directed to the Ed forum.
+
+Late homework will not be accepted or graded. Extensions will not be granted, except on the recommendation of an academic committee. 
+
+Each of the four problem set counts for 20\% of the total homework grade. (Each of the two readings will count for 10\% of the final homework grade.)
+
+
+\medskip
+
+\hrule
+
+\medskip
+
+
+
+Revisions since the first posting are in \textcolor{blue}{blue}.
+
+\medskip
+
+The goal of this problem set is to give a complete security proof of a bit commitment protocol in the bounded storage model. The first two exercises provide tools that are used in the last exercise, which is the main one. The results of the first two exercises can be assumed to solve the third. In particular, the second exercise is ``bonus'' and it is not required to solve it; if you wish you may use its result as a given. 
+
+{\bf Problems:}
+\begin{enumerate}
+
+
+\item\emph{(6 points)} {\bf Approximate guessing}\\
+The leftover hash lemma allows us to bound the probability of exactly guessing an unknown string $X$, given access to a correlated quantum state in system $E$, as a function of the conditional min-entropy $\Hmin(X|E)$. The bound that we obtain in (b) below will be used in the exercise on realizing bit commitment. 
+
+For $X\in\{0,1\}^n$ and $0\leq \delta < \frac12$ we let $B^{\delta n}(X)$ denote the Hamming ball of radius $\delta n$ around $X$, i.e.\ the set of all strings $X'$ such that $|X\oplus X'|_H\leq\delta n$. Let $B^{\delta n}=|B^{\delta n}(X)|$, which does not depend on $X$. Let $\mathcal{F}$ be a $2$-universal family of hash functions from $\{0,1\}^n$ to $\{0,1\}$. 
+\begin{enumerate}
+\item Let $X,\hat{X}\in\{0,1\}^n$ be arbitrary. Show that
+\[ \Pr_{\substack{X'\leftarrow_U B^{\delta n}(\hat{X})\\ F\leftarrow_U \mathcal{F} }}\big[ F(X')=F(X)\big] = \frac{1}{2} + \frac{1}{2 B^{\delta n}} 1_{\hat{X}\in B^{\delta n}(X)}\;.\]
+\item Use the leftover hash lemma to deduce that, if $\rho_{XE}$ is an arbitrary quantum state and $\hat{X}$ a guess for $X$ given the quantum state in $E$, then 
+\[ \Pr\big[ \hat{X}\in B^{\delta n}(X)\big] \leq 2^{-\frac12 (\Hmin(X|E)-1)+\log(B^{\delta n})}\;.\]
+\end{enumerate}
+
+\item \emph{(Bonus 4 points)} {\bf An uncertainty relation}\\
+Let $\rho$ be an $n$-qubit density matrix. For $\theta\in\{0,1\}$ let $Q^\theta(\cdot)$ be the distribution on $n$-but strings that results from measuring each qubit of $\rho$ in basis $\theta$. The goal of this exercise is to show the following uncertainy relation: for any two sets $L^0,L^1\subseteq\{0,1\}^n$ it holds that
+\begin{equation}\label{eq:u-bound}
+Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2\;.
+\end{equation}
+To show this bound, we consider a purification $\ket{\psi}_{AB}$ of $\rho_A$ and expand it as $\ket{\psi}_{AB}=\sum_x \alpha_x \ket{x}_A\ket{\varphi_x}_B$, where the $\ket{\varphi_x}_B$ have norm $1$. This gives us that $Q^0(x)=|\alpha_x|^2$.
+\begin{enumerate}
+\item Show that for any $z\in\{0,1\}^n$, $Q^1(z)=|\sum_x 2^{-n/2} (-1)^{x\cdot z} \alpha_x \ket{\varphi_x}|^2$.
+\item We decompose the summation in two parts, depending on whether $x\in L^0$ or $x\in S^0=\overline{L^0}$. Let $p=Q^0(S^0)$ and 
+\[  \xi_z= \frac{1}{\sqrt{p}}\Big\|\sum_{x\in S^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\|\;.\]
+Show that $\sum_z \xi_z^2 = 1$.
+\item Use the Cauchy-Schwarz inequality to show that 
+\[ \Big\|\sum_{x\in L^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\| \leq 2^{-n/2}\sqrt{|L^0|}\;.\]
+\item Starting from 
+\[  Q^1(L^1)=\sum_{z\in L^1} Q^1(z) \leq \sum_{z\in L^1} \big(\sqrt{p}\xi_z +2^{-n/2}\sqrt{|L^1|}\big)^2\;,\]
+use the previous questions to show~\eqref{eq:u-bound}.
+\end{enumerate}
+
+
+
+\item \emph{(14 points)} {\bf Bit commitment in the bounded storage model}\\
+In class we gave a construction of an oblivious transfer protocol in the bounded storage model. We also saw that oblivious transfer implies bit commitment. In this problem we give a direct construction of a bit commitment protocol in the bounded storage model, with a different, quantitatively stronger analysis compared to class. Essentially, we replace the bound from the guessing game by the uncertainty relation proved in the previous problem. 
+
+Recall that in bit commitment, Alice (the \emph{sender}) has an input $b\in\{0,1\}$, while Bob (the \emph{receiver}) has no input. There are two phases, the \emph{commit} and the \emph{open} phases, as follows: 
+\begin{enumerate}
+\item[(i)] Bob selects $x,\theta\in\{0,1\}^n$ uniformly at random and sends the qubits $\ket{x_1}_{\theta_1},\ldots,\ket{x_n}_{\theta_n}$ to Alice. 
+\item[(ii)] To commit to $b$, Alice measures all qubits in basis $\theta'=b$, obtaining an $n$-bit string $\hat{x}\in\{0,1\}^n$. 
+\item[(iii)] To open the commitment, Alice sends $b$ and $\hat{x}$ to Bob.   
+\item[(iv)] Bob checks that $x_i=\hat{x}_i$ whenever $\theta_i=b$, and accepts and returns $b$ if and only if this is the case. 
+\end{enumerate}
+\begin{enumerate}
+\item Show that this protocol is correct. 
+\item To show that the protocol is hiding, first introduce a version of the protocol where at the first step Bob sends half-EPR pairs to Alice. Write out the protocol step-by-step (following the same format as above), modifying the player's actions as appropriate (in particular, specify when and how Bob measures his half-EPR pairs. 
+\item Argue that, if Bob is honest, a dishonest Alice cannot distinguish if she is playing with Bob that executes the protocol above, or your version with EPR pairs from the previous question. 
+\item Show that the protocol above is perfectly hiding. 
+\end{enumerate}
+Next we will show that the protocol is $\eps$-binding, for an $\eps$ depending on $n$ to be determined, as long as dishonest Alice does not have too much quantum memory. To model this, introduce a parameter $0\leq \gamma< \frac12$ and assume that, at step (ii), Alice is forced to perform a measurement on her quantum memory that leaves her with a quantum state of at most $\gamma n$ qubits, stored in register $E$, and a classical outcome $y$ of arbitrary size, stored in register $Y$. Our goal is to show that for such Alice the $\eps$-binding property holds, i.e.\ if we let $p_b$ be the probability that such Alice successfully opens $b\in\{0,1\}$ then $p_0+p_1\leq 1+\eps$. 
+
+Towards this we define a few quantities. Let $\kappa>0$ be such that $\gamma + \kappa < \frac12$. Conditioned on the classical $y$ obtained as a result of the forced measurement at the beginning of step (ii), let $Q^\theta(\cdot)$ be the distribution that would result from measuring Bob's half-EPR pairs, in the EPR-pair version of the protocol, in basis $\theta\in\{0,1\}$.\footnote{To understand this, suppose for example that at step (ii) dishonest Alice measures everything in the computational basis and obtains a string $x'$. Then, $Q^0(x)=1$ if $x=x'$ and $0$ otherwise, and $Q^1(z)=2^{-n}$ for every $z$ ; because Bob's half-EPR pairs are projected to $\ket{x'}_0$ as a result of Alice's measurement.} Let $S^\theta = \{ x\in\{0,1\}^n: Q^\theta(x)\leq 2^{-(\gamma+\kappa)n}\}$ ($S$ for ``small''), $L^\theta = \overline{S^\theta}$ and $q^\theta = Q^\theta(S^\theta)$ the total probability of ``small'' strings. 
+\begin{enumerate}
+\item[(e)]
+Show that, by definition of the min-entropy, if $X$ is a random variable with distribution $Q^\theta$ then
+\[\Hmin(X|E,X\in S^\theta)\geq (\gamma+\kappa)n + \log(q^\theta)\;.\]
+\item[(f)] Suppose that $q^\theta \geq 2^{-\eps n/2}$, and assume $\delta$ chosen small enough that $B^{\delta n} \leq 2^{(\kappa-\eps)n/2}$. 
+Let $\hat{X}$ be any ``guess'' produced from $y$ and the quantum state in $E$. Show that  
+\[ \Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq 2^{-\frac{\eps}{4}n + \frac12}\;.\]
+\item[(g)] If $\hat{X}\notin B^{\delta n}(X)$, what is the probability that honest Bob accepts? 
+\item[(h)] Deduce a bound of the form $p_b \leq 1-q^b + f(n)$, where $f$ is a function depending on $\eps,\delta$ that goes to $0$ as $n\to\infty$ (as long as both $\eps,\delta >0$). 
+\item[(i)] Use~\eqref{eq:u-bound} from the previous problem to obtain a lower bound on $q^0+q^1$ and deduce the binding condition, i.e.\ a bound of the form $p_0+p_1 \leq 1 + $.
+\end{enumerate}
+
+
+%
+%\item \emph{(6 points)} {\bf Uncertainty relation}\\
+%In this exercise we study some cases of equality in the entropic uncertainty relation we applied to show the security of encryption with certified deletion, which we restate for convenience: for any $\rho_{ABE}$ such that $A$ is a single qubit, 
+%\begin{equation*}
+ %H_{\rm max}(X_A|B) + \Hmin(Z_A|E) \geq 1\;,
+%\end{equation*}
+%Let's focus on the case where $B$ is a single classical bit, $E$ is a single qubit, and the quantum state $\rho_{AE} = \proj{\psi}_{AE}$ is pure. Recall that in this case, 
+%\[  H_{\rm max}(X_A|B) = \log\Big( \sum_b \Pr(B=b) \Big(\sum_x \sqrt{\Pr(X_A=x|B=b)}\Big)^2\Big)\;.\]
+%\begin{enumerate}
+%\item Suppose that we decompose $\ket{\psi}_{AE} = \alpha \ket{0}_A\ket{u_0}_E + \beta \ket{1}_A \ket{u_1}_E$, where $\ket{u_0}_E$ and $\ket{u_1}_E$ are arbitrary (normalized) states of $E$. Show that $\Hmin(Z_A|E)=0$ if and only if $\ket{u_0}$ and $\ket{u_1}$ are orthogonal.
+%\item In this case, what is the value of $H_{\rm max}(X_A|B)$?
+%\item Show that $\Hmin(Z_A|E)=1$ if and only if $\ket{u_0}$ and $\ket{u_1}$ are parallel.
+%\item Give an example of a state of the previous kind, where  $\Hmin(Z_A|E)=1$, such that in addition $H_{\rm max}(X_A|B)=0$. Give another example where now $H_{\rm max}(X_A|B)=1$.
+%\end{enumerate}
+
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

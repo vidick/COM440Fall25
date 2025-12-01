@@ -1,0 +1,88 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+%\newcommand{\mac}{\scheme{MAC}}
+%\newcommand{\macgen}{\algo{Gen}}
+%\newcommand{\mactag}{\algo{Tag}}
+%\newcommand{\macver}{\algo{Ver}}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+\header{\bf Exercise \# 11}
+
+This exercise sheet is designed to help you review the concepts discussed in the lecture and explore some additional interesting results that were not covered in the lecture. Exercises marked with * will have solutions provided after the exercise session, while those marked with $\blacklozenge$ will be the main focus during the exercise session. You are encouraged to discuss with other students, and ask for help if you get stuck for too long.
+
+
+We recall the notion of a (quantum-secure) pseudorandom function family (PRF) from class: a classical polynomial-time computable family $F=\{ F_\lambda:\{0,1\}^{m(\lambda)}\times\{0,1\}^{n(\lambda)}\to \{0,1\}^{\ell(\lambda)} \}_\lambda$ is a quantum-secure PRF family if for every quantum polynomial-time algorithm $\mathcal{D}$ with oracle access, 
+\[ \Big| \Pr_{k\leftarrow_U \{0,1\}^m}\big[ \mathcal{D}^{F_\lambda(k,\cdot)}(1^\lambda)=1\big] - \Pr_{G\leftarrow_U \{\{0,1\}^n\to \{0,1\}^\ell\}}\big[ \mathcal{D}^{G}(1^\lambda)=1\big]\Big| \leq \negl(\lambda) \;.\]
+Here, in the second probability, the function $G$ is chosen uniformly at random among all functions with the correct domain and range. 
+
+\begin{enumerate}
+
+\item {\bf Message authentication codes} \\
+A \emph{message authentication code} (MAC) is specified by a triple of classical polynomial-time algorithms $(\macgen,\mactag,\macver)$ with the following properties:
+\begin{itemize}
+\item $\macgen$ takes as input $1^\lambda$ and returns a key $k\leftarrow \macgen(1^\lambda)$
+\item $\mactag$ takes as input a key $k$ and message $m$ and outputs a tag $\sigma\leftarrow \mactag_k(m)$
+\item $\macver$ takes as input $k$, $m$ and $\sigma$ and returns either ``accept'' or ``reject''
+\end{itemize}
+In addition, we impose the correctness requirement that for every $\lambda$ and message $m$, 
+\[\Pr_{k\leftarrow\macgen(1^\lambda)}[\macver_k(m,\mactag_k(m))=\text{``accept''}]=1\;.\]
+Furthermore, we say that $(\macgen,\mactag,\macver)$ is secure if for every quantum polynomial-time $\mathcal{A}$, 
+\[ \Pr_{\substack{k\leftarrow\macgen(1^\lambda)\\m,\sigma\leftarrow \mathcal{A}^{\mactag_k(\cdot)}(1^\lambda)}}\big[ \mathcal{A}\text{ did not query }m \wedge \macver_k(m,\sigma)=\text{``accept''}\big] \leq \negl(\lambda)\;.\]
+Note that here, we only allow $\mathcal{A}$ to make classical queries to the tagging oracle. 
+\begin{enumerate}
+\item Read the definitions carefully and explain how a MAC can be employed to instantiate a classical authenticated channel as used in QKD, provided that the users Alice and Bob have a preshared key $k\leftarrow \macgen(1^\lambda)$.
+\item Suggest a construction of a secure message authentication code from any quantum-secure PRF. Verify that your proposal is correct and sketch the proof of security. 
+\end{enumerate}
+
+
+\item {\bf Bit commitment} \\
+In this exercise we show that a secure bit commitment scheme can also be implemented from a suitable PRF family. Suppose thus that $F=(F_\lambda:\{0,1\}^{m(\lambda)}\times\{0,1\}^{n(\lambda)}\to \{0,1\}^{\ell(\lambda)} )_\lambda$ is a secure PRF family with $\ell=3m$. Consider the following commitment scheme, where Bob has a bit $b\in\{0,1\}$. In the commitment phase, Alice sends a uniformly random $r\in\{0,1\}^{3n}$ to Bob. Bob selects a random $k\in\{0,1\}^m$. If $b=0$ he sends $v=F(k,0^n)$ to Alice and if $b=1$ he sends $v=r\oplus F(k,0^n)$. In the open phase, Bob sends $k$ and $b$ to Alice. Alice computes $F(k,0^n)\oplus v$ and accepts if $b=0$ and the result is $0^{3n}$, or if $b=1$ and the result is $r$. (You will notice that this scheme only evaluates the function $F(k,\cdot)$ at the point $0^n$. This is because the construction does not require the ``full power'' of a PRF, only the fact that it provides a (seemingly) uniformly random output at some input.)
+\begin{enumerate} 
+\item Show that this scheme is hiding, as long as malicious Alice is computationally bounded (and hence cannot break the PRF security). 
+\item Show that the scheme is $\eps$-binding, for some $\eps$ depending on $n$ to be determined. 
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

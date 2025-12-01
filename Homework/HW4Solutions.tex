@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb,amsmath}
+
+\newtheorem{theorem}{Theorem}
+
+ \newcommand{\Header}[1]{\begin{center} {\Large\bf #1} \end{center}}
+ \newcommand{\header}[1]{\begin{center} {\large\bf #1} \end{center}}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1ex}
+
+
+%\newif\ifnotes\notestrue
+\newif\ifnotes\notesfalse
+
+
+\input{../com440-default.tex}
+\input{../com440-macros.tex}
+
+
+\begin{document}
+\header{COM-440, Introduction to Quantum Cryptography, Fall 2025}
+{\bf Homework \# 4 Solutions} 
+
+
+\medskip
+
+\hrule
+
+ 
+\medskip
+{\bf Problems:}
+
+\begin{enumerate}
+		
+ \item {\bf Uncertainty relation}
+\begin{enumerate}
+\item $\Hmin(Z_A|E)=0$ means that Eve can perfectly predict the outcome of a standard basis measurement on qubit $A$, given her qubit $E$. If the outcome of the measurement is $0$, then Eve's qubit is $\ket{u_0}_E$, and if the outcome is $1$, then Eve's qubit is $\ket{u_1}_E$. These two states are perfectly distinguishable if and only if they are orthogonal. 
+\item Since in this example, Bob has a classical bit that is not correlated with $A$, $H_{\textrm{max}}(X_A|B)$ is simply $\log((\sum_x \sqrt{\Pr(X_A=x)})^2)$. Here we have 
+\[ \Pr(X_A=0) = \Big\|\frac{1}{\sqrt{2}}\alpha \ket{u_0}+\frac{1}{\sqrt{2}}\beta\ket{u_1}\Big|^2 = \frac{1}{2}|\alpha|^2 + \frac{1}{2}|\beta|^2 =\frac{1}{2}\;,\]
+where the second equality uses the orthogonality of $\ket{u_0}$ and $\ket{u_1}$. Similarly, $\Pr(X_A=1)=\frac{1}{2}$. Therefore, $H_{\textrm{max}}(X_A|B)=\log(2)=1$. 
+\item $\Hmin(Z_A|E)=1$ means that Eve has no information about the outcome of a standard basis measurement on the qubit $A$. Therefore, the two states $\ket{u_0}$ and $\ket{u_1}$ must be indistinguishable, i.e.\ they are equal up to a global phase. 
+\item First we can consider the state $\ket{\psi}_{AE} = \ket{+}\ket{u}$. In this case, $\ket{u_0}=\ket{u_1}=\ket{u}$ are parallel. Moreover, since a measurement of $A$ in the Hadamard basis deterministically returns the outcome $0$, we have $H_{\textrm{max}}(X_A|B)=0$. To get $H_{\textrm{max}}(X_A|B)=1$ we set $\ket{\psi}_{AE}=\ket{0}\ket{0}$. In this case $\ket{u_0}=\ket{u_1}=\ket{0}$ (but $\beta=0$). Since a measurement of qubit $A$ in the Hadamard basis returns a uniformly random bit, 
+the same calculation for $H_{\textrm{max}}(X_A|B)$ as in question 2 applies and so $H_{\textrm{max}}(X_A|B)=1$. 
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
