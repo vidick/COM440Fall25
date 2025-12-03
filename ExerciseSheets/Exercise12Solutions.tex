@@ -67,7 +67,7 @@ Therefore, this scheme is hiding.
 
 Bob can open the commitment in two differently ways if and only if for $r$ chosen by Alice, there exists $k_1, k_2$ such that $r \oplus F(k_1, 0^n) = F(k_2, 0^n)$. In other words, $r \in R \coloneq \{F(k_1, 0^n) \oplus F(k_2, 0^n):k_1, k_2 \in \{0, 1\}^m\}$. Note that $R$ is a set of size at most $2^{2m}$, so for the honest Alice, the event that the randomness $r$ that Alice samples satisfies that $r \in R$ happens with probability at most $\frac{2^{2m}}{2^\ell} = \frac{1}{2^m}$.
 
-Therefore, $p_0 + p_1 \leq 1 + \frac{1}{2^m}$,m and thus the scheme is $\eps$-binding for $\eps = \frac{1}{2^m}$.
+Therefore, $p_0 + p_1 \leq 1 + \frac{1}{2^m}$, and thus the scheme is $\eps$-binding for $\eps = \frac{1}{2^m}$.
 \end{enumerate}
 
 \end{enumerate}
