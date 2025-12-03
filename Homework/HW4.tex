@@ -81,18 +81,19 @@ For $X\in\{0,1\}^n$ and $0\leq \delta < \frac12$ we let $B^{\delta n}(X)$ denote
 \item \emph{(Bonus 4 points)} {\bf An uncertainty relation}\\
 Let $\rho$ be an $n$-qubit density matrix. For $\theta\in\{0,1\}$ let $Q^\theta(\cdot)$ be the distribution on $n$-but strings that results from measuring each qubit of $\rho$ in basis $\theta$. The goal of this exercise is to show the following uncertainy relation: for any two sets $L^0,L^1\subseteq\{0,1\}^n$ it holds that
 \begin{equation}\label{eq:u-bound}
-Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2\;.
+Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2\;,
 \end{equation}
+where for $\theta\in\{0,1\}$, $Q^\theta(L^\theta):=\sum_{x\in L^\theta} Q^\theta(x)$.
 To show this bound, we consider a purification $\ket{\psi}_{AB}$ of $\rho_A$ and expand it as $\ket{\psi}_{AB}=\sum_x \alpha_x \ket{x}_A\ket{\varphi_x}_B$, where the $\ket{\varphi_x}_B$ have norm $1$. This gives us that $Q^0(x)=|\alpha_x|^2$.
 \begin{enumerate}
-\item Show that for any $z\in\{0,1\}^n$, $Q^1(z)=|\sum_x 2^{-n/2} (-1)^{x\cdot z} \alpha_x \ket{\varphi_x}|^2$.
+\item Show that for any $z\in\{0,1\}^n$, $Q^1(z)=\|\sum_x 2^{-n/2} (-1)^{x\cdot z} \alpha_x \ket{\varphi_x}\|^2$.
 \item We decompose the summation in two parts, depending on whether $x\in L^0$ or $x\in S^0=\overline{L^0}$. Let $p=Q^0(S^0)$ and 
 \[  \xi_z= \frac{1}{\sqrt{p}}\Big\|\sum_{x\in S^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\|\;.\]
 Show that $\sum_z \xi_z^2 = 1$.
 \item Use the Cauchy-Schwarz inequality to show that 
 \[ \Big\|\sum_{x\in L^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\| \leq 2^{-n/2}\sqrt{|L^0|}\;.\]
 \item Starting from 
-\[  Q^1(L^1)=\sum_{z\in L^1} Q^1(z) \leq \sum_{z\in L^1} \big(\sqrt{p}\xi_z +2^{-n/2}\sqrt{|L^1|}\big)^2\;,\]
+\[  Q^1(L^1)=\sum_{z\in L^1} Q^1(z) \leq \sum_{z\in L^1} \big(\sqrt{p}\xi_z +2^{-n/2}\sqrt{|L^0|}\big)^2\;,\]
 use the previous questions to show~\eqref{eq:u-bound}.
 \end{enumerate}
 
@@ -120,13 +121,14 @@ Towards this we define a few quantities. Let $\kappa>0$ be such that $\gamma + \
 \begin{enumerate}
 \item[(e)]
 Show that, by definition of the min-entropy, if $X$ is a random variable with distribution $Q^\theta$ then
-\[\Hmin(X|E,X\in S^\theta)\geq (\gamma+\kappa)n + \log(q^\theta)\;.\]
+\[\Hmin(X|E,Y=y,\Theta=\theta,X\in S^\theta)\geq (\gamma+\kappa)n + \log(q^\theta)\;.\]
+To make the $\Hmin(\cdot)$ term precise, define an appropriate quantum state as follows. First let $\rho_{X\Theta YE}$ be the density matrix that represents the (classical) distribution on Bob's side ($X\in\{0,1\}^n$ is the result of measuring Bob's EPR pairs in basis $\Theta\in\{0,1\}$), the classical outcome $Y$ obtained from the (forced) measurement of Alice's half EPR pairs, and $E$ the at most $\gamma n$ qubits that Alice was allowed to keep. Then, for some fixed values $y$ and $\theta$ we condition on $Y=y$, $\Theta=\theta$ and $X\in S^\theta$, i.e.\ we restrict those classical random variables to the prescribed values and renormalize the density matrix. 
 \item[(f)] Suppose that $q^\theta \geq 2^{-\eps n/2}$, and assume $\delta$ chosen small enough that $B^{\delta n} \leq 2^{(\kappa-\eps)n/2}$. 
-Let $\hat{X}$ be any ``guess'' produced from $y$ and the quantum state in $E$. Show that  
+Let $\hat{X}$ be any ``guess'' produced from $y$, $\theta$ and the quantum state in $E$. Show that  
 \[ \Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq 2^{-\frac{\eps}{4}n + \frac12}\;.\]
 \item[(g)] If $\hat{X}\notin B^{\delta n}(X)$, what is the probability that honest Bob accepts? 
 \item[(h)] Deduce a bound of the form $p_b \leq 1-q^b + f(n)$, where $f$ is a function depending on $\eps,\delta$ that goes to $0$ as $n\to\infty$ (as long as both $\eps,\delta >0$). 
-\item[(i)] Use~\eqref{eq:u-bound} from the previous problem to obtain a lower bound on $q^0+q^1$ and deduce the binding condition, i.e.\ a bound of the form $p_0+p_1 \leq 1 + $.
+\item[(i)] Use~\eqref{eq:u-bound} from the previous problem to obtain a lower bound on $q^0+q^1$ and deduce the binding condition, i.e.\ a bound of the form $p_0+p_1 \leq 1 + \negl(n)$.
 \end{enumerate}
 
 
