@@ -32,17 +32,157 @@
 {\bf Problems:}
 
 \begin{enumerate}
-		
- \item {\bf Uncertainty relation}
+
+\item{\bf Approximate guessing}
 \begin{enumerate}
-\item $\Hmin(Z_A|E)=0$ means that Eve can perfectly predict the outcome of a standard basis measurement on qubit $A$, given her qubit $E$. If the outcome of the measurement is $0$, then Eve's qubit is $\ket{u_0}_E$, and if the outcome is $1$, then Eve's qubit is $\ket{u_1}_E$. These two states are perfectly distinguishable if and only if they are orthogonal. 
-\item Since in this example, Bob has a classical bit that is not correlated with $A$, $H_{\textrm{max}}(X_A|B)$ is simply $\log((\sum_x \sqrt{\Pr(X_A=x)})^2)$. Here we have 
-\[ \Pr(X_A=0) = \Big\|\frac{1}{\sqrt{2}}\alpha \ket{u_0}+\frac{1}{\sqrt{2}}\beta\ket{u_1}\Big|^2 = \frac{1}{2}|\alpha|^2 + \frac{1}{2}|\beta|^2 =\frac{1}{2}\;,\]
-where the second equality uses the orthogonality of $\ket{u_0}$ and $\ket{u_1}$. Similarly, $\Pr(X_A=1)=\frac{1}{2}$. Therefore, $H_{\textrm{max}}(X_A|B)=\log(2)=1$. 
-\item $\Hmin(Z_A|E)=1$ means that Eve has no information about the outcome of a standard basis measurement on the qubit $A$. Therefore, the two states $\ket{u_0}$ and $\ket{u_1}$ must be indistinguishable, i.e.\ they are equal up to a global phase. 
-\item First we can consider the state $\ket{\psi}_{AE} = \ket{+}\ket{u}$. In this case, $\ket{u_0}=\ket{u_1}=\ket{u}$ are parallel. Moreover, since a measurement of $A$ in the Hadamard basis deterministically returns the outcome $0$, we have $H_{\textrm{max}}(X_A|B)=0$. To get $H_{\textrm{max}}(X_A|B)=1$ we set $\ket{\psi}_{AE}=\ket{0}\ket{0}$. In this case $\ket{u_0}=\ket{u_1}=\ket{0}$ (but $\beta=0$). Since a measurement of qubit $A$ in the Hadamard basis returns a uniformly random bit, 
-the same calculation for $H_{\textrm{max}}(X_A|B)$ as in question 2 applies and so $H_{\textrm{max}}(X_A|B)=1$. 
+	\item By total probability
+	\begin{align*}
+		&\Pr_{\substack{X'\leftarrow_U B^{\delta n}(\hat{X})\\ F\leftarrow_U \mathcal{F} }}\big[ F(X')=F(X)\big]\\
+		=& \Pr_{\substack{X'\leftarrow_U B^{\delta n}(\hat{X})\\ F\leftarrow_U \mathcal{F} }}\big[ F(X')=F(X) \,\land\, X' \ne X \big] + \Pr_{\substack{X'\leftarrow_U B^{\delta n}(\hat{X})\\ F\leftarrow_U \mathcal{F} }}\big[ F(X')=F(X) \,\land\, X' = X \big]\\
+		=& \frac{1}{2}(1 - \frac{1}{B^{\delta n}}1_{\hat{X}\in B^{\delta n}(X)}
+) + \frac{1}{B^{\delta n}}1_{\hat{X}\in B^{\delta n}(X)}
+  \tag{By properties of $\mathcal{F}$}\\
+		=& \frac{1}{2} + \frac{1}{2 B^{\delta n}} 1_{\hat{X}\in B^{\delta n}(X)}\enspace.
+	\end{align*}
+	\item By the leftover hash lemma, if $m = 1 \leq H_{\min}(H|E) - 2\log 1/\eps$
+	\[D(\rho_{F(X)E}, \frac{1}{2} \Id\otimes \rho_{E}) \leq \eps\enspace.\]
+	
+	In other words, \[D(\rho_{F(X)E}, \frac{1}{2} \Id\otimes \rho_{E}) \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1)}\enspace.\]
+	
+	Note that on the one hand, for $\Id\otimes \rho_{E}$, the probability that given the quantum state in $E$, an adversary can guess the first register with probability exactly $\frac{1}{2}$.
+	
+	On the other hand, for $\Id\otimes \rho_{E}$, the probability that given the quantum state in $E$, an adversary can guess $F(X)$ with probability at least $\frac{1}{2} + \frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)]$ by part (a), since the adversary can first guess $\hat{X}$, and then guess the first register using $F(X')$ for $X' \leftarrow_U B^{\delta n}(\hat{X})$.
+	
+	By the operation meaning of trace distance, \[D(\rho_{f(X)E}, \frac{1}{2} \Id\otimes \rho_{E}) \geq  \frac{1}{2} + \frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)] - \frac{1}{2} = \frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)]\enspace.\]
+	
+	As a result, $\frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)] \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1)}$.
+	
+	Therefore, $\Pr[\hat{X} \in B^{\delta n}(X)] \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1) + \log(B^{\delta n}) + 1}$.
 \end{enumerate}
+
+		
+ \item {\bf An uncertainty relation}
+\begin{enumerate}
+\item $Q^1(z)$ is the probability that we get the outcome $z$ when measuring each qubit in register $A$ of the state $\ket{\psi}_{AB}$ in the Hadamard basis. Therefore,
+\begin{align*}
+	Q^1(z) &= \|(\bra{z_1}_{\theta_1 = 1}\cdots \bra{z_n}_{\theta_n = 1})_A \cdot \ket{\psi}_{AB}\|^2\\
+	&= \|2^{-n/2}(\sum_{x' \in \{0, 1\}^n}(-1)^{x' \cdot z}\bra{x'})_A \cdot  \ket{\psi}_{AB}\|^2\\
+	&= \|2^{-n/2}(\sum_{x' \in \{0, 1\}^n}(-1)^{x' \cdot z}\bra{x'})_A \cdot  \sum_x \alpha_x \ket{x}_A\ket{\varphi_x}_B\|^2\\
+	&= \|\sum_{x \in \{0, 1\}^n}2^{-n/2}(-1)^{x \cdot z} \alpha_x \ket{\varphi_x}\|^2\enspace.
+ \end{align*} 
+\item Since the unitary $H$ preserves the norm, we have that
+\begin{align*}
+\sum_z \xi_z^2 =& \sum_z	 \frac{1}{p}\Big\|\sum_{x\in S^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\|^2\\
+=& \frac{1}{p}\Big\|\sum_z\sum_{x\in S^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{z} \ket{\varphi_x} \Big\|^2\\
+=& \frac{1}{p}\Big\|\sum_{x\in S^0} \alpha_x \ket{x_1}_{\theta_1 = 1} \cdots \ket{x_n}_{\theta_n = 1} \ket{\varphi_x} \Big\|^2\\
+=& \frac{1}{p}\Big\|\sum_{x\in S^0} \alpha_x H \ket{x_1}_{\theta_1 = 1} \cdots H\ket{x_n}_{\theta_n = 1} \ket{\varphi_x} \Big\|^2\\
+=& \frac{1}{p}\Big\|\sum_{x\in S^0} \alpha_x\ket{x} \ket{\varphi_x} \Big\|^2\\
+=& \frac{1}{p}\sum_{x \in S_0} |\alpha_x|^2\\
+=& 1\enspace.
+\end{align*}
+\item By the triangle inequality and the Cauchy-Schwarz inequality,
+\begin{align*}
+\Big\|\sum_{x\in L^0} 2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\| 
+&\leq \sum_{x \in L^0} \Big\|2^{-n/2}(-1)^{x\cdot z} \alpha_x \ket{\varphi_x} \Big\|\\
+&= 2^{-n/2}\sum_{x \in L^0}|\alpha_x|\\
+&= 2^{-n/2}\sqrt{|L^0|\sum_{x \in L^0}|\alpha_x|^2}\\
+&= 2^{-n/2}\sqrt{|L^0|}\enspace.
+\end{align*}
+
+\item With the notation from previous part, we have that \[Q^0(L^0) = 1 - Q^0(\overline{L^0}) = 1 - Q^0(S^0) = 1 - p\enspace.\]
+
+Moreover,
+\begin{align*}
+Q^1(L^1)=&\sum_{z\in L^1} Q^1(z)\\
+=& \sum_{z\in L^1} \|\sum_{x \in \{0, 1\}^n}2^{-n/2}(-1)^{x \cdot z} \alpha_x \ket{\varphi_x}\|^2 \\
+=& \sum_{z\in L^1} \left(\|\sum_{x \in S_0}2^{-n/2}(-1)^{x \cdot z} \alpha_x \ket{\varphi_x}\| + \|\sum_{x \in L_0}2^{-n/2}(-1)^{x \cdot z} \alpha_x \ket{\varphi_x}\|\right)^2 \tag{Triangle inequality}\\
+\leq& \sum_{z\in L^1} \big(\sqrt{p}\xi_z +2^{-n/2}\sqrt{|L^0|}\big)^2 \tag{Part (c)}\\
+\leq& \sum_{z\in L^1} p\xi_z^2 +2^{-n}|L^0||L^1| + 2\sum_{z\in L^1} \sqrt{p}\xi_z \cdot 2^{-n/2}\sqrt{|L^0|}\\
+\leq& p +2^{-n}|L^0||L^1| + 2\sum_{z\in L^1} \xi_z \cdot 2^{-n/2}\sqrt{|L^0|} \tag{Part (b) and $p \leq 1$}
+\end{align*}
+
+Note that by the Cauchy-Schwarz inequality, $\sum_{z\in L^1} \xi_z \leq \sqrt{|L_1| \sum_{z \in L^1}\xi_z^2} \leq \sqrt{|L_1|}$.
+
+Combining the above equations, we obtain $Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2$.
+\end{enumerate}
+
+ \item {\bf Bit commitment in the bounded storage model}
+\begin{enumerate}
+\item This is not hard to verify.
+\item The EPR-pair version of the protocol works as follows:
+\begin{enumerate}
+\item[(i)] Bob prepares $n$ EPR pairs on registers $A_i, B_i$ for $i \in [n]$, and sends the states on registers $A_1, ..., A_n$ to Alice. 
+\item[(ii)] To commit to $b$, Alice measures all qubits in basis $\theta'=b$, obtaining an $n$-bit string $\hat{x}\in\{0,1\}^n$. 
+\item[(iii)] To open the commitment, Alice sends $b$ and $\hat{x}$ to Bob.  
+\item[(iv)] Bob selects $\theta\in\{0,1\}^n$ uniformly at random, and measures the register $B_i$ in $\theta_i$ basis to obtain $x_i$ for each $i \in [n]$.
+\item[(v)] Bob checks that $x_i=\hat{x}_i$ whenever $\theta_i=b$, and accepts and returns $b$ if and only if this is the case. 
+\end{enumerate}
+\item For a dishonest Alice, since she does not have access to the registers $B_1, ..., B_n$, she cannot distinguish the measurements on the registers $B_1, ..., B_n$ (step (iv) in the above protocol) are performed as described above, or are performed after step (i) in the above protocol. It is not hard to see that if the measurements are performed after step (i), then it is the same as the original protocol. Therefore, dishonest Alice cannot distinguish the original protocol and the EPR-pair version of the protocol.
+\item The scheme is perfect hiding because when Bob is dishonest and Alice is honest, in the commitment phase, Bob sends (part of) a state of his choice, and Alice measures all the qubits she receives in basis $b$. The partial density matrix of the state on Bob's side does not change when Alice makes a measurement on the state on her side. Therefore, the partial density matrix of the state on Bob's side when $b = 0$ is the same as the partial density matrix of the state on Bob's side when $b = 1$. Therefore, the scheme is perfect hiding.
+\item For $x \in S^\theta$, \[\Pr_{X \gets Q^\theta}(X = x | X \in S^\theta) = \Pr_{X \gets Q^\theta}(X = x)/\Pr_{X \gets Q^\theta}(X \in S^\theta) = \Pr_{X \gets Q^\theta}(X = x)/q^{\theta}\enspace.\] 
+
+By the definition of $S^\theta$, we can continue the equation to get \[\Pr_{X \gets Q^\theta}(X = x | X \in S^\theta) \leq 2^{-(\gamma + \kappa)n}/q^\theta\enspace.\]
+
+Therefore, 
+\begin{align*}
+ 	&\Hmin(X|Y=y,\Theta=\theta,X\in S^\theta)\\
+ 	=& \max_x\log\frac{1}{\Pr_{X \gets Q^\theta}(X = x | X \in S^\theta)}\\
+ 	\geq& (\gamma+\kappa)n + \log(q^\theta)\enspace.
+\end{align*}
+
+Since $E$ has size at most $\gamma n$, by the property of conditional min-entropy,
+\begin{align*}
+	&\Hmin(X|E, Y=y,\Theta=\theta,X\in S^\theta)\\
+	\geq & \Hmin(X|Y=y,\Theta=\theta,X\in S^\theta) - \log|E|\\
+	\geq & \kappa n + \log(q^\theta).
+\end{align*}
+\item This follows from part (e) and part (b) of Problem 1.
+\begin{align*}
+	\Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq& 2^{-\frac{1}{2}(H_{\min}(X|E') - 1) + \log(B^{\delta n}) + 1}\\
+	\leq& 2^{-\frac{1}{2}(\kappa n + \log(q^\theta) - 1) + \log(B^{\delta n}) + 1}\\
+	\leq& 2^{-\frac{1}{2}(\kappa n -\eps n/2 - 1) + (\kappa-\eps)n/2 + 1}\\
+	\leq& 2^{-\frac{\eps}{4}n + \frac32}\enspace,
+\end{align*}
+where $E' = (E, Y=y,\Theta=\theta,X\in S^\theta)$.
+
+\item If $\hat{X}\notin B^{\delta n}(X)$, there are at least $\delta n$ positions at which $\hat{X}$ and $X$ differ. For each position, the honest Bob chooses to measure in basis $\theta$ with $1/2$ probability. The honest Bob accepts only if on the $\delta n$ positions, Bob measures it in basis $1 - \theta$. Therefore, honest Bob accepts with probability at most $2^{-\delta n}$.
+\item We choose $f(n) = \max(2^{-\frac{\eps}{4}n + \frac32} + 2^{-\delta n}, 2^{-\eps n/2})$. It's clear that $f$ goes to $0$ as $n\to\infty$ (as long as both $\eps,\delta >0$).
+ 
+$p_b = \Pr[ \text{Bob accept } b \land \hat{X}\notin B^{\delta n}(X)] + \Pr[ \text{Bob accept } b \land \hat{X}\in B^{\delta n}(X)]$. We bound each probability separately as follows:
+\begin{align*}
+	\Pr[ \text{Bob accept } b \land \hat{X}\notin B^{\delta n}(X)] \leq \Pr[ \text{Bob accept } b | \hat{X}\notin B^{\delta n}(X)] \leq 2^{-\delta n}\enspace,
+\end{align*}
+by part (g).
+\begin{align*}
+	&\Pr[ \text{Bob accept } b \land \hat{X}\in B^{\delta n}(X)]\\
+	=& \Pr[\hat{X}\in B^{\delta n}(X) \land X \in S^{b}] + \Pr[\hat{X}\in B^{\delta n}(X) \land X \notin S^{b}]\\
+	\leq& \Pr[\hat{X}\in B^{\delta n}(X) | X \in S^{b}] + \Pr[X \notin S^{b}]\\
+	=& \Pr[\hat{X}\in B^{\delta n}(X) | X \in S^{b}] + 1 - q^{b}\enspace.
+\end{align*}
+
+By part (f), if $q^b \ge 2^{-\eps n/2}$, $\Pr[\hat{X}\in B^{\delta n}(X) | X \in S^{b}] \leq 2^{-\frac{\eps}{4}n + \frac32}$ and therefore, combining the above equations, we obtain $p_b \leq 1 - q^b + f(n)$. 
+
+On the other hand, if $q^b \leq 2^{-\eps n/2}$, it's easy to see that $p_b \leq 1 \leq 1 - q^b + f(n)$. 
+
+Thus $p_b \leq 1 - q^b + f(n)$ in both cases.
+
+\item By Problem 2, $(1 - q^0) + (1 - q^1) = Q^0(L^0) + Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2$.
+
+Since $L^\theta = \{ x\in\{0,1\}^n: Q^\theta(x) >  2^{-(\gamma+\kappa)n}\}$ and $\sum_{x\in\{0,1\}^n} Q^{\theta}(x) = 1$, we have that $|L^\theta| \leq 2^{(\gamma+\kappa)n}$. Hence $(1 - q^0) + (1 - q^1) \leq (1 + 2^{-n (\frac{1}{2} - \gamma - \kappa)})^2 = 1 + \negl(n)$, i.e. $q^0 + q^1 \geq 1 - \negl(n)$.
+
+Then by part (h), $p_0 + p_1 \leq (1 - q^0) + \negl(n) + (1 - q^1) + \negl(n) \leq 1 + \negl(n)$.
+\end{enumerate}
+
+%\item {\bf Uncertainty relation}
+%\begin{enumerate}
+%\item $\Hmin(Z_A|E)=0$ means that Eve can perfectly predict the outcome of a standard basis measurement on qubit $A$, given her qubit $E$. If the outcome of the measurement is $0$, then Eve's qubit is $\ket{u_0}_E$, and if the outcome is $1$, then Eve's qubit is $\ket{u_1}_E$. These two states are perfectly distinguishable if and only if they are orthogonal. 
+%\item Since in this example, Bob has a classical bit that is not correlated with $A$, $H_{\textrm{max}}(X_A|B)$ is simply $\log((\sum_x \sqrt{\Pr(X_A=x)})^2)$. Here we have 
+%\[ \Pr(X_A=0) = \Big\|\frac{1}{\sqrt{2}}\alpha \ket{u_0}+\frac{1}{\sqrt{2}}\beta\ket{u_1}\Big|^2 = \frac{1}{2}|\alpha|^2 + \frac{1}{2}|\beta|^2 =\frac{1}{2}\;,\]
+%where the second equality uses the orthogonality of $\ket{u_0}$ and $\ket{u_1}$. Similarly, $\Pr(X_A=1)=\frac{1}{2}$. Therefore, $H_{\textrm{max}}(X_A|B)=\log(2)=1$. 
+%\item $\Hmin(Z_A|E)=1$ means that Eve has no information about the outcome of a standard basis measurement on the qubit $A$. Therefore, the two states $\ket{u_0}$ and $\ket{u_1}$ must be indistinguishable, i.e.\ they are equal up to a global phase. 
+%\item First we can consider the state $\ket{\psi}_{AE} = \ket{+}\ket{u}$. In this case, $\ket{u_0}=\ket{u_1}=\ket{u}$ are parallel. Moreover, since a measurement of $A$ in the Hadamard basis deterministically returns the outcome $0$, we have $H_{\textrm{max}}(X_A|B)=0$. To get $H_{\textrm{max}}(X_A|B)=1$ we set $\ket{\psi}_{AE}=\ket{0}\ket{0}$. In this case $\ket{u_0}=\ket{u_1}=\ket{0}$ (but $\beta=0$). Since a measurement of qubit $A$ in the Hadamard basis returns a uniformly random bit, 
+%the same calculation for $H_{\textrm{max}}(X_A|B)$ as in question 2 applies and so $H_{\textrm{max}}(X_A|B)=1$. 
+%\end{enumerate}
 
 \end{enumerate}
 
