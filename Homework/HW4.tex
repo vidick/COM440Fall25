@@ -75,7 +75,7 @@ For $X\in\{0,1\}^n$ and $0\leq \delta < \frac12$ we let $B^{\delta n}(X)$ denote
 \item Let $X,\hat{X}\in\{0,1\}^n$ be arbitrary. Show that
 \[ \Pr_{\substack{X'\leftarrow_U B^{\delta n}(\hat{X})\\ F\leftarrow_U \mathcal{F} }}\big[ F(X')=F(X)\big] = \frac{1}{2} + \frac{1}{2 B^{\delta n}} 1_{\hat{X}\in B^{\delta n}(X)}\;.\]
 \item Use the leftover hash lemma to deduce that, if $\rho_{XE}$ is an arbitrary quantum state and $\hat{X}$ a guess for $X$ given the quantum state in $E$, then 
-\[ \Pr\big[ \hat{X}\in B^{\delta n}(X)\big] \leq 2^{-\frac12 (\Hmin(X|E)-1)+\log(B^{\delta n})}\;.\]
+\[ \Pr\big[ \hat{X}\in B^{\delta n}(X)\big] \leq {\color{blue} 2^{-\frac12 (\Hmin(X|E)-1)+\log(B^{\delta n}) + 1}}\;.\]
 \end{enumerate}
 
 \item \emph{(Bonus 4 points)} {\bf An uncertainty relation}\\
@@ -121,11 +121,11 @@ Towards this we define a few quantities. Let $\kappa>0$ be such that $\gamma + \
 \begin{enumerate}
 \item[(e)]
 Show that, by definition of the min-entropy, if $X$ is a random variable with distribution $Q^\theta$ then
-\[\Hmin(X|E,Y=y,\Theta=\theta,X\in S^\theta)\geq (\gamma+\kappa)n + \log(q^\theta)\;.\]
+\[\Hmin(X|E,Y=y,\Theta=\theta,X\in S^\theta)\geq {\color{blue} \kappa n + \log(q^\theta)}\;.\]
 To make the $\Hmin(\cdot)$ term precise, define an appropriate quantum state as follows. First let $\rho_{X\Theta YE}$ be the density matrix that represents the (classical) distribution on Bob's side ($X\in\{0,1\}^n$ is the result of measuring Bob's EPR pairs in basis $\Theta\in\{0,1\}$), the classical outcome $Y$ obtained from the (forced) measurement of Alice's half EPR pairs, and $E$ the at most $\gamma n$ qubits that Alice was allowed to keep. Then, for some fixed values $y$ and $\theta$ we condition on $Y=y$, $\Theta=\theta$ and $X\in S^\theta$, i.e.\ we restrict those classical random variables to the prescribed values and renormalize the density matrix. 
 \item[(f)] Suppose that $q^\theta \geq 2^{-\eps n/2}$, and assume $\delta$ chosen small enough that $B^{\delta n} \leq 2^{(\kappa-\eps)n/2}$. 
 Let $\hat{X}$ be any ``guess'' produced from $y$, $\theta$ and the quantum state in $E$. Show that  
-\[ \Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq 2^{-\frac{\eps}{4}n + \frac12}\;.\]
+\[ \Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq {\color{blue} 2^{-\frac{\eps}{4}n + \frac32}}\;.\]
 \item[(g)] If $\hat{X}\notin B^{\delta n}(X)$, what is the probability that honest Bob accepts? 
 \item[(h)] Deduce a bound of the form $p_b \leq 1-q^b + f(n)$, where $f$ is a function depending on $\eps,\delta$ that goes to $0$ as $n\to\infty$ (as long as both $\eps,\delta >0$). 
 \item[(i)] Use~\eqref{eq:u-bound} from the previous problem to obtain a lower bound on $q^0+q^1$ and deduce the binding condition, i.e.\ a bound of the form $p_0+p_1 \leq 1 + \negl(n)$.
