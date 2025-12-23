@@ -49,7 +49,7 @@
 	
 	In other words, \[D(\rho_{F(X)E}, \frac{1}{2} \Id\otimes \rho_{E}) \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1)}\enspace.\]
 	
-	Note that on the one hand, for $\Id\otimes \rho_{E}$, the probability that given the quantum state in $E$, an adversary can guess the first register with probability exactly $\frac{1}{2}$.
+	Note that on the one hand, for $\frac{1}{2}\Id\otimes \rho_{E}$, the probability that given the quantum state in $E$, an adversary can guess the first register with probability exactly $\frac{1}{2}$.
 	
 	On the other hand, for $\Id\otimes \rho_{E}$, the probability that given the quantum state in $E$, an adversary can guess $F(X)$ with probability at least $\frac{1}{2} + \frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)]$ by part (a), since the adversary can first guess $\hat{X}$, and then guess the first register using $F(X')$ for $X' \leftarrow_U B^{\delta n}(\hat{X})$.
 	
@@ -58,6 +58,8 @@
 	As a result, $\frac{1}{2 B^{\delta n}}\Pr[\hat{X} \in B^{\delta n}(X)] \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1)}$.
 	
 	Therefore, $\Pr[\hat{X} \in B^{\delta n}(X)] \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1) + \log(B^{\delta n}) + 1}$.
+	
+	You may also use the stronger version of leftover hash lemma from Chapter 5.3.4, which would give the bound $\Pr[\hat{X} \in B^{\delta n}(X)] \leq 2^{-\frac{1}{2}(H_{\min}(X|E) - 1) + \log(B^{\delta n})}$.
 \end{enumerate}
 
 		
@@ -109,6 +111,7 @@ Combining the above equations, we obtain $Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2
  \item {\bf Bit commitment in the bounded storage model}
 \begin{enumerate}
 \item This is not hard to verify.
+\item The scheme is perfect hiding because when Bob is dishonest and Alice is honest, in the commitment phase, Bob sends (part of) a state of his choice, and Alice measures all the qubits she receives in basis $b$. The partial density matrix of the state on Bob's side does not change when Alice makes a measurement on the state on her side. Therefore, the partial density matrix of the state on Bob's side when $b = 0$ is the same as the partial density matrix of the state on Bob's side when $b = 1$. Therefore, the scheme is perfect hiding.
 \item The EPR-pair version of the protocol works as follows:
 \begin{enumerate}
 \item[(i)] Bob prepares $n$ EPR pairs on registers $A_i, B_i$ for $i \in [n]$, and sends the states on registers $A_1, ..., A_n$ to Alice. 
@@ -118,7 +121,6 @@ Combining the above equations, we obtain $Q^0(L^0)+Q^1(L^1) \leq \Big( 1+\sqrt{2
 \item[(v)] Bob checks that $x_i=\hat{x}_i$ whenever $\theta_i=b$, and accepts and returns $b$ if and only if this is the case. 
 \end{enumerate}
 \item For a dishonest Alice, since she does not have access to the registers $B_1, ..., B_n$, she cannot distinguish the measurements on the registers $B_1, ..., B_n$ (step (iv) in the above protocol) are performed as described above, or are performed after step (i) in the above protocol. It is not hard to see that if the measurements are performed after step (i), then it is the same as the original protocol. Therefore, dishonest Alice cannot distinguish the original protocol and the EPR-pair version of the protocol.
-\item The scheme is perfect hiding because when Bob is dishonest and Alice is honest, in the commitment phase, Bob sends (part of) a state of his choice, and Alice measures all the qubits she receives in basis $b$. The partial density matrix of the state on Bob's side does not change when Alice makes a measurement on the state on her side. Therefore, the partial density matrix of the state on Bob's side when $b = 0$ is the same as the partial density matrix of the state on Bob's side when $b = 1$. Therefore, the scheme is perfect hiding.
 \item For $x \in S^\theta$, \[\Pr_{X \gets Q^\theta}(X = x | X \in S^\theta) = \Pr_{X \gets Q^\theta}(X = x)/\Pr_{X \gets Q^\theta}(X \in S^\theta) = \Pr_{X \gets Q^\theta}(X = x)/q^{\theta}\enspace.\] 
 
 By the definition of $S^\theta$, we can continue the equation to get \[\Pr_{X \gets Q^\theta}(X = x | X \in S^\theta) \leq 2^{-(\gamma + \kappa)n}/q^\theta\enspace.\]
@@ -145,6 +147,8 @@ Since $E$ has size at most $\gamma n$, by the property of conditional min-entrop
 \end{align*}
 where $E' = (E, Y=y,\Theta=\theta,X\in S^\theta)$.
 
+You may also use a stronger version of part (b) of Problem 1, which would give the bound $\Pr(\hat{X}\in B^{\delta n}(X)|X\in S^\theta) \leq 2^{-\frac{\eps}{4}n + \frac12}$.
+
 \item If $\hat{X}\notin B^{\delta n}(X)$, there are at least $\delta n$ positions at which $\hat{X}$ and $X$ differ. For each position, the honest Bob chooses to measure in basis $\theta$ with $1/2$ probability. The honest Bob accepts only if on the $\delta n$ positions, Bob measures it in basis $1 - \theta$. Therefore, honest Bob accepts with probability at most $2^{-\delta n}$.
 \item We choose $f(n) = \max(2^{-\frac{\eps}{4}n + \frac32} + 2^{-\delta n}, 2^{-\eps n/2})$. It's clear that $f$ goes to $0$ as $n\to\infty$ (as long as both $\eps,\delta >0$).
  
@@ -165,6 +169,8 @@ By part (f), if $q^b \ge 2^{-\eps n/2}$, $\Pr[\hat{X}\in B^{\delta n}(X) | X \in
 On the other hand, if $q^b \leq 2^{-\eps n/2}$, it's easy to see that $p_b \leq 1 \leq 1 - q^b + f(n)$. 
 
 Thus $p_b \leq 1 - q^b + f(n)$ in both cases.
+
+A common mistake is forgetting the assumption of part (f) when invoking it.
 
 \item By Problem 2, $(1 - q^0) + (1 - q^1) = Q^0(L^0) + Q^1(L^1) \leq \Big( 1+\sqrt{2^{-n}|L^0|\cdot |L^1|}\Big)^2$.
 
