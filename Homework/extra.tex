@@ -131,30 +131,44 @@ Let
 
 
 
-\item \emph{(8 points)} {\bf Cloning attacks NEED TO EDIT BASED ON PDF}\\ 
-In this problem we study the effectiveness of a simple cloning attack for the eavesdropper in the BB84 key distribution protocol. Recall that in the protocol Alice prepares $N$ single-qubit states $\ket{x_j}_{\theta_j}$, for $j\in\{1,\ldots,N\}$ and random $x_j,\theta_j\in\{0,1\}$, and sends each of these states to Bob. 
 
-Now suppose the eavesdropper Eve intercepts each of the states sent by Alice, and does the following: 
+\item \textbf{Optimal qubit strategies in the CHSH game.}\\
+\emph{This problem is a little harder. It will be graded, but it is ok if you are not able to complete it. You should still read it, as the result of the problem is used in the following problem.}\\
+The goal of this problem is to evaluate the maximum success probability that can be achieved in the CHSH game by players sharing a two-qubit entangled state of the form 
+\begin{equation}\label{eq:psitheta}
+\ket{\psi_\theta}_{AB} = \cos(\theta) \ket{0}_A\ket{0}_A + \sin(\theta)\ket{1}_A\ket{1}_B,
+\end{equation}
+where $\theta \in [0,\pi/4]$ (other values of $\theta$ can be reduced to this case by simple change of basis or phase flip). 
+ Having fixed the state, what are the optimal measurements for the players, and what is their success probability? 
+
+We will assume the players each makes a basis measurement on their qubit. Recall that an observable 
+ $O$ is a $2\times 2$ matrix with complex entries such that $O$ is Hermitian ($O^\dagger = O$) and squares to identity ($O^2 = \Id$). For any single-qubit basis measurement $\{\ket{u_0},\ket{u_1}\}$, there is an associated observable is $O = \ket{u_0}\bra{u_0}-\ket{u_1}\bra{u_1}$. Conversely, any observable that is not $\pm\Id$ has two non-degenerate eigenvalues $+1$ and $-1$, so we can uniquely identify it with a basis. 
+
+To reduce the number of cases to consider we first make a few symmetry observations. 
 \begin{enumerate}
-\item[(i)] With probability $1-p$, she applies the cloning map $T_1$ from Problem 6(a) in HW2. She keeps the second qubit and forwards the first qubit to Bob. 
-\item[(ii)] With probability $p$, she applies the cloning map $T_2$ from Problem 6(b) in HW2. She keeps the second qubit, traces out (i.e. ignores) the third qubit, and forwards the first to Bob. 
+\item[(a)] Let $O$ be a single-qubit observable such that $O$ is non-degenerate $(O\neq \pm \Id)$. Show that there exists real numbers $\alpha,\beta,\gamma$ such that $\alpha^2 + \beta^2 + \gamma^2 = 1$ and $O = \alpha X + \beta Y + \gamma Z$, with $X,Y,Z$ the standard Pauli matrices. 
+\item[(b)] Let $\mathcal{B} = A_0\otimes B_0 + A_1\otimes B_0 + A_0\otimes B_1 - A_1 \otimes B_1$. Show that the success probability of the strategy in the CHSH game is $p_s = \frac{1}{2} + \frac{1}{4} \bra{\psi_\theta}\mathcal{B} \ket{\psi_\theta}$.
+\item[(c)] Argue that for the purposes of computing the maximum success probability in the CHSH game of players using state $\ket{\psi_\theta}_{AB}$ as in~\eqref{eq:psitheta} we may without loss of generality restrict our attention to observables of the form $A_x = \cos(\alpha_x) X + \sin(\alpha_x)Y$ and $B_y =  \cos(\beta_x) X + \sin(\beta_y)Y$ for some angles $\alpha_x,\beta_y \in [0,2\pi)$. \emph{[Hint: do a rotation on the Bloch sphere.]}
 \end{enumerate}
-For simplicity, first assume $N=1$. Based on the results of HW2 Problem 6 (you may consult the solution available online), evaluate the following:
+Based on the symmetry argument from the previous questions we have reduced our problem to understanding the maximum value that $\bra{\psi_\theta} \mathcal{B} \ket{\psi_\theta}$ can take, when $\ket{\psi_\theta}$ is as in~\eqref{eq:psitheta} and $\mathcal{B}$ is defined from observables $A_x,B_y$ as in (b). To understand this maximum value we compute the spectral decomposition of $\mathcal{B}$. 
 \begin{enumerate}
-\item[(a)] Suppose both Alice and Bob measure their qubit in the correct basis $\theta=\theta_1$. If $p=0$, what is the probability that they get the same outcome (recall $\theta\in\{0,1\}$ is chosen uniformly at random). Same question if $p=1$. Same question for a general $0<p<1$. \tnote{For this first question it may be helpful to give them the answer and ask them to prove it; to build confidence and avoid silly mistakes that would make them get all the questions wrong}
-\item[(b)] Answer the same questions, where now Alice and Eve measure their qubit. What is the probability that they get the same outcome? 
-\item[(c)] What is the probability that all of Alice, Bob and Eve all obtain the same outcome, if they each measure their respective qubit in basis $\theta$? (Answer for a general $p$.)
-\end{enumerate}
-\tnote{answers to the questions will be important for the rest. Are they in the HW2 solutions? If not, maybe we should give them away, or find a way to replace whatever answer they got by a parameter, so they don't lose points later if they get it wrong here.}
-Let's continue with the BB84 protocol. We now consider a number of rounds $N=4n$. Suppose that in $2n$ of the rounds (exactly), Alice and Bob happen to make the same basis choice; call these the agreement rounds, $R\subseteq\{1,\ldots,N\}$. They select exactly $n$ of these rounds for testing; call these rounds the testing rounds, $T \subseteq R$. You may assume all rounds behave the same. 
-\begin{enumerate}
-\item[(d)] What is the expected number of errors (non-agreement of their measurement outcomes) that Alice and Bob will notice in the testing rounds $T$, as a function of $p$?
-\item[(e)] Invert the previous bound: as a function of the fraction $\delta$ of errors detected in the testing rounds, what is a reasonable estimate $\hat{p}$ for $p$ that Alice and Bob could come up with? 
-\item[(f)] Suppose Alice and Bob make a guess $\hat{p}$ for $p$ based on the method from the previous question. Using question (b), deduce a bound on the min-entropy $\Hmin(A|E)$ per round that they could estimate for the rounds in $K = R\backslash T$. 
-\item[(g)] Conclude: how many bits of key, as a function of $p$ and $N$, can Alice and Bob reasonably hope to generate from the protocol? \emph{[Hint: This is a subtle calculation. Alice and Bob will have to perform both information reconciliation and privacy amplification on the rounds in $K$. First, estimate the number of bits they will need to exchange to perform information reconciliation. Second, deduce a bound on the min-entropy of the resulting agreed-on string. Third, use the best privacy amplification method you know of to maximize the length of extracted key]}
-\tnote{I am not sure if this is too much. Maybe the question should be split in two. In any case I wouldn't want to put too many points on it: what's important is they get the idea, not necessarily every single number}
+\item[(d)] Show that $(Z\otimes \Id) \mathcal{B} (Z\otimes \Id) =  (\Id\otimes Z) \mathcal{B} (\Id\otimes Z) = -\mathcal{B}$. \emph{[Hint: use the special form of $A_x$ and $B_y$ you obtained from question (b).]}
+\item[(e)] Show that $\mathcal{B}$ has a basis of eigenvectors of the form $\ket{\phi_{ab}} = e^{i\theta_{ab}} \ket{ab} + \ket{\overline{a}\overline{b}}$, where $a,b\in\{0,1\}$ and $\overline{a}=1-a$, $\overline{b}=1-b$. Note that up to local rotations this is the Bell basis. 
+\item[(f)] Write $\mathcal{B}^2$ as a $4\times 4$ matrix depending on the angles $\alpha_x,\beta_y$, and show that $\Tr(\mathcal{B}^2)\leq 16$.
+\item[(g)] Show that the largest success probability achievable in the CHSH game using $\ket{\psi_\theta}_{AB}$ is at most  $\frac{1}{2} + \frac{1}{4}\sqrt{1+\sin(2\theta)}$. \emph{[Hint: Decompose $\ket{\psi_\theta}$ in the eigenbasis of $\mathcal{B}$. Use (f) and the symmetries from (d) to bound the bound the success probability via the expression found in (b).]} 
+\item[(h)] Give a strategy for the players which achieves this value, i.e. specify the players'  observables. 
 \end{enumerate}
 
+
+\item \textbf{Trading success probability for randomness in the CHSH game.}\\
+The goal of this problem is to show that, if players succeed with higher and higher probability in the CHSH game then Alice's outputs in the game must contain more and more randomness. 
+\begin{enumerate}
+\item[(a)] Suppose that Alice and Bob play the CHSH game using a two-qubit entangled state $\ket{\psi_\theta}_{AB}$ as in~\eqref{eq:psitheta}. Let $p_\theta(a|x)$ be the probability that, in this strategy, Alice returns answer $a\in\{0,1\}$ to question $x\in\{0,1\}$. Show that $\max_{a,x} p_\theta(a|x) \leq \cos (2\theta)$. 
+\item[(b)] Let $p_s = \frac{1}{2}+\frac{1}{4}I$ be the players' success probability in CHSH, where $I\in [-2,2]$. Using (g) from the previous problem, deduce from (a) that 
+$$\forall a,x\in\{0,1\},\qquad p_\theta(a|x) \leq \frac{1}{2}\Big(1+\sqrt{2-\frac{I^2}{4}}\Big).$$
+\item[(c)] Suppose now the players use any single-qubit strategy (not necessarily using $\ket{\psi_\theta}$). Prove a lower bound on the conditional min-entropy $\Hmin(A|X=x)$, for any $x\in \{0,1\}$, that is generated in Alice's outputs, as a function of the players' success probability in the CHSH game. 
+\item[(d)] Show that the bound from (b) is tight: for any $\theta\in[0,\pi/4]$ find a strategy for the players using $\ket{\psi_\theta}$ such that $\max_{a,x} p_\theta(a|x) = \frac{1}{2}(1+\sqrt{2-I^2/4})$.
+\end{enumerate}
 \end{enumerate}
 \end{document}
 
