@@ -45,7 +45,7 @@ The final has 13 short questions, to be handed in on this sheet of paper (total:
 		
 \section{Short questions}
 
-Circle the correct answer directly on this sheet of paper, and turn it in with your SCIPER number clearly marked at the top. \emph{(1/2pt per question)}
+Circle the correct answer directly on this sheet of paper, and turn it in with your SCIPER number clearly marked at the top. \emph{(0.5pt per question)}
 \begin{enumerate}
 \item Alice encodes a single qubit in state $\ket{\psi}$ using the quantum one-time pad. An adversary Eve has no information at all about Alice's two key bits $k_1$ and $k_2$. What is the state of the encoded qubit from the point of view of Eve?
 \begin{enumerate}
@@ -150,7 +150,7 @@ Imagine that Alice and Eve play a guessing game where they share a two-qubit sta
 \[|\Phi_U\rangle = (U_A\otimes \mathbf{1}_E)\frac{1}{\sqrt{2}}(\ket{00}+ \ket{11})\]
 and Eve knows \(\theta\) and \(U_A\). In this scenario, what is Eve's optimal guessing probability, and what is a strategy that achieves it? 
 \item Consider now a scenario in which Alice's strategy consists in choosing one out of three possible unitaries, according to a distribution that may depend on her choice of $\theta$. The three unitaries are the same whether $\theta=0$ or $\theta=1$, and Eve knows what they are as well as the distribution used by Alice, but she does not learn which unitary Alice eventually selected. Provide a set of three unitaries that makes Eve's guessing probability the lowest possible. (You do not need to prove that your strategy is optimal.)
-%We can achieve guessing 1/2 by using a distrubition over I,X,Z. 
+%We can achieve guessing 1/2 by using a distribution over I,X,Z. 
 \item Suppose we restrict Alice's set of possible unitaries to contain only two. Can she still make Eve's guessing probability as low as in part (b)?
 %Yes: randomly choose between I and XZ
 \end{enumerate}
@@ -163,6 +163,7 @@ hard, Alice and Bob might try to cut corners in the implementation of their prot
 Here are two suggested protocols that Alice and Bob might want to implement. For
 each of them, either argue (in broad lines) security or provide an explicit attack for Eve. (If arguing security, you will be arguing that for some ``reasonable'' choice of the unspecified parameters, such as for privacy amplification, Alice and Bob can obtain a secure key based on the template provided.)
 
+% Move channel text. Remove test for EPR pairs. Introduce Protocol II from book in the middle. 
 \emph{Protocol 1:}\\
 Alice and Bob can communicate through a classical authenticated channel, and a
 quantum (non-authenticated) channel.
@@ -223,31 +224,48 @@ Importantly, the bound  on Alice's cheating probability that we obtained in (d) 
 \item[(f)] By combining the calculations so far on Alice and Bob's cheating probabilities, determine the $\alpha$ that minimizes the overall cheating probability $\max \{P_A^*,P_B^*\}$ of the protocol.
 \end{enumerate}
 
-\item \emph{(8 points)} {\bf Cloning attacks NEED TO EDIT BASED ON PDF}\\ 
-In this problem we study the effectiveness of a simple cloning attack for the eavesdropper in the BB84 key distribution protocol. Recall that in the protocol Alice prepares $N$ single-qubit states $\ket{x_j}_{\theta_j}$, for $j\in\{1,\ldots,N\}$ and random $x_j,\theta_j\in\{0,1\}$, and sends each of these states to Bob. 
 
-Now suppose the eavesdropper Eve intercepts each of the states sent by Alice, and does the following: 
+\item \emph{(10 points)} {\bf Uncloneable encryption}\\
+In this problem we introduce and study a notion of (private-key) encryption that provides an additional \emph{uncloneability} guarantee. Recall that an encryption scheme for $n$-bit messages is specified by a pair of (possibly quantum) algorithms $(\Enc,\Dec)$ and a key set $\mathcal{K}$ such that for $k\in\mathcal{K}$, $\Enc_k:\{0,1\}^n\to D(\mathcal{H}_C)$, $\Dec_k:D(\mathcal{H}_C)\to \{0,1\}^n$ where  $D(\mathcal{H}_C)$ denotes density matrices on the Hilbert space $\mathcal{H}_C$ of ciphertexts. For simplicity we assume that the key generation procedure returns a uniformly random element of $\mathcal{K}$. 
 \begin{enumerate}
-\item[(i)] With probability $1-p$, she applies the cloning map $T_1$ from Problem 6(a) in HW2. She keeps the second qubit and forwards the first qubit to Bob. 
-\item[(ii)] With probability $p$, she applies the cloning map $T_2$ from Problem 6(b) in HW2. She keeps the second qubit, traces out (i.e. ignores) the third qubit, and forwards the first to Bob. 
+\item Carefully state the correctness and (perfect) security requirements for such an encryption scheme. 
 \end{enumerate}
-For simplicity, first assume $N=1$. Based on the results of HW2 Problem 6 (you may consult the solution available online), evaluate the following:
+To define the notion of uncloneability we introduce the following security game. In the security game, the challenger interacts with three adversaries, Alice, Bob and Charlie. The adversaries are allowed to cooperate in their strategy, but may only communicate as specified in the game. 
 \begin{enumerate}
-\item[(a)] Suppose both Alice and Bob measure their qubit in the correct basis $\theta=\theta_1$. If $p=0$, what is the probability that they get the same outcome (recall $\theta\in\{0,1\}$ is chosen uniformly at random). Same question if $p=1$. Same question for a general $0<p<1$. \tnote{For this first question it may be helpful to give them the answer and ask them to prove it; to build confidence and avoid silly mistakes that would make them get all the questions wrong}
-\item[(b)] Answer the same questions, where now Alice and Eve measure their qubit. What is the probability that they get the same outcome? 
-\item[(c)] What is the probability that all of Alice, Bob and Eve all obtain the same outcome, if they each measure their respective qubit in basis $\theta$? (Answer for a general $p$.)
+\item[i.] First, the challenger chooses a uniformly random message $m\in\{0,1\}^n$, a uniformly random key $k\in\mathcal{K}$ and sets $\rho_C\leftarrow \Enc_k(m)$. The challenger sends $\rho_C$ to Alice. 
+\item[ii.] Alice applies an arbitrary quantum channel on $\rho_C$, to create a bipartite state $\sigma_{BC}\in D(\mathcal{H}_B\otimes \mH_C)$, i.e.\ Alice applies $T: D(\mathcal{H}_A)\to D(\mathcal{H}_B\otimes \mH_C)$ and sets $\sigma_{BC}\leftarrow T(\rho_A)$.
+\item[iii.] Bob receives the register $B$, and Charlie receives $C$. So, the reduced density received by Bob is $\sigma_B$ and the one received by Charlie is $\sigma_C$. (Depending on the map $T$ that was applied by Alice, these two states might be entangled. For example, Alice's map $T$ could throw away $\rho_A$ and create an EPR pair between $B$ and $C$.)
+\item[iv.] In addition, Bob and Charlie are each sent the key $k$ by the Challenger. 
+\item[v.] Bob produces a guess $m_B$, and Charlie produces a guess $m_C$. They win if and only if $m_B=m_C=m$.
 \end{enumerate}
-\tnote{answers to the questions will be important for the rest. Are they in the HW2 solutions? If not, maybe we should give them away, or find a way to replace whatever answer they got by a parameter, so they don't lose points later if they get it wrong here.}
-Let's continue with the BB84 protocol. We now consider a number of rounds $N=4n$. Suppose that in $2n$ of the rounds (exactly), Alice and Bob happen to make the same basis choice; call these the agreement rounds, $R\subseteq\{1,\ldots,N\}$. They select exactly $n$ of these rounds for testing; call these rounds the testing rounds, $T \subseteq R$. You may assume all rounds behave the same. 
+We say that an encryption scheme is $t$-uncloneable secure if the best success probability of any attackers in this game is at most $2^{-(n-t)}$. So, the best security is for $t=0$ while $t=n$ amounts to no security at all. (Recall that $n$ is the number of message bits encrypted by the scheme.)
 \begin{enumerate}
-\item[(d)] What is the expected number of errors (non-agreement of their measurement outcomes) that Alice and Bob will notice in the testing rounds $T$, as a function of $p$?
-\item[(e)] Invert the previous bound: as a function of the fraction $\delta$ of errors detected in the testing rounds, what is a reasonable estimate $\hat{p}$ for $p$ that Alice and Bob could come up with? 
-\item[(f)] Suppose Alice and Bob make a guess $\hat{p}$ for $p$ based on the method from the previous question. Using question (b), deduce a bound on the min-entropy $\Hmin(A|E)$ per round that they could estimate for the rounds in $K = R\backslash T$. 
-\item[(g)] Conclude: how many bits of key, as a function of $p$ and $N$, can Alice and Bob reasonably hope to generate from the protocol? \emph{[Hint: This is a subtle calculation. Alice and Bob will have to perform both information reconciliation and privacy amplification on the rounds in $K$. First, estimate the number of bits they will need to exchange to perform information reconciliation. Second, deduce a bound on the min-entropy of the resulting agreed-on string. Third, use the best privacy amplification method you know of to maximize the length of extracted key]}
-\tnote{I am not sure if this is too much. Maybe the question should be split in two. In any case I wouldn't want to put too many points on it: what's important is they get the idea, not necessarily every single number}
+\item[(b)] To practice with the definition, for each of the following encryption schemes declare if it is correct, perfectly secure, and $t$-uncloneable secure for some $t$.
+\begin{enumerate}
+\item The classical one-time pad $m\mapsto m\oplus k$, where $\mathcal{K}=\{0,1\}^n$.
+\item The quantum one-time pad $\proj{m}\mapsto X^{k_1}Z^{k_2} \proj{m}(X^{k_1}Z^{k_2})^\dagger$, where $\mathcal{K}=\{0,1\}^n\times \{0,1\}^n$.
 \end{enumerate}
-
-
+\end{enumerate}
+We now introduce a more elaborate scheme. Recall the notation $\ket{x}_\theta = \ket{x_1}_{\theta_1} \otimes \cdots \otimes \ket{x_n}_{\theta_n}$ for $n$-bit strings $x,\theta\in\{0,1\}^n$, where $\ket{x_i}_{\theta_i} = H^{\theta_i}\ket{x_i}$. For our new scheme, the key space is $\mathcal{K}=\{0,1\}^n\times \{0,1\}^n$. We parse each key $k\in\mathcal{K}$ as a pair $k=(r,\theta)$ of two $n$-bit strings $r,\theta\in\{0,1\}^n$. For encryption, $\Enc_k(m)=\ket{m\oplus r}_\theta$, where as usual the XOR is taken bitwise. 
+\begin{enumerate}
+\item[(c)] Define the decoding operation $\Dec$ in such a way that makes $(\Enc,\Dec)$ a correct encryption scheme. 
+ \item[(d)] Show that $(\Enc,\Dec)$ is perfectly secure. 
+\item[(e)] Show that $(\Enc,\Dec)$  is $t$-uncloneable secure for some $t$ such that $\alpha n\leq t \leq \beta n$ for all $n\geq 1$. Here $0\leq \alpha\leq \beta <1$ are universal constants. State (and prove) the best constants that you can. \emph{[Hint: This is a hard question. Each part, the lower bound $\alpha n$ and the upper bound $\beta n$, takes some effort. Treat each part separately. In particular, the argument $t \leq \beta n$ requires a reduction to a guessing game seen in class. Write down the reduction in detail and specify clearly what guessing game you reduce to. If you forgot some numeric bounds from class, that is ok; you can state that ``we proved a bound of some number in class and I use that bound.'']}
+\end{enumerate}
+To end the problem we consider a possible strengthening of the definition of uncloneable security. Recall that in the security game above, the challenger chooses a message to encrypt uniformly at random. We can consider the following modification, replacing the first step of the definition above by the following two steps: 
+\begin{enumerate}
+\item[i'.] Alice generates a density matrix $\rho_{ME}$, where $m$ is an $n$-qubit register and $E$ is arbitrary. She sends register $M$ to the challenger, and keeps $E$ to herself. 
+\item[i''.] The challenger flips a bit $b\in\{0,1\}$. If $b=0$, they measure register $M$ in the standard basis to obtain $m\in\{0,1\}^n$, encrypt $m$ into $\rho_A$ and send register $A$ to Alice. If $b=1$, they discard register $M$ and instead encrypt $0^n$ into  $\rho_A$ and send register $A$ to Alice.
+\end{enumerate}
+In addition, we modify step as follows.
+\begin{enumerate}
+\item[v'.] Bob produces a guess $b_B$, and Charlie produces a guess $b_C$. They win if and only if $b_B=b_C=b$. (Note that since Alice, Bob and Charlie can cooperate on the strategy, we can assume that both Bob and Charlie know a description of the quantum state $\rho_{ME}$ prepared by Alice at step i'.)
+\end{enumerate}
+Because the game now involves guessing a single bit, we say that an encryption scheme is strongly $t$-uncloneable secure if the maximum success probability of Alice, Bob and Charlie in this game is at most $\frac{1}{2}+2^{-(n-t)}$.
+\begin{enumerate}
+\item[(f)] Show that, if an encryption scheme has uncloneable security $t=0$ according to the new definition, then it has uncloneable security $t=0$ according to the old definition, and furthermore is $\eps$-approximately secure as an encryption scheme, for some $\eps$ depending on $t$ that you will specify. 
+\item[(g)] Is the scheme we have studied so far strongly $t$-uncloneable secure for some range of $t$? Justify your answer. 
+\end{enumerate}
 \end{enumerate}
 \end{document}
 
