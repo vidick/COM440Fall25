@@ -163,10 +163,11 @@ hard, Alice and Bob might try to cut corners in the implementation of their prot
 Here are two suggested protocols that Alice and Bob might want to implement. For
 each of them, either argue (in broad lines) security or provide an explicit attack for Eve. (If arguing security, you will be arguing that for some ``reasonable'' choice of the unspecified parameters, such as for privacy amplification, Alice and Bob can obtain a secure key based on the template provided.)
 
-% Move channel text. Remove test for EPR pairs. Introduce Protocol II from book in the middle. 
-\emph{Protocol 1:}\\
-Alice and Bob can communicate through a classical authenticated channel, and a
+For each protocol, Alice and Bob can communicate through a classical authenticated channel, and a
 quantum (non-authenticated) channel.
+
+% Move channel text. Remove test for EPR pairs. Introduce Protocol II from book in the middle. 
+\emph{Protocol 1:}
 \begin{enumerate}
 \item Alice generates bit strings $x, \theta \in\{0, 1\}^n$ uniformly at random.
 \item Alice prepares qubits $|x_i\rangle_{\theta_i}$ for $i = 1,\ldots, n$ where as usual $\ket{x}_\theta=H^\theta|x\rangle$, and sends them to Bob.
@@ -177,7 +178,20 @@ $\theta$ and obtains a string $x'$.
 \item Alice and Bob perform information reconciliation and privacy amplification, on the strings $x_S$ and $x'_S$ respectively, where $S=\{1,\ldots,n\}\backslash T$, with adequate parameters to obtain a shared key. 
 \end{enumerate}
 
-Protocol 2:
+\emph{Protocol 2:}
+\begin{enumerate}
+\item Alice generates bit strings $x, \theta \in\{0, 1\}^n$ uniformly at random.
+\item Alice generates two-qubit states $|x_i\rangle\otimes  H\ket{\theta_i}$ for $i = 1,\ldots, n$. Here, the first qubit has $x_i$ encoded in the standard basis, while the second qubit has $\theta_i$ encoded in the Hadamard basis. 
+\item Alice sends the two-qubit states to Bob. 
+\item Bob announces receipt of the states.
+\item Bob generates a string $\theta' \in\{0, 1\}^n$ uniformly at random. He measures the qubits he received according to the bases specified by the string
+$\theta'$ and obtains a string $\chi'$ as output.
+\item Alice announces the basis string $\theta$, and Bob announces $\chi'$, over the authenticated channel.
+\item  Whenver $i\in\{1,\ldots,n\}$ is such that $\theta_i=\chi'_i$, Bob measures the first qubit of the $i$th pair received from Alice in the computational basis to obtain a string $x'_i$. Let $S$ denote the set of such $i$'s.
+\item Alice and Bob perform information reconciliation and privacy amplification, on the strings $x_S$ and $x'_S$ respectively, with adequate parameters to obtain a shared key. 
+\end{enumerate}
+
+\emph{Protocol 3:}
 \begin{enumerate}
 \item Alice creates $n$ EPR pairs and sends one half of each to Bob.
 \item She generates a string $\theta\in \{0, 1\}^n$ uniformly at random and measures her half of each pair according
@@ -186,8 +200,8 @@ to the corresponding bit of $\theta$ (standard basis for $0$, Hadamard for $1$)
 pairs. Then Bob announces over an authenticated channel that he received and
 measured his qubits.
 \item Alice and Bob announce $\theta$ and $\theta'$ over an authenticated channel.
-\item Alice randomly selects a subset $T\subseteq\{i: \theta_i=\theta'_i\}$ of size $|T|=n/4$ and announces it to Bob. Alice, Bob exchange $x_T$ and $x'_T$ and abort if $x_T\neq x'_T$. 
-\item Alice and Bob perform information reconciliation and privacy amplification, on the strings $x_S$ and $x'_S$ respectively, where $S=\{i: \theta_i=\theta'_i\}\backslash T$, with adequate parameters to obtain a shared key. 
+\item Alice randomly selects a subset $T\subseteq\{i: \theta_i=\theta'_i\}$ of size $|T|=n/4$ and announces it to Bob. 
+\item Alice and Bob perform information reconciliation and privacy amplification on the strings $x_T$ and $x'_T$ respectively, with adequate parameters to obtain a shared key. 
 \end{enumerate}
 
 
@@ -257,13 +271,13 @@ To end the problem we consider a possible strengthening of the definition of unc
 \item[i'.] Alice generates a density matrix $\rho_{ME}$, where $m$ is an $n$-qubit register and $E$ is arbitrary. She sends register $M$ to the challenger, and keeps $E$ to herself. 
 \item[i''.] The challenger flips a bit $b\in\{0,1\}$. If $b=0$, they measure register $M$ in the standard basis to obtain $m\in\{0,1\}^n$, encrypt $m$ into $\rho_A$ and send register $A$ to Alice. If $b=1$, they discard register $M$ and instead encrypt $0^n$ into  $\rho_A$ and send register $A$ to Alice.
 \end{enumerate}
-In addition, we modify step as follows.
+In addition, we modify the last step as follows.
 \begin{enumerate}
 \item[v'.] Bob produces a guess $b_B$, and Charlie produces a guess $b_C$. They win if and only if $b_B=b_C=b$. (Note that since Alice, Bob and Charlie can cooperate on the strategy, we can assume that both Bob and Charlie know a description of the quantum state $\rho_{ME}$ prepared by Alice at step i'.)
 \end{enumerate}
-Because the game now involves guessing a single bit, we say that an encryption scheme is strongly $t$-uncloneable secure if the maximum success probability of Alice, Bob and Charlie in this game is at most $\frac{1}{2}+2^{-(n-t)}$.
+Because the game now involves guessing a single bit, we say that an encryption scheme is \emph{strongly} $t$-uncloneable secure if the maximum success probability of Alice, Bob and Charlie in this game is at most $\frac{1}{2}+2^{-(n-t)}$.
 \begin{enumerate}
-\item[(f)] Show that, if an encryption scheme has uncloneable security $t=0$ according to the new definition, then it has uncloneable security $t=0$ according to the old definition, and furthermore is $\eps$-approximately secure as an encryption scheme, for some $\eps$ depending on $t$ that you will specify. 
+\item[(f)] Show that, if an encryption scheme has uncloneable security $t=0$ according to the new definition, then it has uncloneable security $t=0$ according to the old definition, and furthermore is $\eps$-approximately secure as an encryption scheme, for some $\eps$ depending on $t$ that you will specify. (Make sure that you state your definition of $\eps$-approximate security.)
 \item[(g)] Is the scheme we have studied so far strongly $t$-uncloneable secure for some range of $t$? Justify your answer. 
 \end{enumerate}
 \end{enumerate}
