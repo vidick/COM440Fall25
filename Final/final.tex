@@ -40,7 +40,7 @@
 
 %The total points value of the problems is 25 points. Your midterm grade will be the \emph{minimum} of your total points number and \emph{20}. This means that we do not expect you to solve all problems. Instead, we encourage you to spend the first 5-10 minutes looking at all problems and deciding which ones to attempt. Your goal is to collect as close to 20 points as possible in total, not necessarily to solve all questions. 
 
-The final has 13 short questions, to be handed in on this sheet of paper (total: 6.5pts) and 3 problems to be handed in on your own paper (total: 16pts), for a total of 8 single-sided sheets of paper. Your total out of 22.5 points will be scaled down to a grade out of 20 which will constitute your final grade. 
+The final has 13 short questions, to be handed in on this sheet of paper (total: 6.5pts) and 4 problems to be handed in on your own paper (total: 26pts), for a total of 8 single-sided sheets of paper. Your total out of 32.5 points will be scaled down to a grade out of 20 which will constitute your final grade. 
 
 		
 \section{Short questions}
@@ -160,8 +160,8 @@ and Eve knows \(\theta\) and \(U_A\). In this scenario, what is Eve's optimal gu
 In this problem you are asked to play the role of the eavesdropper Eve in a QKD protocol. Eve observes two
 parties, Alice and Bob, trying to implement a certain protocol. Because QKD is
 hard, Alice and Bob might try to cut corners in the implementation of their protocol.
-Here are two suggested protocols that Alice and Bob might want to implement. For
-each of them, either argue (in broad lines) security or provide an explicit attack for Eve. (If arguing security, you will be arguing that for some ``reasonable'' choice of the unspecified parameters, such as for privacy amplification, Alice and Bob can obtain a secure key based on the template provided.)
+Here are three suggested protocols that Alice and Bob might want to implement. For
+each of them, either argue (in broad lines) security or provide an explicit attack by which Eve can recover the key produced by Alice. (If arguing security, you will be arguing that for some ``reasonable'' choice of the unspecified parameters, such as for privacy amplification, Alice and Bob can obtain a secure key based on the template provided.)
 
 For each protocol, Alice and Bob can communicate through a classical authenticated channel, and a
 quantum (non-authenticated) channel.
@@ -184,7 +184,7 @@ $\theta$ and obtains a string $x'$.
 \item Alice generates two-qubit states $|x_i\rangle\otimes  H\ket{\theta_i}$ for $i = 1,\ldots, n$. Here, the first qubit has $x_i$ encoded in the standard basis, while the second qubit has $\theta_i$ encoded in the Hadamard basis. 
 \item Alice sends the two-qubit states to Bob. 
 \item Bob announces receipt of the states.
-\item Bob generates a string $\theta' \in\{0, 1\}^n$ uniformly at random. He measures the qubits he received according to the bases specified by the string
+\item Bob generates a string $\theta' \in\{0, 1\}^n$ uniformly at random. He measures the second qubits of the two-qubit states he received according to the bases specified by the string
 $\theta'$ and obtains a string $\chi'$ as output.
 \item Alice announces the basis string $\theta$, and Bob announces $\chi'$, over the authenticated channel.
 \item  Whenver $i\in\{1,\ldots,n\}$ is such that $\theta_i=\chi'_i$, Bob measures the first qubit of the $i$th pair received from Alice in the computational basis to obtain a string $x'_i$. Let $S$ denote the set of such $i$'s.
@@ -195,7 +195,7 @@ $\theta'$ and obtains a string $\chi'$ as output.
 \begin{enumerate}
 \item Alice creates $n$ EPR pairs and sends one half of each to Bob.
 \item She generates a string $\theta\in \{0, 1\}^n$ uniformly at random and measures her half of each pair according
-to the corresponding bit of $\theta$ (standard basis for $0$, Hadamard for $1$)
+to the corresponding bit of $\theta$ (standard basis for $0$, Hadamard for $1$).
 \item Bob generates a random string $\theta'$, and similarly measures his half of the EPR
 pairs. Then Bob announces over an authenticated channel that he received and
 measured his qubits.
