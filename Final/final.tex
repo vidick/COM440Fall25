@@ -40,12 +40,12 @@
 
 %The total points value of the problems is 25 points. Your midterm grade will be the \emph{minimum} of your total points number and \emph{20}. This means that we do not expect you to solve all problems. Instead, we encourage you to spend the first 5-10 minutes looking at all problems and deciding which ones to attempt. Your goal is to collect as close to 20 points as possible in total, not necessarily to solve all questions. 
 
-The final has 13 short questions, to be handed in on this sheet of paper (total: 6.5pts) and 4 problems to be handed in on your own paper (total: 26pts), for a total of 8 single-sided sheets of paper. Your total out of 32.5 points will be scaled down to a grade out of 20 which will constitute your final grade. 
+The final has 13 short questions, to be handed in on this sheet of paper (total: 6.5pts) and 4 problems to be handed in on your own paper (total: 26pts), for a total of 5 double-sided sheets of paper. Your total out of 32.5 points will be scaled down to a grade out of 20 which will constitute your final grade. 
 
 		
 \section{Short questions}
 
-Circle the correct answer directly on this sheet of paper, and turn it in with your SCIPER number clearly marked at the top. \emph{(0.5pt per question)}
+Circle the correct answer directly on this sheet of paper, and turn it in with your full name and SCIPER number clearly marked at the top. \emph{(0.5pt per question)}
 \begin{enumerate}
 \item Alice encodes a single qubit in state $\ket{\psi}$ using the quantum one-time pad. An adversary Eve has no information at all about Alice's two key bits $k_1$ and $k_2$. What is the state of the encoded qubit from the point of view of Eve?
 \begin{enumerate}
@@ -102,7 +102,7 @@ Suppose that Eve prepares the initial state $\rho_{AEB} = \proj{\psi}_{AE} \otim
 \item {Yes}
 \item No
 \end{enumerate}
-\item Suppose $\Ext: \{0,1\}^n\times \{0,1\}^d\rightarrow \{0,1\}^m$ is a $(k,\eps)$ strong extractor. For which of the following random variables $X$ and $Y$ is it  true that $\|\rho_{Ext(X,Y)YE} - I\otimes \rho_{YE}\|_{tr} \leq \eps$? Mark all that apply. 
+\item Suppose $\Ext: \{0,1\}^n\times \{0,1\}^d\rightarrow \{0,1\}^m$ is a $(k,\eps)$ strong extractor. For which of the following random variables $X$ and $Y$ is it  true that $\|\rho_{\Ext(X,Y)YE} - I / 2^m \otimes \rho_{YE}\|_{tr} \leq \eps$? Circle all that apply. 
 \begin{enumerate}
 	\item $X$ is uniform and independent of $Y$ and $E$, and $Y$ is such that \mbox{$H(Y| E) \geq k$}.
 	\item $X$ is a such that $H(X| E) = k-1$, and $Y$ is uniform and independent of $X$ and $E$.
@@ -248,8 +248,8 @@ To define the notion of uncloneability we introduce the following security game.
 \begin{enumerate}
 \item[i.] First, the challenger chooses a uniformly random message $m\in\{0,1\}^n$, a uniformly random key $k\in\mathcal{K}$ and sets $\rho_A\leftarrow \Enc_k(m)$. The challenger sends $\rho_A$ to Alice. 
 \item[ii.] Alice applies an arbitrary quantum channel on $\rho_A$, to create a bipartite state $\sigma_{BC}\in D(\mathcal{H}_B\otimes \mH_C)$, i.e.\ Alice applies $T: D(\mathcal{H}_A)\to D(\mathcal{H}_B\otimes \mH_C)$ and sets $\sigma_{BC}\leftarrow T(\rho_A)$.
-\item[iii.] Bob receives the register $B$, and Charlie receives $C$. So, the reduced density received by Bob is $\sigma_B$ and the one received by Charlie is $\sigma_C$. (Depending on the map $T$ that was applied by Alice, these two states might be entangled. For example, Alice's map $T$ could throw away $\rho_A$ and create an EPR pair between $B$ and $C$.)
-\item[iv.] In addition, Bob and Charlie are each sent the key $k$ by the Challenger. 
+\item[iii.] Bob receives the register $B$, and Charlie receives $C$. So, the reduced density received by Bob is $\sigma_B$ and the one received by Charlie is $\sigma_C$. (Depending on the map $T$ that was applied by Alice, these two states might be entangled. For example, Alice's map $T$ could throw away $\rho_A$ and create EPR pairs between $B$ and $C$.)
+\item[iv.] In addition, Bob and Charlie are each sent the key $k$ by the challenger. 
 \item[v.] Bob produces a guess $m_B$, and Charlie produces a guess $m_C$. They win if and only if $m_B=m_C=m$.
 \end{enumerate}
 We say that an encryption scheme is $t$-uncloneable secure if the best success probability of any attackers in this game is at most $2^{-(n-t)}$. So, the best security is for $t=0$ while $t=n$ amounts to no security at all. (Recall that $n$ is the number of message bits encrypted by the scheme.)
@@ -269,7 +269,7 @@ We now introduce a more elaborate scheme. Recall the notation $\ket{x}_\theta = 
 To end the problem we consider a possible strengthening of the definition of uncloneable security. Recall that in the security game above, the challenger chooses a message to encrypt uniformly at random. We can consider the following modification, replacing the first step of the definition above by the following two steps: 
 \begin{enumerate}
 \item[i'.] Alice generates a density matrix $\rho_{ME}$, where $m$ is an $n$-qubit register and $E$ is arbitrary. She sends register $M$ to the challenger, and keeps $E$ to herself. 
-\item[i''.] The challenger flips a bit $b\in\{0,1\}$. If $b=0$, they measure register $M$ in the standard basis to obtain $m\in\{0,1\}^n$, encrypt $m$ into $\rho_A$ and send register $A$ to Alice. If $b=1$, they discard register $M$ and instead encrypt $0^n$ into  $\rho_A$ and send register $A$ to Alice.
+\item[i''.] The challenger flips a bit $b\in\{0,1\}$. If $b=0$, they measure register $M$ in the standard basis to obtain $m\in\{0,1\}^n$, encrypt $m$ into $\rho_A$ and send register $A$ to Alice. If $b=1$, they discard register $M$ and instead encrypt $0^n$ into $\rho_A$ and send register $A$ to Alice.
 \end{enumerate}
 In addition, we modify the last step as follows.
 \begin{enumerate}
