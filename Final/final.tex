@@ -240,14 +240,14 @@ Importantly, the bound  on Alice's cheating probability that we obtained in (d) 
 
 
 \item \emph{(10 points)} {\bf Uncloneable encryption}\\
-In this problem we introduce and study a notion of (private-key) encryption that provides an additional \emph{uncloneability} guarantee. Recall that an encryption scheme for $n$-bit messages is specified by a pair of (possibly quantum) algorithms $(\Enc,\Dec)$ and a key set $\mathcal{K}$ such that for $k\in\mathcal{K}$, $\Enc_k:\{0,1\}^n\to D(\mathcal{H}_C)$, $\Dec_k:D(\mathcal{H}_C)\to \{0,1\}^n$ where  $D(\mathcal{H}_C)$ denotes density matrices on the Hilbert space $\mathcal{H}_C$ of ciphertexts. For simplicity we assume that the key generation procedure returns a uniformly random element of $\mathcal{K}$. 
+In this problem we introduce and study a notion of (private-key) encryption that provides an additional \emph{uncloneability} guarantee. Recall that an encryption scheme for $n$-bit (classical) messages is specified by a pair of (possibly quantum) algorithms $(\Enc,\Dec)$ and a key set $\mathcal{K}$ such that for $k\in\mathcal{K}$, $\Enc_k:\{0,1\}^n\to D(\mathcal{H}_C)$, $\Dec_k:D(\mathcal{H}_C)\to \{0,1\}^n$ where  $D(\mathcal{H}_C)$ denotes density matrices on the Hilbert space $\mathcal{H}_C$ of ciphertexts. For simplicity we assume that the key generation procedure returns a uniformly random element of $\mathcal{K}$. 
 \begin{enumerate}
 \item Carefully state the correctness and (perfect) security requirements for such an encryption scheme. 
 \end{enumerate}
 To define the notion of uncloneability we introduce the following security game. In the security game, the challenger interacts with three adversaries, Alice, Bob and Charlie. The adversaries are allowed to cooperate in their strategy, but may only communicate as specified in the game. 
 \begin{enumerate}
-\item[i.] First, the challenger chooses a uniformly random message $m\in\{0,1\}^n$, a uniformly random key $k\in\mathcal{K}$ and sets $\rho_C\leftarrow \Enc_k(m)$. The challenger sends $\rho_C$ to Alice. 
-\item[ii.] Alice applies an arbitrary quantum channel on $\rho_C$, to create a bipartite state $\sigma_{BC}\in D(\mathcal{H}_B\otimes \mH_C)$, i.e.\ Alice applies $T: D(\mathcal{H}_A)\to D(\mathcal{H}_B\otimes \mH_C)$ and sets $\sigma_{BC}\leftarrow T(\rho_A)$.
+\item[i.] First, the challenger chooses a uniformly random message $m\in\{0,1\}^n$, a uniformly random key $k\in\mathcal{K}$ and sets $\rho_A\leftarrow \Enc_k(m)$. The challenger sends $\rho_A$ to Alice. 
+\item[ii.] Alice applies an arbitrary quantum channel on $\rho_A$, to create a bipartite state $\sigma_{BC}\in D(\mathcal{H}_B\otimes \mH_C)$, i.e.\ Alice applies $T: D(\mathcal{H}_A)\to D(\mathcal{H}_B\otimes \mH_C)$ and sets $\sigma_{BC}\leftarrow T(\rho_A)$.
 \item[iii.] Bob receives the register $B$, and Charlie receives $C$. So, the reduced density received by Bob is $\sigma_B$ and the one received by Charlie is $\sigma_C$. (Depending on the map $T$ that was applied by Alice, these two states might be entangled. For example, Alice's map $T$ could throw away $\rho_A$ and create an EPR pair between $B$ and $C$.)
 \item[iv.] In addition, Bob and Charlie are each sent the key $k$ by the Challenger. 
 \item[v.] Bob produces a guess $m_B$, and Charlie produces a guess $m_C$. They win if and only if $m_B=m_C=m$.
